@@ -1,14 +1,11 @@
 # Packages
 import discord
-import bs4
-from requests import get
-from requests.exceptions import RequestException
-from contextlib import closing
-from bs4 import BeautifulSoup
 
 # Classes
 import WorkshopSearch
 
+# This string can be modified to change what prefix the bot responds to
+global globalCall
 globalCall = ">"
 
 class MyClient(discord.Client):
@@ -24,6 +21,8 @@ class MyClient(discord.Client):
             await message.channel.send('pong')
 
 client = MyClient()
+
+# Read bot token
 tokenReader = open("token.txt", "r")
 client.run(tokenReader.read())
 tokenReader.close()
