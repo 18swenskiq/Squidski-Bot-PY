@@ -1,4 +1,13 @@
+# Packages
 import discord
+import bs4
+from requests import get
+from requests.exceptions import RequestException
+from contextlib import closing
+from bs4 import BeautifulSoup
+
+# Classes
+import WorkshopSearch
 
 class MyClient(discord.Client):
     async def on_ready(self):
