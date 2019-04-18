@@ -9,6 +9,8 @@ from bs4 import BeautifulSoup
 # Classes
 import WorkshopSearch
 
+globalCall = ">"
+
 class MyClient(discord.Client):
     async def on_ready(self):
         print('Logged on as', self.user)
