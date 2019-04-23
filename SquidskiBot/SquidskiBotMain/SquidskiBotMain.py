@@ -2,11 +2,15 @@
 import discord
 
 # Classes
-import WorkshopSearch
+from WorkshopSearch import WorkshopSearch
 
 # This string can be modified to change what prefix the bot responds to
 global globalCall
 globalCall = ">"
+
+# Initialization alerts
+print("The call symbol for the bot is " + globalCall)
+print("Successfully imported WorkshopSearch class")
 
 class MyClient(discord.Client):
     async def on_ready(self):
@@ -20,6 +24,9 @@ class MyClient(discord.Client):
         if message.content == 'ping':
             await message.channel.send('pong')
 
+        if message.content == 'sws':
+           await message.channel.send(WorkshopSearch.generateWorkshopURL('csgo', 'map', 'abbey'))
+            
 client = MyClient()
 
 # Read bot token
