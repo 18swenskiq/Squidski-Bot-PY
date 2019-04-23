@@ -69,7 +69,7 @@ class WorkshopSearch:
                 raise ValueError(f"The type '{type}' is invalid.")
             else:
                 print("User search type is " + type)
-                type = WorkshopSearch.trueType(type)
+                type = this.trueType(type)
                 print("The interpreted search type is " + type)
 
             # Tests for invalid combos of game and type
