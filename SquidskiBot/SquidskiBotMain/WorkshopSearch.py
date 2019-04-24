@@ -12,10 +12,10 @@ class WorkshopSearch:
     def __init__(self):
         self.data = []
 
-    def _simple_get(url):
+    def simple_get(self, url):
         try:
             with closing(get(url, stream=True)) as resp:
-                if is_good_response(resp):
+                if self.is_good_response(resp):
                  return resp.content
                 else:
                  return None
@@ -24,7 +24,7 @@ class WorkshopSearch:
           log_error('Error during requests to {0} : {1}'.format(url, str(e)))
           return None
 
-    def _is_good_response(resp):
+    def is_good_response(self, resp):
         content_type = resp.headers['Content-Type'].lower()
         return (resp.status_code == 200 
             and content_type is not None 
@@ -40,11 +40,14 @@ class WorkshopSearch:
     def _log_error(e):
         print(e)
 
-    def getURL(self, game, type, searchTerm):
+    def getResults(self, game, type, searchTerm):
         try:
             workshopGen = GenerateWorkshopURL()
-            if(not workshopGen.validateSearch(game, type, searchTerm)): raise ValueError
-            return workshopGen.validateSearch(game, type, searchTerm)
-            # newURL = workshopGen.genURL(game, type, searchTerm)
+            userSearch = workshopGen.validateSearch(game, type, searchTerm)
+            if('steamcommunity' not in userSearch): raise ValueError
+            rawHtml = self.simple_get(userSearch)
+            if (rawHtml == None): raise ValueError
+            html = BeautifulSoup(rawHtml, 'html.parser')
+            print(html)
         except ValueError: print("The workshop search function was cancelled due to an error.")
                 

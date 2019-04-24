@@ -1,6 +1,16 @@
 from urllib.parse import quote
 
 class GenerateWorkshopURL():
+    def genURL(self, gameID, type, searchTerm):
+        steamString = "https://steamcommunity.com/workshop/browse/?appid=" + str(gameID) + "&searchtext=" + searchTerm + "&childpublishedfileid=0&browsesort=trend&section="
+        if (type == 'collection'): steamString += 'collections'
+        elif (type == 'item'):
+            if (gameID == 730): steamString += 'mtxitems'
+            else: steamString += 'readytouseitems'
+        elif (type == 'map'): steamString += 'readytouseitems'
+        else: steamString += 'merchandise'
+        return steamString
+
     def validateSearch(self, game, type, searchTerm):
         errorMessage = "Nothing was assigned"
 
@@ -61,11 +71,8 @@ class GenerateWorkshopURL():
             searchTerm = searchTerm.replace(" ", "+")
             searchTerm = quote(searchTerm)
             print("New user scrubbed inputs: " + str(gameID), type, searchTerm)
-            return True
-        except (ValueError): return False
-        
-
-        # Now that the search terms are valid, we can generate the URL
+            return self.genURL(gameID, type, searchTerm)
+        except (ValueError): return "Operation Failed"
 
     def trueType(self, type):
         if (type.lower() == 'item' or type.lower() == 'items'): return 'item'
@@ -74,9 +81,10 @@ class GenerateWorkshopURL():
         elif (type.lower() == 'addons' or type.lower() == 'addon'): return 'item'
         elif (type.lower() == 'map' or type.lower() == 'maps'): return 'map'
         elif (type.lower() == 'skin' or type.lower() == 'skins'): return 'item'
-        else: return 'item' # this should never happen
+        else: return 'item'
 
-    # def genUrl(game, type, searchTerm):
+
+
 
 
 
