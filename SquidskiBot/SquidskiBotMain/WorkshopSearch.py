@@ -6,7 +6,7 @@ from requests.exceptions import RequestException
 from contextlib import closing
 from bs4 import BeautifulSoup
 
-import GenerateWorkshopURL
+from GenerateWorkshopURL import GenerateWorkshopURL
 
 class WorkshopSearch:
     def __init__(self):
@@ -40,11 +40,11 @@ class WorkshopSearch:
     def _log_error(e):
         print(e)
 
-    def getURL(game, type, searchTerm):
+    def getURL(self, game, type, searchTerm):
         try:
             workshopGen = GenerateWorkshopURL()
             if(not workshopGen.validateSearch(game, type, searchTerm)): raise ValueError
-            newURL = workshopGen.genURL(game, type, searchTerm)
-        except ValueError:
-            print("The workshop search function was cancelled due to an error.")
+            return workshopGen.validateSearch(game, type, searchTerm)
+            # newURL = workshopGen.genURL(game, type, searchTerm)
+        except ValueError: print("The workshop search function was cancelled due to an error.")
                 

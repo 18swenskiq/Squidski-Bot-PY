@@ -2,7 +2,7 @@
 import discord
 
 # Classes
-import WorkshopSearch
+from WorkshopSearch import WorkshopSearch
 
 # This string can be modified to change what prefix the bot responds to
 global globalCall
@@ -26,7 +26,7 @@ class MyClient(discord.Client):
 
         if message.content == 'sws':
            newWSSearch = WorkshopSearch()
-           await message.channel.send(newWSSearch.generateWorkshopURL('csgo', 'map', 'abbey'))
+           await message.channel.send(newWSSearch.getURL('csgo', 'map', 's!@#$%^{:M"J:&*(FGGG'))
             
 client = MyClient()
 

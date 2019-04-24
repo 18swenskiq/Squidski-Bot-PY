@@ -1,5 +1,7 @@
+from urllib.parse import quote
+
 class GenerateWorkshopURL():
-    def validateSearch(game, type, searchTerm):
+    def validateSearch(self, game, type, searchTerm):
         errorMessage = "Nothing was assigned"
 
         print(" ")
@@ -8,14 +10,10 @@ class GenerateWorkshopURL():
 
         # Gets the ID number of the game you searched
         try:
-            if (game.lower() == 'csgo' or game.lower() == 'cs:go'):
-                gameID = 730
-            elif (game.lower() == 'portal2' or game.lower() == 'p2' or game.lower() == 'portal 2'):
-                gameID = 620
-            elif (game.lower() == 'gmod' or game.lower() == 'garrys mod' or game.lower() == "garry's mod"):
-                gameID = 4000
-            elif (game.lower() == 'l4d2' or game.lower() == 'left 4 dead 2'):
-                gameID = 550
+            if (game.lower() == 'csgo' or game.lower() == 'cs:go'): gameID = 730
+            elif (game.lower() == 'portal2' or game.lower() == 'p2' or game.lower() == 'portal 2'): gameID = 620
+            elif (game.lower() == 'gmod' or game.lower() == 'garrys mod' or game.lower() == "garry's mod"): gameID = 4000
+            elif (game.lower() == 'l4d2' or game.lower() == 'left 4 dead 2'): gameID = 550
             else:
                 errorMessage = game + " is not a valid game"
                 print(game + " was tried as a valid game (its not).")
@@ -30,7 +28,7 @@ class GenerateWorkshopURL():
                 raise ValueError(f"The type '{type}' is invalid.")
             else:
                 print("User search type is " + type)
-                type = this.trueType(type)
+                type = self.trueType(type)
                 print("The interpreted search type is " + type)
 
             # Tests for invalid combos of game and type
@@ -59,41 +57,26 @@ class GenerateWorkshopURL():
                 raise ValueError
             print(str(gameID) + " and " + type + " are a valid combination.")
 
-            #Checks if searchTerm is valid
+            # Scrubs searchTerm
             searchTerm = searchTerm.replace(" ", "+")
-            for item in searchTerm:
-                itemInt = int(item)
-                if (re.search(r"^[A-Za-z0-9._~()'!*:@,;+?-]*$", searchTerm[itemInt])):
-                    continue
-                else:
-                    errrorMessage = "There was an invalid character in the search term. It was " + item
-                    raise ValueError("The search term contained an invalid character") # This might exit the loop entirely so I may not actually need a break
-                     # break
-            print(gameID, type, searchTerm)
-            return true
-        except (ValueError):
-            return('The operation failed. ' + errorMessage)
+            searchTerm = quote(searchTerm)
+            print("New user scrubbed inputs: " + str(gameID), type, searchTerm)
+            return True
+        except (ValueError): return False
         
 
         # Now that the search terms are valid, we can generate the URL
 
-    def trueType(type):
-        if (type.lower() == 'item' or type.lower() == 'items'):
-            return 'item'
-        elif (type.lower() == 'collection' or type.lower() == 'collections'):
-            return 'collection'
-        elif (type.lower() == 'merchandise' or type.lower() == 'merch'):
-            return 'merchandise'
-        elif (type.lower() == 'addons' or type.lower() == 'addon'):
-           return 'item'
-        elif (type.lower() == 'map' or type.lower() == 'maps'):
-           return 'map'
-        elif (type.lower() == 'skin' or type.lower() == 'skins'):
-            return 'item'
-        else:
-           return 'item' # this should never happen
+    def trueType(self, type):
+        if (type.lower() == 'item' or type.lower() == 'items'): return 'item'
+        elif (type.lower() == 'collection' or type.lower() == 'collections'): return 'collection'
+        elif (type.lower() == 'merchandise' or type.lower() == 'merch'): return 'merchandise'
+        elif (type.lower() == 'addons' or type.lower() == 'addon'): return 'item'
+        elif (type.lower() == 'map' or type.lower() == 'maps'): return 'map'
+        elif (type.lower() == 'skin' or type.lower() == 'skins'): return 'item'
+        else: return 'item' # this should never happen
 
-    def genUrl(game, type, searchTerm):
+    # def genUrl(game, type, searchTerm):
 
 
 
