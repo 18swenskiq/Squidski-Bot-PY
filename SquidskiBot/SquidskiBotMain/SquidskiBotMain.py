@@ -26,7 +26,7 @@ class MyClient(discord.Client):
 
         if message.content == 'sws':
            newWSSearch = WorkshopSearch()
-           await message.channel.send(newWSSearch.getResults('csgo', 'map', 's!@#$%^{:M"J:&*(FGGG'))
+           await message.channel.send(newWSSearch.getResults('csgo', 'map', 'abbey'))
             
 client = MyClient()
 

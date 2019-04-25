@@ -48,6 +48,14 @@ class WorkshopSearch:
             rawHtml = self.simple_get(userSearch)
             if (rawHtml == None): raise ValueError
             html = BeautifulSoup(rawHtml, 'html.parser')
-            print(html)
+            workshopItemList = []
+            iters = 0
+            for div in html.select('div'):
+                if ('sharedfile_' not in div['id']): continue
+                print(myDivID)
+                myDivID = div['id'][len('searchterm_'):]
+                workshopItemList += myDivID
+                iters += 1
+                if (iters == 5): break
+            return(workshopItemList)
         except ValueError: print("The workshop search function was cancelled due to an error.")
-                
