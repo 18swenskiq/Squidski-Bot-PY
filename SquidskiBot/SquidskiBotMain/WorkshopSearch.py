@@ -29,33 +29,43 @@ class WorkshopSearch:
         return (resp.status_code == 200 
             and content_type is not None 
             and content_type.find('html') > -1)
-
-    def _read_html(html):
-        html = BeautifulSoup(html, 'html.parser')
-        for i in html.select('i'):
-            if p['id'] == 'walrus':
-                print(p.text)
                
     # Logs error
     def _log_error(e):
         print(e)
 
-    def getResults(self, game, type, searchTerm):
+    def getResults(self, game, myType, searchTerm):
         try:
             workshopGen = GenerateWorkshopURL()
-            userSearch = workshopGen.validateSearch(game, type, searchTerm)
+            userSearch = workshopGen.validateSearch(game, myType, searchTerm)
+            print("User Search URL SHOULD be: " + userSearch)
             if('steamcommunity' not in userSearch): raise ValueError
             rawHtml = self.simple_get(userSearch)
             if (rawHtml == None): raise ValueError
             html = BeautifulSoup(rawHtml, 'html.parser')
+            tempWorkshopItemList = []
+            bigNumber = 100000000
+
+            while(bigNumber < 3000000000):
+                myNewHTML = html.find("a", {"data-publishedfileid" : str(bigNumber)})
+                print(myNewHTML)
+                bigNumber += 1
+            #html = str(html).split("\n")
+            #for line in html:
+            #    print(html)
+            #    if ('<div id="sharedfile_"' in line):
+            #        print(line)
+            #        myIndex = 21
+            #        myNewString = ""
+            #        while (not line[myIndex] == '"'):
+            #            myNewString += line[myIndex]
+            #        tempWorkshopItemList += myNewString
+            #        if (iters == 5): break
+            #        iters += 1
+
             workshopItemList = []
-            iters = 0
-            for div in html.select('div'):
-                if ('sharedfile_' not in div['id']): continue
-                print(myDivID)
-                myDivID = div['id'][len('searchterm_'):]
-                workshopItemList += myDivID
-                iters += 1
-                if (iters == 5): break
+            for item in tempWorkshopItemList:
+                workshopItemList += "https://steamcommunity.com/sharedfiles/filedetails/?id=" + item
+
             return(workshopItemList)
         except ValueError: print("The workshop search function was cancelled due to an error.")

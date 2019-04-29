@@ -1,15 +1,15 @@
 from urllib.parse import quote
 
 class GenerateWorkshopURL():
-    def genURL(self, gameID, type, searchTerm):
+    def genURL(self, gameID, myType, searchTerm):
         steamString = "https://steamcommunity.com/workshop/browse/?appid=" + str(gameID) + "&searchtext=" + searchTerm + "&childpublishedfileid=0&browsesort=trend&section="
-        if (type == 'collection'): steamString += 'collections'
-        elif (type == 'item'):
+        if (myType == 'collection'): steamString += 'collections'
+        elif (myType == 'item'):
             if (gameID == 730): steamString += 'mtxitems'
             else: steamString += 'readytouseitems'
-        elif (type == 'map'): steamString += 'readytouseitems'
+        elif (myType == 'map'): steamString += 'readytouseitems'
         else: steamString += 'merchandise'
-        return steamString
+        return (steamString + "&actualsort=trend&p=1&days=-1")
 
     def validateSearch(self, game, type, searchTerm):
         errorMessage = "Nothing was assigned"
