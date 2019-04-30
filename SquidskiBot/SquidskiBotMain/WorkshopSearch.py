@@ -40,32 +40,31 @@ class WorkshopSearch:
             userSearch = workshopGen.validateSearch(game, myType, searchTerm)
             print("User Search URL SHOULD be: " + userSearch)
             if('steamcommunity' not in userSearch): raise ValueError
+            print("Searching the Workshop now...")
             rawHtml = self.simple_get(userSearch)
             if (rawHtml == None): raise ValueError
             html = BeautifulSoup(rawHtml, 'html.parser')
-            tempWorkshopItemList = []
-            bigNumber = 100000000
-
-            while(bigNumber < 3000000000):
-                myNewHTML = html.find("a", {"data-publishedfileid" : str(bigNumber)})
-                print(myNewHTML)
-                bigNumber += 1
-            #html = str(html).split("\n")
-            #for line in html:
-            #    print(html)
-            #    if ('<div id="sharedfile_"' in line):
-            #        print(line)
-            #        myIndex = 21
-            #        myNewString = ""
-            #        while (not line[myIndex] == '"'):
-            #            myNewString += line[myIndex]
-            #        tempWorkshopItemList += myNewString
-            #        if (iters == 5): break
-            #        iters += 1
-
+            print("Workshop HTML page successfully retrieved and parsed.")
             workshopItemList = []
-            for item in tempWorkshopItemList:
-                workshopItemList += "https://steamcommunity.com/sharedfiles/filedetails/?id=" + item
+            iters = 0
+            html = html.prettify()
+            html = html.split("\n")
+            
+            length = len(html)
+
+            place = 0
+            loops = 0
+            while (place < length):
+                if ("data-publishedfileid" in html[place]): 
+                    newHtml = html[place].split(" ")
+                    newHtml = str(newHtml[12])
+                    newHtml = newHtml[6:-23]
+                    newString = str(newHtml)
+                    workshopItemList.append(newString)
+                    loops += 1
+                    if (loops > 4): break
+                place += 1
+
 
             return(workshopItemList)
         except ValueError: print("The workshop search function was cancelled due to an error.")

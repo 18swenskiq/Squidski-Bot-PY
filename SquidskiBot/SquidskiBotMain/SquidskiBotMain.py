@@ -24,9 +24,10 @@ class MyClient(discord.Client):
         if message.content == 'ping':
             await message.channel.send('pong')
 
-        if message.content == 'sws':
+        if ((globalCall + 'sws') in message.content):
            newWSSearch = WorkshopSearch()
-           await message.channel.send(newWSSearch.getResults('csgo', 'map', 'abbey'))
+           messageArray = newWSSearch.getResults('csgo', 'map', 'abbey')
+           await message.channel.send("Result 1: <" + messageArray[0] + ">\nResult 2: <" + messageArray[1] + ">\nResult 3: <" + messageArray[2] + ">\nResult 4: <" + messageArray[3] + ">\nResult 5: <" + messageArray[4] + ">")
             
 client = MyClient()
 
