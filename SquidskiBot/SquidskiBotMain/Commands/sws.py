@@ -1,9 +1,16 @@
 from WorkshopSearch import WorkshopSearch
 
 class sws:
-    def theMain(self, game, myType, searchTerm):
+
+    def theMain(self, userMessage):
+        getSearchTerms = userMessage.split(" ")
+        myGame = getSearchTerms[1]
+        myType = getSearchTerms[2]
+        mySearchTerm = getSearchTerms[3]
+
         newWSSearch = WorkshopSearch()
-        messageArray = newWSSearch.getResults(game, myType, searchTerm)
-        return ("Result 1: <" + messageArray[0] + ">\nResult 2: <" + messageArray[1] + ">\nResult 3: <" + messageArray[2] + ">\nResult 4: <" + messageArray[3] + ">\nResult 5: <" + messageArray[4] + ">")
+        messageArray = newWSSearch.getResults(myGame, myType, mySearchTerm)
+        massiveCat = "1. " + messageArray["nameList"][0][2:-2] + " by " + messageArray["authorList"][0][2:-2] + ": <" + messageArray["itemList"][0] + ">"
+        return (massiveCat)
 
 

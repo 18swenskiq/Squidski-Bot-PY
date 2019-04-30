@@ -36,37 +36,62 @@ class WorkshopSearch:
 
     def getResults(self, game, myType, searchTerm):
         try:
+            if (game.lower() == 'csgo' or game.lower() == 'cs:go'): gameID = 730
+            elif (game.lower() == 'portal2' or game.lower() == 'p2' or game.lower() == 'portal 2'): gameID = 620
+            elif (game.lower() == 'gmod' or game.lower() == 'garrys mod' or game.lower() == "garry's mod"): gameID = 4000
+            elif (game.lower() == 'l4d2' or game.lower() == 'left 4 dead 2'): gameID = 550
+            else:
+                errorMessage = game + " is not a valid game"
+                print(game + " was tried as a valid game (its not).")
+                raise ValueError(f"The game '{game}' is invalid.")
+            print("GameID interepreted as " + str(gameID) + " from user input of: " + game)
+
             workshopGen = GenerateWorkshopURL()
-            userSearch = workshopGen.validateSearch(game, myType, searchTerm)
+            userSearch = workshopGen.validateSearch(gameID, myType, searchTerm)
             print("User Search URL SHOULD be: " + userSearch)
             if('steamcommunity' not in userSearch): raise ValueError
             print("Searching the Workshop now...")
             rawHtml = self.simple_get(userSearch)
             if (rawHtml == None): raise ValueError
-            html = BeautifulSoup(rawHtml, 'html.parser')
+
+            # Parses the HTML file
+            html = BeautifulSoup(rawHtml, 'html.parser').prettify().split("\n")
             print("Workshop HTML page successfully retrieved and parsed.")
-            workshopItemList = []
-            iters = 0
-            html = html.prettify()
-            html = html.split("\n")
-            
-            length = len(html)
 
+            # Now we're looping through the whole HTML to find the first 5 maps
             place = 0
-            loops = 0
-            while (place < length):
-                if ("data-publishedfileid" in html[place]): 
-                    newHtml = html[place].split(" ")
-                    newHtml = str(newHtml[12])
-                    newHtml = newHtml[6:-23]
-                    newString = str(newHtml)
-                    workshopItemList.append(newString)
-                    loops += 1
-                    if (loops > 4): break
+            workshopItemList = []
+            itemNameList = []
+            workshopAuthorName = []
+
+            while (place < len(html)):
+
+                if ("data-publishedfileid" in html[place]):
+                    print("Getting Workshop Item URL...")
+                    newHtml = str((html[place].split(" "))[12])
+                    sliceInt = -18 - len(searchTerm)
+                    workshopItemList.append(str(newHtml[6:sliceInt]))
+
+                if ("workshopItemTitle" in html[place]):
+                    print("Getting Workshop Item Title #...")
+                    newTitle = str((html[place + 1].split(" "))[11:])
+                    itemNameList.append(str(newTitle))
+
+                if ("workshopItemAuthorName" in html[place]):
+                    print("Getting Workshop Item Primary Author...")
+                    newAuthor = str((html[place + 3].split(" "))[11:])
+                    workshopAuthorName.append(str(newAuthor))
+                    print(workshopAuthorName)
+
                 place += 1
+                if (len(workshopAuthorName) > 4): break
 
-
-            return(workshopItemList)
+            returnObj = {
+                "itemList": workshopItemList,
+                "nameList": itemNameList,
+                "authorList": workshopAuthorName
+            }
+            return(returnObj)
         except ValueError: 
             print("The workshop search function was cancelled due to an error.")
             return("Error")

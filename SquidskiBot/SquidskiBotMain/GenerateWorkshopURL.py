@@ -11,25 +11,15 @@ class GenerateWorkshopURL():
         else: steamString += 'merchandise'
         return (steamString + "&actualsort=trend&p=1&days=-1")
 
-    def validateSearch(self, game, type, searchTerm):
+    def validateSearch(self, gameID, type, searchTerm):
         errorMessage = "Nothing was assigned"
 
         print(" ")
         print("=============Workshop Search=============")
-        print("Searching '" + game + "' workshop for '" + searchTerm + "' of type: " + type)
+        print("Searching '" + str(gameID) + "' workshop for '" + searchTerm + "' of type: " + type)
 
         # Gets the ID number of the game you searched
         try:
-            if (game.lower() == 'csgo' or game.lower() == 'cs:go'): gameID = 730
-            elif (game.lower() == 'portal2' or game.lower() == 'p2' or game.lower() == 'portal 2'): gameID = 620
-            elif (game.lower() == 'gmod' or game.lower() == 'garrys mod' or game.lower() == "garry's mod"): gameID = 4000
-            elif (game.lower() == 'l4d2' or game.lower() == 'left 4 dead 2'): gameID = 550
-            else:
-                errorMessage = game + " is not a valid game"
-                print(game + " was tried as a valid game (its not).")
-                raise ValueError(f"The game '{game}' is invalid.")
-            print("GameID interepreted as " + str(gameID) + " from user input of: " + game)
-            
             # Checks the type. if it is invalid, raises an error
             validTypes = ['item','items','addons','maps','merchandise','collections','map','collection','addon', 'merch', 'skin','skins']
             if (type.lower() not in validTypes):

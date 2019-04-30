@@ -25,12 +25,9 @@ class MyClient(discord.Client):
 
         if (message.content.startswith((globalCall + 'sws'))):
            try:
-              getSearchTerms = message.content.split(" ")
-              myGame = getSearchTerms[1]
-              myType = getSearchTerms[2]
-              mySearchTerm = getSearchTerms[3]
               searchWorkshop = sws()
-              await message.channel.send(searchWorkshop.theMain(myGame, myType, mySearchTerm))
+              await message.channel.send("Searching the workshop. Please wait...")
+              await message.channel.send(searchWorkshop.theMain(message.content))
            except ValueError as e:
               print("Could not parse search results")
             
