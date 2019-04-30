@@ -67,4 +67,6 @@ class WorkshopSearch:
 
 
             return(workshopItemList)
-        except ValueError: print("The workshop search function was cancelled due to an error.")
+        except ValueError: 
+            print("The workshop search function was cancelled due to an error.")
+            return("Error")

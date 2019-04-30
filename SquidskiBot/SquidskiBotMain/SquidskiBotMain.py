@@ -1,16 +1,18 @@
 # Packages
 import discord
+import sys
 
-# Classes
-from WorkshopSearch import WorkshopSearch
+sys.path.append('./Commands')
+
+# Commands
+from sws import sws
 
 # This string can be modified to change what prefix the bot responds to
-global globalCall
 globalCall = ">"
 
 # Initialization alerts
 print("The call symbol for the bot is " + globalCall)
-print("Successfully imported WorkshopSearch class")
+print("Successfully imported sws command module")
 
 class MyClient(discord.Client):
     async def on_ready(self):
@@ -21,13 +23,16 @@ class MyClient(discord.Client):
         if message.author == self.user:
             return
 
-        if message.content == 'ping':
-            await message.channel.send('pong')
-
-        if ((globalCall + 'sws') in message.content):
-           newWSSearch = WorkshopSearch()
-           messageArray = newWSSearch.getResults('csgo', 'map', 'abbey')
-           await message.channel.send("Result 1: <" + messageArray[0] + ">\nResult 2: <" + messageArray[1] + ">\nResult 3: <" + messageArray[2] + ">\nResult 4: <" + messageArray[3] + ">\nResult 5: <" + messageArray[4] + ">")
+        if (message.content.startswith((globalCall + 'sws'))):
+           try:
+              getSearchTerms = message.content.split(" ")
+              myGame = getSearchTerms[1]
+              myType = getSearchTerms[2]
+              mySearchTerm = getSearchTerms[3]
+              searchWorkshop = sws()
+              await message.channel.send(searchWorkshop.theMain(myGame, myType, mySearchTerm))
+           except ValueError as e:
+              print("Could not parse search results")
             
 client = MyClient()
 
