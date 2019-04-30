@@ -81,7 +81,6 @@ class WorkshopSearch:
                     print("Getting Workshop Item Primary Author...")
                     newAuthor = str((html[place + 3].split(" "))[11:])
                     workshopAuthorName.append(str(newAuthor))
-                    print(workshopAuthorName)
 
                 place += 1
                 if (len(workshopAuthorName) > 4): break
