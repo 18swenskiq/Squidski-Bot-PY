@@ -25,6 +25,9 @@
     <Compile Include="Commands\sws.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ErrorStrings.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="GenerateWorkshopURL.py">
       <SubType>Code</SubType>
     </Compile>
