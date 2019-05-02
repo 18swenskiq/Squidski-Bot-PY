@@ -27,7 +27,11 @@ class MyClient(discord.Client):
            try:
               searchWorkshop = sws()
               await message.channel.send("Searching the workshop. Please wait...")
-              await message.channel.send(searchWorkshop.theMain(message.content))
+              searchIt = searchWorkshop.theMain(message.content)
+              if not searchIt:
+                  await message.channel.send("That's a fat error from me dawg")
+              else:
+                await message.channel.send(searchIt)
            except ValueError as e:
               print("Could not parse search results")
             
