@@ -29,7 +29,7 @@ class MyClient(discord.Client):
               await message.channel.send("Searching the workshop. Please wait...")
               searchIt = searchWorkshop.theMain(message.content)
               if not searchIt:
-                  await message.channel.send("That's a fat error from me dawg")
+                  await message.channel.send("That's a fat error from me dawg. The search came up empty.")
               else:
                 await message.channel.send(searchIt)
            except ValueError as e:

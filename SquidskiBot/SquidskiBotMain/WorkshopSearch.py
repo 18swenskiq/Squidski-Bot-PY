@@ -51,7 +51,7 @@ class WorkshopSearch:
         if (isinstance(userSearch, str)):
             print(userSearch)
             if (userSearch.startswith("E")):
-                return userSearch[:1]
+                return userSearch[:2]
         print("User Search URL SHOULD be: " + userSearch)
         if('steamcommunity' not in userSearch): return "E6"
         print("Searching the Workshop now...")
@@ -67,6 +67,7 @@ class WorkshopSearch:
         workshopItemList = []
         itemNameList = []
         workshopAuthorName = []
+
 
         while (place < len(html)):
 
@@ -88,6 +89,7 @@ class WorkshopSearch:
 
             place += 1
             if (len(workshopAuthorName) > 4): break
+
 
         returnObj = {
             "itemList": workshopItemList,
