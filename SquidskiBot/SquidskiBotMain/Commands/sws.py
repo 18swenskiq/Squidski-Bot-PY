@@ -12,7 +12,7 @@ class sws:
             return myErrors.E8()
         myGame = getSearchTerms[1]
         myType = getSearchTerms[2]
-        mySearchTerm = getSearchTerms[3]
+        mySearchTerm = getSearchTerms[3:]
         massiveCat = ""
         iters = 1
 
@@ -25,7 +25,7 @@ class sws:
                 return "An unknown error occured"
         print(messageArray)
         for item in messageArray["itemList"]:
-            massiveCat += str(iters) + ". " + ((messageArray["nameList"][iters - 1][2:-2]).replace("', '", ' ')).replace("\", '",' ') + " by '" + ((messageArray["authorList"][iters - 1][2:-2]).replace("', '", ' ')).replace("\", '",' ') + "': <" + messageArray["itemList"][iters - 1] + ">\n\n"
+            massiveCat += str(iters) + ". " + ((messageArray["nameList"][iters - 1][2:-2]).replace("', '", ' ')).replace("\", '",' ') + " by '" + ((messageArray["authorList"][iters - 1][2:-2]).replace("', '", ' ')).replace("\", '",' ') + "': <" + (messageArray["itemList"][iters - 1])[:66] + ">\n\n"
             iters += 1
         return (massiveCat)
 

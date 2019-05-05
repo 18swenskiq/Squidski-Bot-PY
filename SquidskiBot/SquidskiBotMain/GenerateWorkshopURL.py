@@ -18,7 +18,7 @@ class GenerateWorkshopURL():
 
         print(" ")
         print("=============Workshop Search=============")
-        print("Searching '" + str(gameID) + "' workshop for '" + searchTerm + "' of type: " + type)
+        print("Searching '" + str(gameID) + "' workshop for '" + str(searchTerm) + "' of type: " + type)
 
         # Gets the ID number of the game you searched
             # Checks the type. if it is invalid, raises an error
@@ -47,7 +47,7 @@ class GenerateWorkshopURL():
         else: return "E5"
         print(str(gameID) + " and " + type + " are a valid combination.")
 
-        searchTerm = searchTerm.replace(" ", "+")
+        searchTerm = str(searchTerm).replace(" ", "+")
         searchTerm = quote(searchTerm)
         print("New user scrubbed inputs: " + str(gameID), type, searchTerm)
         return self.genURL(gameID, type, searchTerm)
