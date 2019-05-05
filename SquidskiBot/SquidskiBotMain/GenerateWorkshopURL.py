@@ -1,6 +1,9 @@
 from urllib.parse import quote
 
 class GenerateWorkshopURL():
+    def __init__(self):
+        self.classType = "";
+
     def genURL(self, gameID, myType, searchTerm):
         steamString = "https://steamcommunity.com/workshop/browse/?appid=" + str(gameID) + "&searchtext=" + searchTerm + "&childpublishedfileid=0&browsesort=trend&section="
         if (myType == 'collection'): steamString += 'collections'
@@ -25,6 +28,7 @@ class GenerateWorkshopURL():
         else:
             print("User search type is " + type)
             type = self.trueType(type)
+            self.classType = type;
             print("The interpreted search type is " + type)
 
             # Tests for invalid combos of game and type

@@ -16,8 +16,6 @@ class sws:
         massiveCat = ""
         iters = 1
 
-        #TODO: FIX ERROR HANDLING
-
         messageArray = newWSSearch.getResults(myGame, myType, mySearchTerm)
         if (isinstance(messageArray, str)):
             if (messageArray.startswith("E")):
@@ -27,7 +25,7 @@ class sws:
                 return "An unknown error occured"
         print(messageArray)
         for item in messageArray["itemList"]:
-            massiveCat += str(iters) + ". " + (messageArray["nameList"][iters - 1][2:-2]).replace("', '", ' ') + " by '" + (messageArray["authorList"][iters - 1][2:-2]).replace("', '", ' ') + "': <" + messageArray["itemList"][iters - 1] + ">\n\n"
+            massiveCat += str(iters) + ". " + ((messageArray["nameList"][iters - 1][2:-2]).replace("', '", ' ')).replace("\", '",' ') + " by '" + ((messageArray["authorList"][iters - 1][2:-2]).replace("', '", ' ')).replace("\", '",' ') + "': <" + messageArray["itemList"][iters - 1] + ">\n\n"
             iters += 1
         return (massiveCat)
 

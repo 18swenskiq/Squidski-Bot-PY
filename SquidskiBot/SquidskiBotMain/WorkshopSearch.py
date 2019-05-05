@@ -16,10 +16,8 @@ class WorkshopSearch:
     def simple_get(self, url):
         try:
             with closing(get(url, stream=True)) as resp:
-                if self.is_good_response(resp):
-                 return resp.content
-                else:
-                 return None
+                if self.is_good_response(resp): return resp.content
+                else: return None
 
         except RequestException as e:
           log_error('Error during requests to {0} : {1}'.format(url, str(e)))
@@ -48,6 +46,7 @@ class WorkshopSearch:
         workshopGen = GenerateWorkshopURL()
         myErrors = ErrorStrings()
         userSearch = workshopGen.validateSearch(gameID, myType, searchTerm)
+        classType = workshopGen.classType
         if (isinstance(userSearch, str)):
             print(userSearch)
             if (userSearch.startswith("E")):
@@ -68,27 +67,48 @@ class WorkshopSearch:
         itemNameList = []
         workshopAuthorName = []
 
+        if ((classType == "item") or (classType == "map") or (classType == "merchandise")):
+            while (place < len(html)):
 
-        while (place < len(html)):
+                if ("data-publishedfileid" in html[place]):
+                    print("Getting Workshop Item URL...")
+                    newHtml = str((html[place].split(" "))[12])
+                    sliceInt = -18 - len(searchTerm)
+                    workshopItemList.append(str(newHtml[6:sliceInt]))
 
-            if ("data-publishedfileid" in html[place]):
-                print("Getting Workshop Item URL...")
-                newHtml = str((html[place].split(" "))[12])
-                sliceInt = -18 - len(searchTerm)
-                workshopItemList.append(str(newHtml[6:sliceInt]))
+                if ("workshopItemTitle" in html[place]):
+                    print("Getting Workshop Item Title #...")
+                    newTitle = str((html[place + 1].split(" "))[11:])
+                    itemNameList.append(str(newTitle))
 
-            if ("workshopItemTitle" in html[place]):
-                print("Getting Workshop Item Title #...")
-                newTitle = str((html[place + 1].split(" "))[11:])
-                itemNameList.append(str(newTitle))
+                if ("workshopItemAuthorName" in html[place]):
+                    print("Getting Workshop Item Primary Author...")
+                    newAuthor = str((html[place + 3].split(" "))[11:])
+                    workshopAuthorName.append(str(newAuthor))
 
-            if ("workshopItemAuthorName" in html[place]):
-                print("Getting Workshop Item Primary Author...")
-                newAuthor = str((html[place + 3].split(" "))[11:])
-                workshopAuthorName.append(str(newAuthor))
+                place += 1
+                if (len(workshopAuthorName) > 4): break
 
-            place += 1
-            if (len(workshopAuthorName) > 4): break
+        elif (classType == "collection"):
+            while (place < len(html)):
+
+                if ("data-publishedfileid" in html[place]):
+                    print("Getting Workshop Item URL...")
+                    newHtml = str((html[place].split(" "))[12])
+                    workshopItemList.append(str(newHtml[6:-2]))
+
+                if ("workshopItemTitle" in html[place]):
+                    print("Getting Workshop Item Title #...")
+                    newTitle = str((html[place + 1].split(" "))[10:])
+                    itemNameList.append(str(newTitle))
+
+                if ("workshopItemAuthorName" in html[place]):
+                    print("Getting Workshop Item Primary Author...")
+                    newAuthor = str((html[place + 1].split(" "))[10:11])
+                    workshopAuthorName.append(str(newAuthor))
+
+                place += 1
+                if (len(workshopAuthorName) > 4): break
 
 
         returnObj = {
