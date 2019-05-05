@@ -23,6 +23,9 @@ class MyClient(discord.Client):
         if message.author == self.user:
             return
 
+        if (message.content.lower() in ["good night","gn","goodnight"]):
+            await (message.channel.send("Good night " + str(message.author)[:-5]))
+
         if (message.content.startswith((globalCall + 'sws'))):
            try:
               searchWorkshop = sws()
