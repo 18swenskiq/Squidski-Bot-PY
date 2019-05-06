@@ -14,6 +14,8 @@ globalCall = ">"
 print("The call symbol for the bot is " + globalCall)
 print("Successfully imported sws command module")
 
+# Testing Github webhook
+
 class MyClient(discord.Client):
     async def on_ready(self):
         print('Logged on as', self.user)
