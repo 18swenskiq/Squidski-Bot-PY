@@ -1,6 +1,7 @@
 # Packages
 import discord
 import sys
+import logging
 
 sys.path.append('./Commands')
 
@@ -10,11 +11,21 @@ from sws import sws
 # This string can be modified to change what prefix the bot responds to
 globalCall = ">"
 
+# Administrator role ID
+adminRoleID = "574763874201501696"
+
 # Initialization alerts
 print("The call symbol for the bot is " + globalCall)
 print("Successfully imported sws command module")
+print("Successfully imported purge command module")
 
-# Testing Github webhook
+# Logger setup
+
+logger = logging.getLogger('discord')
+logger.setLevel(logging.CRITICAL)
+handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w')
+handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
+logger.addHandler(handler)
 
 class MyClient(discord.Client):
     async def on_ready(self):
@@ -49,10 +60,13 @@ class MyClient(discord.Client):
               print("Could not parse search results")
 
         # Purge messages
-        if ((message.content.lower()).split(" ").startswith(globalCall + "purge")):
-            if "Administrator" in message.author.roles:
-                client.http.delete_message(message.channel,)
+        if (((message.content.lower()).split(" "))[0].startswith(globalCall + "purge")):
+            shortened = str(message.content.lower().split(" ")[1])
+            if adminRoleID in str(message.author.roles):
+                await message.channel.purge(limit=int(shortened))
+                await message.channel.send("Purged " + shortened + " messages.")
             else:
+                print(message.author.roles)
                 await message.channel.send("You must have the `Administrator` role to do this...")
 
 
