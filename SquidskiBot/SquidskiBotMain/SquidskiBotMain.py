@@ -25,14 +25,17 @@ class MyClient(discord.Client):
         if message.author == self.user:
             return
 
-        if (message.content.lower() == ">help"):
+        # Help message
+        if (message.content.lower() == globalCall + "help"):
             embed = discord.Embed(title="Squidski-Bot PY", description="I am a bot made by Squidski#9545. I can do multiple things and I am still in development", color=0x00ff00)
             embed.add_field(name="Search Workshop", value=">sws <game> <type> <search term>", inline=False)
             await message.channel.send(embed=embed)
 
+        # Good night response
         if (message.content.lower() in ["good night","gn","goodnight"]):
             await (message.channel.send("Good night " + str(message.author)[:-5]))
 
+        # Search workshop
         if (message.content.startswith((globalCall + 'sws'))):
            try:
               searchWorkshop = sws()
@@ -44,6 +47,15 @@ class MyClient(discord.Client):
                 await message.channel.send(searchIt)
            except ValueError as e:
               print("Could not parse search results")
+
+        # Purge messages
+        if ((message.content.lower()).split(" ").startswith(globalCall + "purge")):
+            if "Administrator" in message.author.roles:
+                client.http.delete_message(message.channel,)
+            else:
+                await message.channel.send("You must have the `Administrator` role to do this...")
+
+
             
 client = MyClient()
 

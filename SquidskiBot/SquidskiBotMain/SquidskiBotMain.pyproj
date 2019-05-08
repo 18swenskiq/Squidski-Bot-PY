@@ -22,6 +22,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Commands\purge.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Commands\sws.py">
       <SubType>Code</SubType>
     </Compile>
