@@ -1,6 +1,7 @@
 # Packages
 import discord
 import sys
+import time
 import logging
 
 sys.path.append('./Commands')
@@ -31,6 +32,10 @@ class MyClient(discord.Client):
     async def on_ready(self):
         print('Logged on as', self.user)
 
+    async def is_me(self, m):
+        mybool = m.author == client.user
+        return await myBool
+
     async def on_message(self, message):
         # don't respond to ourselves
         if message.author == self.user:
@@ -59,12 +64,14 @@ class MyClient(discord.Client):
            except ValueError as e:
               print("Could not parse search results")
 
-        # Purge messages
+        # Purge messages (Administrator Only)
         if (((message.content.lower()).split(" "))[0].startswith(globalCall + "purge")):
             shortened = str(message.content.lower().split(" ")[1])
             if adminRoleID in str(message.author.roles):
-                await message.channel.purge(limit=int(shortened))
+                await message.channel.purge(limit=(int(shortened) + 1))
                 await message.channel.send("Purged " + shortened + " messages.")
+                time.sleep(3)
+                await message.channel.purge(limit=1, check=self.is_me)
             else:
                 print(message.author.roles)
                 await message.channel.send("You must have the `Administrator` role to do this...")
