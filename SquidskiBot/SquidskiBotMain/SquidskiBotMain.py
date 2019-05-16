@@ -1,4 +1,5 @@
 # Packages
+import datetime
 import discord
 import sys
 import time
@@ -7,6 +8,7 @@ import logging
 sys.path.append('./Commands')
 
 # Commands
+from seinfeldme import seinfeldme
 from sws import sws
 
 # This string can be modified to change what prefix the bot responds to
@@ -20,8 +22,9 @@ print("The call symbol for the bot is " + globalCall)
 print("Successfully imported sws command module")
 print("Successfully imported purge command module")
 
-# Logger setup
+#Squidski Time
 
+# Logger setup
 logger = logging.getLogger('discord')
 logger.setLevel(logging.CRITICAL)
 handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w')
@@ -29,15 +32,16 @@ handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(me
 logger.addHandler(handler)
 
 class MyClient(discord.Client):
+    async def is_me(self, m):
+        mybool = m.author == client.user
+        return await myBool  
+
+    # Initializes stuff
     async def on_ready(self):
         print('Logged on as', self.user)
 
-    async def is_me(self, m):
-        mybool = m.author == client.user
-        return await myBool
-
+    # Don't respond to ourselves
     async def on_message(self, message):
-        # don't respond to ourselves
         if message.author == self.user:
             return
 
@@ -45,6 +49,7 @@ class MyClient(discord.Client):
         if (message.content.lower() == globalCall + "help"):
             embed = discord.Embed(title="Squidski-Bot PY", description="I am a bot made by Squidski#9545. I can do multiple things and I am still in development", color=0x00ff00)
             embed.add_field(name="Search Workshop", value=">sws <game> <type> <search term>", inline=False)
+            embed.add_field(name="Get Random Seinfeld Quote", value=">seinfeldme", inline=False)
             await message.channel.send(embed=embed)
 
         # Good night response
@@ -63,6 +68,12 @@ class MyClient(discord.Client):
                 await message.channel.send(searchIt)
            except ValueError as e:
               print("Could not parse search results")
+
+        # Get random Seinfeld quote
+        if (message.content.startswith((globalCall + 'seinfeldme'))):
+            getSeinfeldQuote = seinfeldme()
+            await message.channel.send(getSeinfeldQuote.getQuote())
+
 
         # Purge messages (Administrator Only)
         if (((message.content.lower()).split(" "))[0].startswith(globalCall + "purge")):
