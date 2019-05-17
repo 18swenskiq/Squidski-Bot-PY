@@ -1,8 +1,7 @@
 # Packages
-import datetime
+import asyncio
 import discord
 import sys
-import time
 import logging
 
 sys.path.append('./Commands')
@@ -22,8 +21,6 @@ print("The call symbol for the bot is " + globalCall)
 print("Successfully imported sws command module")
 print("Successfully imported purge command module")
 
-#Squidski Time
-
 # Logger setup
 logger = logging.getLogger('discord')
 logger.setLevel(logging.CRITICAL)
@@ -32,9 +29,18 @@ handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(me
 logger.addHandler(handler)
 
 class MyClient(discord.Client):
+
     async def is_me(self, m):
         mybool = m.author == client.user
         return await myBool  
+
+    async def the_muter(self, msg):
+        await msg.author.add_roles(discord.utils.get(msg.guild.roles, name='Muted'))
+        await msg.channel.send("For pinging Ch(i)ef, " + str(msg.author)[:-5] + " has been muted for 5 mintues.")
+        await asyncio.sleep(3)
+        await msg.author.remove_roles(discord.utils.get(msg.guild.roles, name='Muted'))
+        await msg.channel.send(str(msg.author)[:-5] + " has been unmuted after pinging Ch(i)ef. Please don't ping Ch(i)ef.")
+
 
     # Initializes stuff
     async def on_ready(self):
@@ -42,6 +48,7 @@ class MyClient(discord.Client):
 
     # Don't respond to ourselves
     async def on_message(self, message):
+        print(message.author)
         if message.author == self.user:
             return
 
@@ -74,6 +81,8 @@ class MyClient(discord.Client):
             getSeinfeldQuote = seinfeldme()
             await message.channel.send(getSeinfeldQuote.getQuote())
 
+        # Mute if ping chief
+        if ("<@208272642640314389>" in message.content): await self.the_muter(message)
 
         # Purge messages (Administrator Only)
         if (((message.content.lower()).split(" "))[0].startswith(globalCall + "purge")):
