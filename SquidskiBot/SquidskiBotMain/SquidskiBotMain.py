@@ -30,10 +30,12 @@ logger.addHandler(handler)
 
 class MyClient(discord.Client):
 
+    # Checking if message author is the bot
     async def is_me(self, m):
         mybool = m.author == client.user
         return await myBool  
 
+    # For usage with muting on Ch(i)ef ping
     async def the_muter(self, msg):
         await msg.author.add_roles(discord.utils.get(msg.guild.roles, name='Muted'))
         await msg.channel.send("For pinging Ch(i)ef, " + str(msg.author)[:-5] + " has been muted for 5 mintues.")
@@ -43,6 +45,7 @@ class MyClient(discord.Client):
         print(str(msg.author) + " was unmuted after 5 minutes for muting Ch(i)ef.")
         await msg.channel.send(str(msg.author)[:-5] + " has been unmuted after pinging Ch(i)ef. Please don't ping Ch(i)ef.")
 
+    # Adds Pings role on join
     async def on_member_join(member):
         await message.author.add_roles(discord.utils.get(message.guild.roles, name='Pings'))
 
@@ -50,7 +53,7 @@ class MyClient(discord.Client):
     async def on_ready(self):
         print('Logged on as', self.user)
 
-    # Don't respond to ourselves
+    # Respond to messages starts here
     async def on_message(self, message):
         if message.author == self.user:
             return
@@ -60,6 +63,7 @@ class MyClient(discord.Client):
             embed = discord.Embed(title="Squidski-Bot PY", description="I am a bot made by Squidski#9545. I can do multiple things and I am still in development", color=0x00ff00)
             embed.add_field(name="Search Workshop", value=">sws <game> <type> <search term>", inline=False)
             embed.add_field(name="Get Random Seinfeld Quote", value=">seinfeldme", inline=False)
+            embed.add_field(name="Subscribe or Unsubscribe from pings", value=">pings", inline=False)
             await message.channel.send(embed=embed)
 
         # Good night response
@@ -89,7 +93,7 @@ class MyClient(discord.Client):
         if ("<@208272642640314389>" in message.content): await self.the_muter(message)
 
         # Give/Remove Pings role
-        if (message.content.startswith((globalCall + 'pings'))):
+        if (message.content.lower().startswith((globalCall + 'pings'))):
             if "579453547976982566" in str(message.author.roles):
                 await message.author.remove_roles(discord.utils.get(message.guild.roles, name='Pings'))
                 await message.channel.send("Removed the 'Pings' role!")
