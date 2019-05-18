@@ -43,6 +43,8 @@ class MyClient(discord.Client):
         print(str(msg.author) + " was unmuted after 5 minutes for muting Ch(i)ef.")
         await msg.channel.send(str(msg.author)[:-5] + " has been unmuted after pinging Ch(i)ef. Please don't ping Ch(i)ef.")
 
+    async def on_member_join(member):
+        await message.author.add_roles(discord.utils.get(message.guild.roles, name='Pings'))
 
     # Initializes stuff
     async def on_ready(self):
@@ -92,7 +94,7 @@ class MyClient(discord.Client):
                 await message.author.remove_roles(discord.utils.get(message.guild.roles, name='Pings'))
                 await message.channel.send("Removed the 'Pings' role!")
             else:
-                await message.author.remove_roles(discord.utils.get(message.guild.roles, name='Pings'))
+                await message.author.add_roles(discord.utils.get(message.guild.roles, name='Pings'))
                 await message.channel.send("Added the 'Pings' role!")
 
         # Purge messages (Administrator Only)
