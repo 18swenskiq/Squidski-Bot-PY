@@ -86,6 +86,15 @@ class MyClient(discord.Client):
         # Mute if ping chief
         if ("<@208272642640314389>" in message.content): await self.the_muter(message)
 
+        # Give/Remove Pings role
+        if (message.content.startswith((globalCall + 'pings'))):
+            if "579453547976982566" in str(message.author.roles):
+                await message.author.remove_roles(discord.utils.get(message.guild.roles, name='Pings'))
+                await message.channel.send("Removed the 'Pings' role!")
+            else:
+                await message.author.remove_roles(discord.utils.get(message.guild.roles, name='Pings'))
+                await message.channel.send("Added the 'Pings' role!")
+
         # Purge messages (Administrator Only)
         if (((message.content.lower()).split(" "))[0].startswith(globalCall + "purge")):
             shortened = str(message.content.lower().split(" ")[1])
