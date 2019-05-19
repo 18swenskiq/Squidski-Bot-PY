@@ -4,9 +4,11 @@ import discord
 import sys
 import logging
 
+# Makes the commands section work
 sys.path.append('./Commands')
 
 # Commands
+from help import help
 from seinfeldme import seinfeldme
 from sws import sws
 
@@ -28,6 +30,7 @@ handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w'
 handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
 logger.addHandler(handler)
 
+# Here's where the magic happens
 class MyClient(discord.Client):
 
     # Checking if message author is the bot
@@ -61,11 +64,8 @@ class MyClient(discord.Client):
 
         # Help message
         if (message.content.lower() == globalCall + "help"):
-            embed = discord.Embed(title="Squidski-Bot PY", description="I am a bot made by Squidski#9545. I can do multiple things and I am still in development", color=0x00ff00)
-            embed.add_field(name="Search Workshop", value=">sws <game> <type> <search term>", inline=False)
-            embed.add_field(name="Get Random Seinfeld Quote", value=">seinfeldme", inline=False)
-            embed.add_field(name="Subscribe or Unsubscribe from pings", value=">pings", inline=False)
-            await message.channel.send(embed=embed)
+            myHelp = help()
+            await message.channel.send(embed = myHelp.myEmbed())
             print("Sent help message for " + str(message.author))
 
         # Good night response
@@ -119,8 +119,7 @@ class MyClient(discord.Client):
                 await message.channel.send("You must have the `Administrator` role to do this...")
                 print(str(message.author) + " tried to use the purge command...")
 
-
-            
+# Instantiate client
 client = MyClient()
 
 # Read bot token
