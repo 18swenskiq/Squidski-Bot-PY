@@ -1,14 +1,17 @@
 # Packages
-import asyncio
 import discord
 import sys
 import logging
+
+# Various other files
+from ChiefMuteInsurance import ChiefMuteInsurance
 
 # Makes the commands section work
 sys.path.append('./Commands')
 
 # Commands
 from help import help
+from pings import pings
 from seinfeldme import seinfeldme
 from sws import sws
 
@@ -21,7 +24,8 @@ adminRoleID = "574763874201501696"
 # Initialization alerts
 print("The call symbol for the bot is " + globalCall)
 print("Successfully imported help command module")
-print("Successfully imported the seinfeldme command module")
+print("Successfully imported pings command module")
+print("Successfully imported seinfeldme command module")
 print("Successfully imported sws command module")
 
 # Logger setup
@@ -38,16 +42,6 @@ class MyClient(discord.Client):
     async def is_me(self, m):
         mybool = m.author == client.user
         return await myBool  
-
-    # For usage with muting on Ch(i)ef ping
-    async def the_muter(self, msg):
-        await msg.author.add_roles(discord.utils.get(msg.guild.roles, name='Muted'))
-        await msg.channel.send("For pinging Ch(i)ef, " + str(msg.author)[:-5] + " has been muted for 5 mintues.")
-        print(str(msg.author) + " was muted because they pinged Ch(i)ef.")
-        await asyncio.sleep(300)
-        await msg.author.remove_roles(discord.utils.get(msg.guild.roles, name='Muted'))
-        print(str(msg.author) + " was unmuted after 5 minutes for muting Ch(i)ef.")
-        await msg.channel.send(str(msg.author)[:-5] + " has been unmuted after pinging Ch(i)ef. Please don't ping Ch(i)ef.")
 
     # Adds Pings role on join
     async def on_member_join(member):
@@ -75,16 +69,13 @@ class MyClient(discord.Client):
 
         # Search workshop
         if (message.content.startswith((globalCall + 'sws'))):
-           try:
-              searchWorkshop = sws()
-              await message.channel.send("Searching the workshop. Please wait...")
-              searchIt = searchWorkshop.theMain(message.content)
-              if not searchIt:
-                  await message.channel.send("That's a fat error from me dawg. The search came up empty.")
-              else:
+            searchWorkshop = sws()
+            await message.channel.send("Searching the workshop. Please wait...")
+            searchIt = searchWorkshop.theMain(message.content)
+            if not searchIt:
+                await message.channel.send("That's a fat error from me dawg. The search came up empty.")
+            else:
                 await message.channel.send(searchIt)
-           except ValueError as e:
-              print("Could not parse search results")
 
         # Get random Seinfeld quote
         if (message.content.startswith((globalCall + 'seinfeldme'))):
@@ -93,18 +84,14 @@ class MyClient(discord.Client):
             print("Sent a Seinfeld quote for " + str(message.author))
 
         # Mute if ping chief
-        if ("<@208272642640314389>" in message.content): await self.the_muter(message)
+        if ("<@259158530131623938>" in message.content):
+            chiefMute = ChiefMuteInsurance()
+            await chiefMute.the_muter(message)
 
         # Give/Remove Pings role
         if (message.content.lower().startswith((globalCall + 'pings'))):
-            if "579453547976982566" in str(message.author.roles):
-                await message.author.remove_roles(discord.utils.get(message.guild.roles, name='Pings'))
-                await message.channel.send("Removed the 'Pings' role!")
-                print("Removed the 'pings' role from " + str(message.author))
-            else:
-                await message.author.add_roles(discord.utils.get(message.guild.roles, name='Pings'))
-                await message.channel.send("Added the 'Pings' role!")
-                print("Added the 'pings' role to " + str(message.author))
+            myPings = pings()
+            await myPings.changePingRoleState(message)
 
         # Purge messages (Administrator Only)
         if (((message.content.lower()).split(" "))[0].startswith(globalCall + "purge")):

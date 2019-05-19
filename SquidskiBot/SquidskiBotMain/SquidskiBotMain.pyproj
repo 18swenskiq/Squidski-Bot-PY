@@ -22,7 +22,13 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ChiefMuteInsurance.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Commands\help.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Commands\pings.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Commands\seinfeldme.py">
