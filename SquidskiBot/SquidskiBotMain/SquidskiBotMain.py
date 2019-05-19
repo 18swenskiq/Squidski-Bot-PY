@@ -20,8 +20,9 @@ adminRoleID = "574763874201501696"
 
 # Initialization alerts
 print("The call symbol for the bot is " + globalCall)
+print("Successfully imported help command module")
+print("Successfully imported the seinfeldme command module")
 print("Successfully imported sws command module")
-print("Successfully imported purge command module")
 
 # Logger setup
 logger = logging.getLogger('discord')
