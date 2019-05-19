@@ -47,7 +47,8 @@ class MyClient(discord.Client):
 
     # Adds Pings role on join
     async def on_member_join(member):
-        await message.author.add_roles(discord.utils.get(message.guild.roles, name='Pings'))
+        await member.add_roles(discord.utils.get(message.guild.roles, name='Pings'))
+        print(str(member) + " was given the pings role!")
 
     # Initializes stuff
     async def on_ready(self):
@@ -65,6 +66,7 @@ class MyClient(discord.Client):
             embed.add_field(name="Get Random Seinfeld Quote", value=">seinfeldme", inline=False)
             embed.add_field(name="Subscribe or Unsubscribe from pings", value=">pings", inline=False)
             await message.channel.send(embed=embed)
+            print("Sent help message for " + str(message.author))
 
         # Good night response
         if (message.content.lower() in ["good night","gn","goodnight"]):
@@ -97,9 +99,11 @@ class MyClient(discord.Client):
             if "579453547976982566" in str(message.author.roles):
                 await message.author.remove_roles(discord.utils.get(message.guild.roles, name='Pings'))
                 await message.channel.send("Removed the 'Pings' role!")
+                print("Removed the 'pings' role from " + str(message.author))
             else:
                 await message.author.add_roles(discord.utils.get(message.guild.roles, name='Pings'))
                 await message.channel.send("Added the 'Pings' role!")
+                print("Added the 'pings' role to " + str(message.author))
 
         # Purge messages (Administrator Only)
         if (((message.content.lower()).split(" "))[0].startswith(globalCall + "purge")):
@@ -107,11 +111,13 @@ class MyClient(discord.Client):
             if adminRoleID in str(message.author.roles):
                 await message.channel.purge(limit=(int(shortened) + 1))
                 await message.channel.send("Purged " + shortened + " messages.")
+                print("Purged " + shortened + " messages in " + str(message.channel))
                 time.sleep(3)
                 await message.channel.purge(limit=1, check=self.is_me)
+                print("Deleted purge message")
             else:
-                print(message.author.roles)
                 await message.channel.send("You must have the `Administrator` role to do this...")
+                print(str(message.author) + " tried to use the purge command...")
 
 
             
@@ -120,4 +126,5 @@ client = MyClient()
 # Read bot token
 tokenReader = open("token.txt", "r")
 client.run(tokenReader.read())
+print("Successfully read bot token")
 tokenReader.close()
