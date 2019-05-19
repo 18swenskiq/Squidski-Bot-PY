@@ -78,7 +78,7 @@ class MyClient(discord.Client):
             print("Sent a Seinfeld quote for " + str(message.author))
 
         # Mute if ping chief
-        if ("<@259158530131623938>" in message.content):
+        if ("<@208272642640314389>" in message.content):
             chiefMute = ChiefMuteInsurance()
             await chiefMute.the_muter(message)
 
