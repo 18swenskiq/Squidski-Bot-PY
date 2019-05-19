@@ -31,6 +31,9 @@
     <Compile Include="Commands\pings.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Commands\purge.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Commands\seinfeldme.py">
       <SubType>Code</SubType>
     </Compile>

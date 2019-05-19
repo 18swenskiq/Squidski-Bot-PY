@@ -12,19 +12,18 @@ sys.path.append('./Commands')
 # Commands
 from help import help
 from pings import pings
+from purge import purge
 from seinfeldme import seinfeldme
 from sws import sws
 
 # This string can be modified to change what prefix the bot responds to
 globalCall = ">"
 
-# Administrator role ID
-adminRoleID = "574763874201501696"
-
 # Initialization alerts
 print("The call symbol for the bot is " + globalCall)
 print("Successfully imported help command module")
 print("Successfully imported pings command module")
+print("Successfully imported purge command module")
 print("Successfully imported seinfeldme command module")
 print("Successfully imported sws command module")
 
@@ -37,11 +36,6 @@ logger.addHandler(handler)
 
 # Here's where the magic happens
 class MyClient(discord.Client):
-
-    # Checking if message author is the bot
-    async def is_me(self, m):
-        mybool = m.author == client.user
-        return await myBool  
 
     # Adds Pings role on join
     async def on_member_join(member):
@@ -95,17 +89,9 @@ class MyClient(discord.Client):
 
         # Purge messages (Administrator Only)
         if (((message.content.lower()).split(" "))[0].startswith(globalCall + "purge")):
-            shortened = str(message.content.lower().split(" ")[1])
-            if adminRoleID in str(message.author.roles):
-                await message.channel.purge(limit=(int(shortened) + 1))
-                await message.channel.send("Purged " + shortened + " messages.")
-                print("Purged " + shortened + " messages in " + str(message.channel))
-                time.sleep(3)
-                await message.channel.purge(limit=1, check=self.is_me)
-                print("Deleted purge message")
-            else:
-                await message.channel.send("You must have the `Administrator` role to do this...")
-                print(str(message.author) + " tried to use the purge command...")
+            myPurge = purge()
+            await myPurge.purger(message)
+
 
 # Instantiate client
 client = MyClient()
