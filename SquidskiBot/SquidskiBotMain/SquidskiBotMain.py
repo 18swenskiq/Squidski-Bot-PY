@@ -37,7 +37,7 @@ class MyClient(discord.Client):
         if message.author == self.user:
             return
 
-        # Handle the Commands
+        # Handle the Commands with globalCall
         if (message.content.startswith(globalCall)):
             myCommand = CommandHandler()
             await myCommand.commandParser(message, globalCall)
