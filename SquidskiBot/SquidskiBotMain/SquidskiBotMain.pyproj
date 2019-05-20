@@ -25,6 +25,9 @@
     <Compile Include="ChiefMuteInsurance.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="CommandHandler.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Commands\help.py">
       <SubType>Code</SubType>
     </Compile>
