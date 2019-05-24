@@ -28,6 +28,9 @@
     <Compile Include="CommandHandler.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Commands\bruhmoment.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Commands\help.py">
       <SubType>Code</SubType>
     </Compile>
@@ -55,6 +58,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="BruhMoments.txt" />
     <Content Include="SeinfeldQuotes.txt" />
     <Content Include="token.txt" />
   </ItemGroup>

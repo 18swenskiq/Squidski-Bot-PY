@@ -5,6 +5,7 @@ import sys
 sys.path.append('./Commands')
 
 # Commands
+from bruhmoment import bruhmoment
 from help import help
 from pings import pings
 from purge import purge
@@ -45,3 +46,8 @@ class CommandHandler():
         if (((message.content.lower()).split(" "))[0].startswith(globalCall + "purge")):
             myPurge = purge()
             await myPurge.purger(message)
+
+        # Checks if is bruh moment
+        if (message.content.lower().startswith((globalCall + 'bruhmoment'))):
+            myBruh = bruhmoment()
+            await myBruh.isBruhMoment(message)

@@ -6,6 +6,7 @@ class help():
         embed.add_field(name="Search Workshop", value=">sws <game> <type> <search term>", inline=False)
         embed.add_field(name="Get Random Seinfeld Quote", value=">seinfeldme", inline=False)
         embed.add_field(name="Subscribe or Unsubscribe from pings", value=">pings", inline=False)
+        embed.add_field(name="Check if something is a bruh moment", value=">bruhmoment", inline=False)
         return embed
 
 
