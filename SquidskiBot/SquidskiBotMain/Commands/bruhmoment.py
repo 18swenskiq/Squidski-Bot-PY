@@ -2,6 +2,8 @@ import discord
 import random
 
 class bruhmoment():
+
+    # Rolls a random number to determine if something is a 'bruh' moment
     async def isBruhMoment(self, message):
         myVal = random.random()
         if (myVal > .5):
@@ -10,6 +12,7 @@ class bruhmoment():
             await message.channel.send("I have determined that this is not a bruh moment.")
             print("Checked if something was a bruh moment. It wasn't.")
 
+    # If it is a 'bruh' moment, reads and writes to file containing total amount of bruh moments
     async def classifyBruhMoment(self, message):
         await message.channel.send("***THIS IS A CERTIFIED BRUH MOMENT***")
         print("Certified something as a bruh moment.")

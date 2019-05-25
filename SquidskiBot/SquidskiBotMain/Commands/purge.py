@@ -4,6 +4,7 @@ import discord
 class purge():
     adminRoleID = "574763874201501696"
 
+    # Administrator only. Can purge messages with globalCall + purge + (num of messages)
     async def purger(self, msg):
         shortened = str(msg.content.lower().split(" ")[1])
         if self.adminRoleID in str(msg.author.roles):

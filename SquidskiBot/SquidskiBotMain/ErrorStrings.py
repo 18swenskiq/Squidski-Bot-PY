@@ -1,4 +1,6 @@
 class ErrorStrings():
+    # This file only exists because I don't understand how error handling works in Python
+
     # sws (Workshop Search) Errors
     def E0(self): return "The search type was not valid"
     def E1(self): return "Game and type are not compatible"

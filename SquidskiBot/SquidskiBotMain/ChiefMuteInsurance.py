@@ -2,6 +2,8 @@ import asyncio
 import discord
 
 class ChiefMuteInsurance():
+    
+    # If a user pings Ch(i)ef, they are muted (sent to void) for 5 minutes
     async def the_muter(self, msg):
         await msg.author.add_roles(discord.utils.get(msg.guild.roles, name='Muted'))
         await msg.channel.send("For pinging Ch(i)ef, " + str(msg.author)[:-5] + " has been muted for 5 mintues.")

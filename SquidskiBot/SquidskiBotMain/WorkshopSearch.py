@@ -13,6 +13,7 @@ class WorkshopSearch:
     def __init__(self):
         self.data = []
 
+    # This is how the actual HTML doc is retrieved
     def simple_get(self, url):
         try:
             with closing(get(url, stream=True)) as resp:
@@ -23,6 +24,7 @@ class WorkshopSearch:
           log_error('Error during requests to {0} : {1}'.format(url, str(e)))
           return None
 
+    # Ensures we actually get a good HTML response
     def is_good_response(self, resp):
         content_type = resp.headers['Content-Type'].lower()
         return (resp.status_code == 200 
@@ -33,6 +35,7 @@ class WorkshopSearch:
     def _log_error(e):
         print(e)
 
+    # Gets gameID from game input
     def getResults(self, game, myType, searchTerm):
         if (game.lower() == 'csgo' or game.lower() == 'cs:go'): gameID = 730
         elif (game.lower() == 'portal2' or game.lower() == 'p2' or game.lower() == 'portal 2'): gameID = 620
@@ -45,28 +48,36 @@ class WorkshopSearch:
 
         workshopGen = GenerateWorkshopURL()
         myErrors = ErrorStrings()
+
+        #Builds the URL
         userSearch = workshopGen.validateSearch(gameID, myType, searchTerm)
         classType = workshopGen.classType
+
+        # Makes sure we don't have any errors
         if (isinstance(userSearch, str)):
             print(userSearch)
             if (userSearch.startswith("E")):
                 return userSearch[:2]
         print("User Search URL SHOULD be: " + userSearch)
         if('steamcommunity' not in userSearch): return "E6"
+
+        # Here's where we grab the HTML file that our built link points to
         print("Searching the Workshop now...")
         rawHtml = self.simple_get(userSearch)
         if (rawHtml == None): return "E7"
 
-            # Parses the HTML file
+        # Parses the HTML file
         html = BeautifulSoup(rawHtml, 'html.parser').prettify().split("\n")
         print("Workshop HTML page successfully retrieved and parsed.")
 
-            # Now we're looping through the whole HTML to find the first 5 maps
+        # Now we're looping through the whole HTML to find the first 5 maps
         place = 0
         workshopItemList = []
         itemNameList = []
         workshopAuthorName = []
 
+        # Depending on our type, we have to add different things to the URL
+        # First, if we have one of these types, we can extract the data we need directly from the lines of the HTML document
         if ((classType == "item") or (classType == "map") or (classType == "merchandise")):
             while (place < len(html)):
 
@@ -89,6 +100,7 @@ class WorkshopSearch:
                 place += 1
                 if (len(workshopAuthorName) > 4): break
 
+        # Same thing here really, the web page is just set up differently so we need to slice at different numbers
         elif (classType == "collection"):
             while (place < len(html)):
 
@@ -110,7 +122,7 @@ class WorkshopSearch:
                 place += 1
                 if (len(workshopAuthorName) > 4): break
 
-
+        # Then here we are returning the lists of stuff we got from the HTML docs (first 5 results)
         returnObj = {
             "itemList": workshopItemList,
             "nameList": itemNameList,
