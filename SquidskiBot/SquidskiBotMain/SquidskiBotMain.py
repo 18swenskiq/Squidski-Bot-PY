@@ -24,8 +24,8 @@ logger.addHandler(handler)
 class MyClient(discord.Client):
 
     # Adds Pings role on join
-    async def on_member_join(member):
-        await member.add_roles(discord.utils.get(message.guild.roles, name='Pings'))
+    async def on_member_join(self, member):
+        await member.add_roles(discord.utils.get(member.guild.roles, name='Pings'))
         print(str(member) + " was given the pings role!")
 
     # Initializes stuff
