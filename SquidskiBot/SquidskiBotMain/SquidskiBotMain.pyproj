@@ -40,6 +40,9 @@
     <Compile Include="Commands\purge.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Commands\rolepinger.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Commands\seinfeldme.py">
       <SubType>Code</SubType>
     </Compile>
