@@ -34,6 +34,9 @@
     <Compile Include="Commands\help.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Commands\mute.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Commands\pings.py">
       <SubType>Code</SubType>
     </Compile>

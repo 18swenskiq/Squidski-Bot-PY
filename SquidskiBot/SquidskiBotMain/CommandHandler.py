@@ -7,6 +7,7 @@ sys.path.append('./Commands')
 # Commands
 from bruhmoment import bruhmoment
 from help import help
+from mute import mute
 from pings import pings
 from purge import purge
 from rolepinger import rolepinger
@@ -52,6 +53,11 @@ class CommandHandler():
         if (message.content.lower().startswith((globalCall + 'rolepinger'))):
             myPinger = rolepinger()
             await myPinger.pinger(message)
+
+        # Mute a bad user (Administrator Only)
+        if (message.content.lower().startswith((globalCall + 'mute'))):
+            myMuter = mute()
+            await myMuter.mute_users(message)
 
         # Checks if is bruh moment
         if (message.content.lower().startswith((globalCall + 'bruhmoment'))):
