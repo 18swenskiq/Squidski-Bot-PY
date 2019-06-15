@@ -7,6 +7,7 @@ sys.path.append('./Commands')
 # Commands
 from bruhmoment import bruhmoment
 from help import help
+from helpadmin import helpadmin
 from mute import mute
 from pings import pings
 from purge import purge
@@ -43,6 +44,11 @@ class CommandHandler():
         if (message.content.lower().startswith((globalCall + 'pings'))):
             myPings = pings()
             await myPings.changePingRoleState(message)
+
+        # Admin only commands (Administrator only)
+        if (((message.content.lower()).split(" "))[0].startswith(globalCall + "helpadmin")):
+            myAdminCommands = helpadmin()
+            await myAdminCommands.checkPerms(message)
 
         # Purge messages (Administrator Only)
         if (((message.content.lower()).split(" "))[0].startswith(globalCall + "purge")):

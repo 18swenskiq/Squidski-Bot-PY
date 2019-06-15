@@ -9,6 +9,7 @@ class help():
         embed.add_field(name="Get Random Seinfeld Quote", value=">seinfeldme", inline=False)
         embed.add_field(name="Subscribe or Unsubscribe from pings", value=">pings", inline=False)
         embed.add_field(name="Check if something is a bruh moment", value=">bruhmoment", inline=False)
+        embed.add_field(name="Admin only commands", value=">helpadmin",inline=False)
         return embed
 
 
