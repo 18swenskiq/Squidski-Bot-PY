@@ -8,13 +8,20 @@ class GenerateWorkshopURL():
     def genURL(self, gameID, myType, searchTerm):
         steamString = "https://steamcommunity.com/workshop/browse/?appid=" + str(gameID) + "&searchtext=" + searchTerm + "&childpublishedfileid=0&browsesort=trend&section="
 
-        # What to add to the URL depends on type
-        if (myType == 'collection'): steamString += 'collections'
-        elif (myType == 'item'):
-            if (gameID == 730): steamString += 'mtxitems'
-            else: steamString += 'readytouseitems'
-        elif (myType == 'map'): steamString += 'readytouseitems'
-        else: steamString += 'merchandise'
+        # What to add to the URL depends on type & gameID
+        if gameID == 4000:
+            # Garry's Mod type handling
+            if (myType == 'collection'): steamString += 'collections'
+            elif (myType == 'item'): steamString += 'readytouseitems'
+            else: steamString += 'readytouseitems&requiredtags[]=' + myType
+        else:
+            # Default type handling
+            if (myType == 'collection'): steamString += 'collections'
+            elif (myType == 'item'):
+                if (gameID == 730): steamString += 'mtxitems'
+                else: steamString += 'readytouseitems'
+            elif (myType == 'map'): steamString += 'readytouseitems'
+            else: steamString += 'merchandise'
 
         # This string means sort by top all time
         return (steamString + "&actualsort=trend&p=1&days=-1")
@@ -45,7 +52,7 @@ class GenerateWorkshopURL():
             validP2Types = ['item', 'map','merchandise','collection']
             if (type not in validP2Types): return "E1"
         elif (gameID == 4000):
-            validGMODTypes = ['item','collection']
+            validGMODTypes = ['item', 'collection', 'map', 'addon']
             if (type not in validGMODTypes): return "E1"
         elif (gameID == 550):
             validL4D2Types = ['item', 'collection']
