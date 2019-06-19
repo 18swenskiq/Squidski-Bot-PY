@@ -14,6 +14,7 @@ class ChiefMuteInsurance():
             print(str(msg.author) + " was unmuted after 5 minutes for muting Ch(i)ef.")
             await msg.channel.send(str(msg.author)[:-5] + " has been unmuted after pinging Ch(i)ef. Please don't ping Ch(i)ef.")
         else:
+            await msg.author.remove_roles(discord.utils.get(msg.guild.roles, name='Muted'))
             print("It seems that " + str(msg.author) + " was already unmuted by an admin. No action from me is required")
             
 
