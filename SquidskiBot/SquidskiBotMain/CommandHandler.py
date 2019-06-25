@@ -5,7 +5,9 @@ import sys
 sys.path.append('./Commands')
 
 # Commands
+from apiworkshopsearch import apiworkshopsearch
 from bruhmoment import bruhmoment
+from fanfic import fanfic
 from help import help
 from helpadmin import helpadmin
 from mute import mute
@@ -69,3 +71,13 @@ class CommandHandler():
         if (message.content.lower().startswith((globalCall + 'bruhmoment'))):
             myBruh = bruhmoment()
             await myBruh.isBruhMoment(message)
+
+        # Searches the Steam Workshop via the API
+        # if (message.content.lower().startswith((globalCall + 'wtest'))):
+            # mySAPI = apiworkshopsearch()
+            # await message.channel.send(embed = mySAPI.requestInfo())
+
+        # Pulls a random line from the Source Engine fanfictions
+        if (message.content.lower().startswith((globalCall + 'fanfic'))):
+            getFanfic = fanfic()
+            await message.channel.send(embed = getFanfic.getLine())

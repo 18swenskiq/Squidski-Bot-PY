@@ -28,7 +28,13 @@
     <Compile Include="CommandHandler.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Commands\apiworkshopsearch.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Commands\bruhmoment.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Commands\fanfic.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Commands\help.py">
@@ -68,6 +74,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="BruhMoments.txt" />
+    <Content Include="FanficTxt\Part1.txt" />
+    <Content Include="FanficTxt\Part2.txt" />
+    <Content Include="FanficTxt\Part3.txt" />
+    <Content Include="FanficTxt\Part4.txt" />
+    <Content Include="FanficTxt\Part5.txt" />
+    <Content Include="FanficTxt\Part6.txt" />
     <Content Include="SeinfeldQuotes.txt" />
     <Content Include="token.txt" />
   </ItemGroup>
@@ -87,6 +99,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Commands\" />
+    <Folder Include="FanficTxt\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
