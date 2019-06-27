@@ -72,10 +72,11 @@ class CommandHandler():
             myBruh = bruhmoment()
             await myBruh.isBruhMoment(message)
 
-        # Searches the Steam Workshop via the API
-        # if (message.content.lower().startswith((globalCall + 'wtest'))):
-            # mySAPI = apiworkshopsearch()
-            # await message.channel.send(embed = mySAPI.requestInfo())
+       # Searches the Steam Workshop via the API
+        if (message.content.lower().startswith((globalCall + 'wtest'))):
+            mySAPI = apiworkshopsearch()
+            args = message.content.split(" ")
+            await mySAPI.requestInfo(message, args[1], " ".join(args[2:]))
 
         # Pulls a random line from the Source Engine fanfictions
         if (message.content.lower().startswith((globalCall + 'fanfic'))):
