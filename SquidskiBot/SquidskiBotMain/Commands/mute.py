@@ -3,7 +3,14 @@ import discord
 
 class mute():
     
+    adminRoleID = "574763874201501696"
+
     async def mute_users(self,message):
+
+        if self.adminRoleID not in str(message.author.roles):
+            await message.channel.send("You must be an administrator to use this command...")
+            return
+
         await message.mentions[0].add_roles(discord.utils.get(message.guild.roles, name='Muted'))
 
         if(message.content.split(" ")[2] == "1"):
