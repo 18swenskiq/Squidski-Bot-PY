@@ -1,4 +1,3 @@
-from LoggingModule import LoggingModule
 from urllib.parse import quote
 
 class GenerateWorkshopURL():
@@ -31,7 +30,7 @@ class GenerateWorkshopURL():
 
         print(" ")
         print("=============Workshop Search=============")
-        LoggingModule.logMessage("Searching '" + str(gameID) + "' workshop for '" + str(searchTerm) + "' of type: " + type)
+        print("Searching '" + str(gameID) + "' workshop for '" + str(searchTerm) + "' of type: " + type)
 
         # Checks the type. if it is invalid, raises an error
         validTypes = ['item','items','addons','maps','merchandise','collections','map','collection','addon', 'merch', 'skin','skins']

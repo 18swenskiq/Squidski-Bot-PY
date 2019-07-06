@@ -1,7 +1,5 @@
 import discord
 
-from LoggingModule import LoggingModule
-
 class rolepinger():
     adminRoleID = "574763874201501696"
     
@@ -16,8 +14,8 @@ class rolepinger():
              await message.channel.send("*To unsubscribe from pings, type >pings in <#574764733849272347>*")
              # Makes the Pings role unmentionable
              await (discord.utils.get(message.guild.roles, name='Pings')).edit(mentionable=False)
-             LoggingModule.logMessage("Pings role was successfully pinged from " + str(message.channel))
+             print("Pings role was successfully pinged from " + str(message.channel))
          else:
             await message.channel.send("You must have the `Administrator` role to do this...")
-            LoggingModule.logMessage(str(message.author) + " tried to use the rolepinger command...")
+            print(str(message.author) + " tried to use the rolepinger command...")
 

@@ -23,6 +23,7 @@ class sws:
                 return (eval("myErrors." + messageArray + "()"))
             else:
                 return "An unknown error occured"
+        print(messageArray)
 
         # Get loop set up
         massiveCat = ""

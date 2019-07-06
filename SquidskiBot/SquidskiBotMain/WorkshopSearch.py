@@ -7,7 +7,6 @@ from contextlib import closing
 from bs4 import BeautifulSoup
 
 from GenerateWorkshopURL import GenerateWorkshopURL
-from LoggingModule import LoggingModule
 from ErrorStrings import ErrorStrings
 
 class WorkshopSearch:
@@ -63,13 +62,13 @@ class WorkshopSearch:
         if('steamcommunity' not in userSearch): return "E6"
 
         # Here's where we grab the HTML file that our built link points to
-        LoggingModule.logMessage("Searching the Workshop now...")
+        print("Searching the Workshop now...")
         rawHtml = self.simple_get(userSearch)
         if (rawHtml == None): return "E7"
 
         # Parses the HTML file
         html = BeautifulSoup(rawHtml, 'html.parser').prettify().split("\n")
-        LoggingModule.logMessage("Workshop HTML page successfully retrieved and parsed.")
+        print("Workshop HTML page successfully retrieved and parsed.")
 
         # Now we're looping through the whole HTML to find the first 5 maps
         place = 0
