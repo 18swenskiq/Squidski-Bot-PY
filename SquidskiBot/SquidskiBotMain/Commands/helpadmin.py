@@ -9,7 +9,6 @@ class helpadmin():
         else:
             await message.channel.send("Only admins are allowed to see the secret admin commands.")
 
-
     def myEmbed(self):
         embed = discord.Embed(title="Squidski-Bot PY", description="Welcome to the secret admin help", color=0x00ff00)
         embed.add_field(name="Mute bad users", value=">mute <user> <minutes>", inline=False)

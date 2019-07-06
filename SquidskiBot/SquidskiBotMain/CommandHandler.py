@@ -1,5 +1,6 @@
 import discord
 import sys
+from LoggingModule import LoggingModule
 
 # Makes the commands section work
 sys.path.append('./Commands')
@@ -24,7 +25,7 @@ class CommandHandler():
         if (message.content.lower() == globalCall + "help"):
             myHelp = help()
             await message.channel.send(embed = myHelp.myEmbed())
-            print("Sent help message for " + str(message.author))
+            log.logMessage("Sent help message for " + str(message.author))
 
         # Search workshop
         if (message.content.startswith((globalCall + 'sws'))):
@@ -33,6 +34,7 @@ class CommandHandler():
             searchIt = searchWorkshop.theMain(message.content)
             if not searchIt:
                 await message.channel.send("That's a fat error from me dawg. The search came up empty.")
+                log.logMessage(f"Workshop search came up empty for {message.content}")
             else:
                 await message.channel.send(searchIt)
 
@@ -40,7 +42,7 @@ class CommandHandler():
         if (message.content.startswith((globalCall + 'seinfeldme'))):
             getSeinfeldQuote = seinfeldme()
             await message.channel.send(getSeinfeldQuote.getQuote())
-            print("Sent a Seinfeld quote for " + str(message.author))
+            log.logMessage("Sent a Seinfeld quote for " + str(message.author))
 
         # Give/Remove Pings role
         if (message.content.lower().startswith((globalCall + 'pings'))):

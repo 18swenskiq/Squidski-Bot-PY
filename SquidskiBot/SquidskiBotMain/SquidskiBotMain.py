@@ -6,14 +6,15 @@ import logging
 # Various other files
 from ChiefMuteInsurance import ChiefMuteInsurance
 from CommandHandler import CommandHandler
+from LoggingModule import LoggingModule
 
 # Picks the symbol to prefix onto commands
 globalCall = ">"
 
 # Initialization alerts
-print("The call symbol for the bot is " + globalCall)
+log = LoggingModule()
 
-# Logger setup
+# Logger setup (I don't actually use this but I'm scared to remove it)
 logger = logging.getLogger('discord')
 logger.setLevel(logging.CRITICAL)
 handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w')
@@ -26,11 +27,11 @@ class MyClient(discord.Client):
     # Adds Pings role on join
     async def on_member_join(self, member):
         await member.add_roles(discord.utils.get(member.guild.roles, name='Pings'))
-        print(str(member) + " was given the pings role!")
+        log.logMessage(str(member) + " was given the pings role!", member)
 
     # Initializes stuff
     async def on_ready(self):
-        print('Logged on as', self.user)
+        log.logMessage(f'Logged on as, {self.user}')
 
     # Respond to messages starts here
     async def on_message(self, message):
@@ -58,5 +59,6 @@ client = MyClient()
 # Read bot token
 tokenReader = open("token.txt", "r")
 client.run(tokenReader.read())
-print("Successfully read bot token")
+log.logMessage("Successfully read bot token")
 tokenReader.close()
+

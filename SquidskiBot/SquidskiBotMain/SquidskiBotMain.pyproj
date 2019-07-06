@@ -67,6 +67,9 @@
     <Compile Include="GenerateWorkshopURL.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="LoggingModule.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="SquidskiBotMain.py" />
     <Compile Include="WorkshopSearch.py">
       <SubType>Code</SubType>

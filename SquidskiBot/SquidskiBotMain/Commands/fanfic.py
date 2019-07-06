@@ -1,20 +1,19 @@
 import discord
 import random
 
+from LoggingModule import LoggingModule
+
 class fanfic():
 
     def getLine(self):
         whichPart = str(random.randint(1,6))
-        print(whichPart)
         fanficTxt = open(f"FanficTxt/Part{whichPart}.txt", "r").read().split("\n")
         whichLine = random.randint(1, len(fanficTxt))
-
+        LoggingModule.logMessage(f"Selected fanfic part was {whichPart} on line {whichLine}")
         return self.buildEmbed(whichPart, whichLine, fanficTxt[whichLine])
 
     def buildEmbed(self, part, lineNum, lineTxt):
-
         partTitle = self.getPartName(part)
-
         embed = discord.Embed(title="SE Discord Fanfiction", color=0x00ff00)
         embed.add_field(name="Your Random Line:", value=lineTxt)
         embed.set_footer(text=f"You are reading line {lineNum} from {partTitle}")
