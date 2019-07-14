@@ -1,4 +1,5 @@
 import random
+from LoggingModule import LoggingModule
 
 class seinfeldme():
     quoteList = []
@@ -10,7 +11,10 @@ class seinfeldme():
         myFile.close();
 
     # Pulls and sends a random quote
-    def getQuote(self):
-        return random.choice(self.quoteList)
+    async def getQuote(self, message):
+        log = LoggingModule()
+        quoteOfChoice = random.choice(self.quoteList)
+        await log.logIt(f"Send the seinfeld quote '{quoteOfChoice}' for {message.author}", message)
+        await message.channel.send(quoteOfChoice)
 
 

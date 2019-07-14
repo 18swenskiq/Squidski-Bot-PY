@@ -23,8 +23,7 @@ class CommandHandler():
         # Help message
         if (message.content.lower() == globalCall + "help"):
             myHelp = help()
-            await message.channel.send(embed = myHelp.myEmbed())
-            print("Sent help message for " + str(message.author))
+            await message.channel.send(embed = await myHelp.myEmbed(message))
 
         # Search workshop
         if (message.content.startswith((globalCall + 'sws'))):
@@ -39,8 +38,7 @@ class CommandHandler():
         # Get random Seinfeld quote
         if (message.content.startswith((globalCall + 'seinfeldme'))):
             getSeinfeldQuote = seinfeldme()
-            await message.channel.send(getSeinfeldQuote.getQuote())
-            print("Sent a Seinfeld quote for " + str(message.author))
+            await getSeinfeldQuote.getQuote(message)
 
         # Give/Remove Pings role
         if (message.content.lower().startswith((globalCall + 'pings'))):
@@ -81,4 +79,4 @@ class CommandHandler():
         # Pulls a random line from the Source Engine fanfictions
         if (message.content.lower().startswith((globalCall + 'fanfic'))):
             getFanfic = fanfic()
-            await message.channel.send(embed = getFanfic.getLine())
+            await message.channel.send(embed = await getFanfic.getLine(message))

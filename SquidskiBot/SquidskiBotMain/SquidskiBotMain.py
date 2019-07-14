@@ -1,4 +1,5 @@
 # Packages
+import datetime
 import discord
 import sys
 import logging
@@ -6,6 +7,7 @@ import logging
 # Various other files
 from ChiefMuteInsurance import ChiefMuteInsurance
 from CommandHandler import CommandHandler
+from LoggingModule import LoggingModule
 
 # Picks the symbol to prefix onto commands
 globalCall = ">"
@@ -20,6 +22,7 @@ handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w'
 handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
 logger.addHandler(handler)
 
+
 # Here's where the magic happens
 class MyClient(discord.Client):
 
@@ -30,7 +33,9 @@ class MyClient(discord.Client):
 
     # Initializes stuff
     async def on_ready(self):
-        print('Logged on as', self.user)
+        log = LoggingModule()
+        await log.logIt("-------------------New Session-------------------", self.get_channel(596857655994089482))
+        await log.logIt(f"Logged on as {self.user}", self.get_channel(596857655994089482))
 
     # Respond to messages starts here
     async def on_message(self, message):
