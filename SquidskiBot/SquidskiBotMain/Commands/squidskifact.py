@@ -19,6 +19,5 @@ class squidskifact():
         return self.buildEmbed(quoteOfChoice)
 
     def buildEmbed(self, quoteOfChoice):
-        embed = discord.Embed(color=0x00BFFF)
-        embed.add_field(name=f"Squidski Fact #{random.randint(1,100000):}", value=f"{quoteOfChoice}", inline=False)
+        embed = discord.Embed(title=f"Squidski Fact #{random.randint(1,100000):}", description=f"{quoteOfChoice}",  color=0x00BFFF)
         return embed
