@@ -25,6 +25,7 @@ class CommandHandler():
         if (message.content.lower() == globalCall + "help"):
             myHelp = help()
             await message.channel.send(embed = await myHelp.myEmbed(message))
+            return
 
         # Search workshop
         if (message.content.startswith((globalCall + 'sws'))):
@@ -33,56 +34,68 @@ class CommandHandler():
             searchIt = searchWorkshop.theMain(message.content)
             if not searchIt:
                 await message.channel.send("That's a fat error from me dawg. The search came up empty.")
+                return
             else:
                 await message.channel.send(searchIt)
+                return
 
         # Get random Seinfeld quote
         if (message.content.startswith((globalCall + 'seinfeldme'))):
             getSeinfeldQuote = seinfeldme()
             await getSeinfeldQuote.getQuote(message)
+            return
 
         # Get random Squidski fact
         if (message.content.startswith((globalCall + 'squidskifact'))):
             squidFact = squidskifact()
             await message.channel.send(embed = await squidFact.getQuote(message))
+            return
 
         # Give/Remove Pings role
         if (message.content.lower().startswith((globalCall + 'pings'))):
             myPings = pings()
             await myPings.changePingRoleState(message)
+            return
 
         # Admin only commands (Administrator only)
         if (((message.content.lower()).split(" "))[0].startswith(globalCall + "helpadmin")):
             myAdminCommands = helpadmin()
             await myAdminCommands.checkPerms(message)
+            return
 
         # Purge messages (Administrator Only)
         if (((message.content.lower()).split(" "))[0].startswith(globalCall + "purge")):
             myPurge = purge()
             await myPurge.purger(message)
+            return
 
         # Ping the Pings role (Administrator Only)
         if (message.content.lower().startswith((globalCall + 'rolepinger'))):
             myPinger = rolepinger()
             await myPinger.pinger(message)
+            return
 
         # Mute a bad user (Administrator Only)
         if (message.content.lower().startswith((globalCall + 'mute'))):
             myMuter = mute()
             await myMuter.mute_users(message)
+            return
 
         # Checks if is bruh moment
         if (message.content.lower().startswith((globalCall + 'bruhmoment'))):
             myBruh = bruhmoment()
             await myBruh.isBruhMoment(message)
+            return
 
        # Searches the Steam Workshop via the API
         if (message.content.lower().startswith((globalCall + 'wtest'))):
             mySAPI = apiworkshopsearch()
             args = message.content.split(" ")
             await mySAPI.requestInfo(message, args[1], " ".join(args[2:]))
+            return
 
         # Pulls a random line from the Source Engine fanfictions
         if (message.content.lower().startswith((globalCall + 'fanfic'))):
             getFanfic = fanfic()
             await message.channel.send(embed = await getFanfic.getLine(message))
+            return

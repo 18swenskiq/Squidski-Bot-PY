@@ -25,6 +25,6 @@ Knows Slimek's first name
 Does not like country music
 Knows Python, C#, and Javascript
 Sleeps on a couch
-Has run a mile in 4.59:00
+Has run a mile in 4:59.00
 Has the Epic Games client downloaded
 Likes Disney World
