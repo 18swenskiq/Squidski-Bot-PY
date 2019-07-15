@@ -15,6 +15,7 @@ from pings import pings
 from purge import purge
 from rolepinger import rolepinger
 from seinfeldme import seinfeldme
+from squidskifact import squidskifact
 from sws import sws
 
 class CommandHandler():
@@ -39,6 +40,11 @@ class CommandHandler():
         if (message.content.startswith((globalCall + 'seinfeldme'))):
             getSeinfeldQuote = seinfeldme()
             await getSeinfeldQuote.getQuote(message)
+
+        # Get random Squidski fact
+        if (message.content.startswith((globalCall + 'squidskifact'))):
+            squidFact = squidskifact()
+            await message.channel.send(embed = await squidFact.getQuote(message))
 
         # Give/Remove Pings role
         if (message.content.lower().startswith((globalCall + 'pings'))):
