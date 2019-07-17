@@ -67,6 +67,9 @@
     <Compile Include="Commands\sws.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="csLayers\VDCsearch.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ErrorStrings.py">
       <SubType>Code</SubType>
     </Compile>
@@ -109,6 +112,8 @@
   <ItemGroup>
     <Folder Include="Commands\" />
     <Folder Include="FanficTxt\" />
+    <Folder Include="csLayers\" />
+    <Folder Include="csPrograms\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

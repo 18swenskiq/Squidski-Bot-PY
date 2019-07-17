@@ -1,8 +1,9 @@
 import discord
 import sys
 
-# Makes the commands section work
+# Makes the Commands and CSharp layers sections work
 sys.path.append('./Commands')
+sys.path.append('./csLayers')
 
 # Commands
 from apiworkshopsearch import apiworkshopsearch
@@ -18,6 +19,10 @@ from rolepinger import rolepinger
 from seinfeldme import seinfeldme
 from squidskifact import squidskifact
 from sws import sws
+
+# CSharp Layers
+from VDCsearch import VDCsearch
+
 
 class CommandHandler():
     async def commandParser(self, message, globalCall):
@@ -105,4 +110,10 @@ class CommandHandler():
         if (message.content.lower().startswith((globalCall + 'fanfic'))):
             getFanfic = fanfic()
             await message.channel.send(embed = await getFanfic.getLine(message))
+            return
+
+        # Search VDC
+        if (message.content.lower().startswith((globalCall + 'v'))):
+            searchVDC = VDCsearch()
+            await searchVDC.searchTheVDC(message)
             return
