@@ -15,8 +15,8 @@ class rolepinger():
              await message.channel.send("*To unsubscribe from pings, type >pings in <#574764733849272347>*")
              # Makes the Pings role unmentionable
              await (discord.utils.get(message.guild.roles, name='Pings')).edit(mentionable=False)
-             await log.logIt(f"Pings role was successfully pinged from {message.channel} called by {message.author}", message)
+             await log.logIt(f"Pings role was successfully pinged", message)
          else:
             await message.channel.send("You must have the `Administrator` role to do this...")
-            await log.logIt(f"{message.author} tried to use the purge command unsucessfully", message)
+            await log.logIt(f"Bad user tried to use the purge command unsucessfully", message)
 

@@ -14,7 +14,7 @@ class seinfeldme():
     async def getQuote(self, message):
         log = LoggingModule()
         quoteOfChoice = random.choice(self.quoteList)
-        await log.logIt(f"Sent the seinfeld quote '{quoteOfChoice}' for {message.author}", message)
+        await log.logIt(f"Sent the seinfeld quote '{quoteOfChoice}'", message)
         await message.channel.send(quoteOfChoice)
 
 

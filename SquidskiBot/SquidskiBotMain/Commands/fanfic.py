@@ -9,7 +9,7 @@ class fanfic():
         whichPart = str(random.randint(1,6))
         fanficTxt = open(f"FanficTxt/Part{whichPart}.txt", "r").read().split("\n")
         whichLine = random.randint(1, len(fanficTxt))
-        await log.logIt(f"Fanfic - Got line {whichLine} of part {whichPart} for {message.author}", message)
+        await log.logIt(f"Fanfic - Got line {whichLine} of part {whichPart}}", message)
         return self.buildEmbed(whichPart, whichLine, fanficTxt[whichLine])
 
     def buildEmbed(self, part, lineNum, lineTxt):

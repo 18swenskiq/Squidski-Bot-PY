@@ -12,7 +12,7 @@ class help():
         embed.add_field(name="Subscribe or Unsubscribe from pings", value=">pings", inline=False)
         embed.add_field(name="Check if something is a bruh moment", value=">bruhmoment", inline=False)
         embed.add_field(name="Admin only commands", value=">helpadmin",inline=False)
-        await log.logIt(f"Sent help message for {message.author}", message)
+        await log.logIt(f"Sent help message", message)
         return embed
 
 

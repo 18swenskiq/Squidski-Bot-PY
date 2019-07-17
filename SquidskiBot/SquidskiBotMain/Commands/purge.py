@@ -18,5 +18,5 @@ class purge():
             await log.logIt("Deleted purge message", msg)
         else:
             await msg.channel.send("You must have the `Administrator` role to do this...")
-            await log.logIt(f"{msg.author} tried to use the purge command...", msg)
+            await log.logIt(f"Bad user tried to use the purge command...", msg)
 
