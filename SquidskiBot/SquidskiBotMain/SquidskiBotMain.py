@@ -34,7 +34,6 @@ class MyClient(discord.Client):
     # Initializes stuff
     async def on_ready(self):
         log = LoggingModule()
-        await log.logIt("-------------------New Session-------------------", self.get_channel(596857655994089482))
         await log.logIt(f"Logged on as {self.user}", self.get_channel(596857655994089482))
 
     # Respond to messages starts here
