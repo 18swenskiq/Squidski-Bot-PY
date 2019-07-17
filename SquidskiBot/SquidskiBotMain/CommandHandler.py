@@ -7,6 +7,7 @@ sys.path.append('./Commands')
 # Commands
 from apiworkshopsearch import apiworkshopsearch
 from bruhmoment import bruhmoment
+from convert import convert
 from fanfic import fanfic
 from help import help
 from helpadmin import helpadmin
@@ -85,6 +86,12 @@ class CommandHandler():
         if (message.content.lower().startswith((globalCall + 'bruhmoment'))):
             myBruh = bruhmoment()
             await myBruh.isBruhMoment(message)
+            return
+
+        # Unit Conversion
+        if (message.content.lower().startswith((globalCall + 'convert'))):
+            convertIt = convert()
+            await convertIt.convertUnits(message)
             return
 
        # Searches the Steam Workshop via the API
