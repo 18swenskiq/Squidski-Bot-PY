@@ -1,4 +1,5 @@
 import discord
+import json
 from LoggingModule import LoggingModule
 
 class helpadmin():
