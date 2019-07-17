@@ -43,4 +43,3 @@ class convert():
     async def sendConversion(self, userInput, conversion, message):
         log = LoggingModule()
         await message.channel.send(f"`{userInput}` is `{conversion}`")
-        await log.logIt(f"Converted {userInput} to {conversion} for {message.author}", message)
