@@ -1,18 +1,20 @@
 import discord
+import json
 from LoggingModule import LoggingModule
 
 class rolepinger():
-    adminRoleID = "574763874201501696"
-    
+
     async def pinger(self, message):
         # Checks for Admin
-         if self.adminRoleID in str(message.author.roles):
+         with open('settings.json') as json_file:
+            settingsFile = json.load(json_file)
+         if settingsFile["adminRoleId"] in str(message.author.roles):
              log = LoggingModule()
              # Makes the Pings role mentionable
              await (discord.utils.get(message.guild.roles, name='Pings')).edit(mentionable=True)
              # Sends ping
-             await message.channel.send("<@&579453547976982566>")
-             await message.channel.send("*To unsubscribe from pings, type >pings in <#574764733849272347>*")
+             await message.channel.send(f'<@&{settingsFile["notificationsRole"]}>')
+             await message.channel.send(f'*To unsubscribe from pings, type >pings in <#{settingsFile["botChannel"]}>*')
              # Makes the Pings role unmentionable
              await (discord.utils.get(message.guild.roles, name='Pings')).edit(mentionable=False)
              await log.logIt(f"Pings role was successfully pinged", message)

@@ -1,11 +1,15 @@
 import datetime
 import discord
+import json
 
 class LoggingModule():
 
     async def logIt(self, tMessage, dMessage):
         print(tMessage)
-        logChannel = dMessage.guild.get_channel(596857655994089482)
+        with open('settings.json') as json_file:
+            settingsFile = json.load(json_file)
+
+        logChannel = dMessage.guild.get_channel(settingsFile["loggingChannel"])
 
         # We need this to see if the bot is currently starting up, or we are performing normal functions now
         try:

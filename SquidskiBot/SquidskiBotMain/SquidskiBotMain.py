@@ -1,6 +1,7 @@
 # Packages
 import datetime
 import discord
+import json
 import sys
 import logging
 
@@ -9,8 +10,12 @@ from ChiefMuteInsurance import ChiefMuteInsurance
 from CommandHandler import CommandHandler
 from LoggingModule import LoggingModule
 
+# This settings file contains a bunch of variables
+with open('settings.json') as json_file:
+    settingsFile = json.load(json_file)
+
 # Picks the symbol to prefix onto commands
-globalCall = ">"
+globalCall = settingsFile["globalCall"]
 
 # Initialization alerts
 print("The call symbol for the bot is " + globalCall)
@@ -34,7 +39,7 @@ class MyClient(discord.Client):
     # Initializes stuff
     async def on_ready(self):
         log = LoggingModule()
-        await log.logIt(f"Logged on as {self.user}", self.get_channel(596857655994089482))
+        await log.logIt(f"Logged on as {self.user}", self.get_channel(settingsFile["loggingChannel"]))
 
     # Respond to messages starts here
     async def on_message(self, message):
@@ -60,7 +65,6 @@ class MyClient(discord.Client):
 client = MyClient()
 
 # Read bot token
-tokenReader = open("token.txt", "r")
-client.run(tokenReader.read())
+client.run(settingsFile["botKey"])
 print("Successfully read bot token")
 tokenReader.close()
