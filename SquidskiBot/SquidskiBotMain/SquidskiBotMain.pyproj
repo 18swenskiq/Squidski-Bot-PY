@@ -91,7 +91,6 @@
     <Content Include="FanficTxt\Part6.txt" />
     <Content Include="SeinfeldQuotes.txt" />
     <Content Include="settings.json" />
-    <Content Include="token.txt" />
   </ItemGroup>
   <ItemGroup>
     <InterpreterReference Include="Global|PythonCore|3.7-32" />
