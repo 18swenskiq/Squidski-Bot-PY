@@ -1,5 +1,6 @@
 import discord
 import json
+import sys
 from LoggingModule import LoggingModule
 from ErrorPrintingModule import ErrorPrintingModule
 

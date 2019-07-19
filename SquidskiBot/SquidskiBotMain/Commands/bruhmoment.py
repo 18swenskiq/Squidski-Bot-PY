@@ -2,6 +2,7 @@ import discord
 from LoggingModule import LoggingModule
 from ErrorPrintingModule import ErrorPrintingModule
 import random
+import sys
 
 class bruhmoment():
 
@@ -30,6 +31,6 @@ class bruhmoment():
         myFile.close()
         myFile = open("./BruhMoments.txt","w")
         myFile.write(str(int(bruhMoments) + 1))
-        await log.logIt("This server has had {int(bruhMoments) + 1)} bruh moments.", message)
+        await log.logIt(f"This server has had {int(bruhMoments) + 1} bruh moments.", message)
         myFile.close()
 

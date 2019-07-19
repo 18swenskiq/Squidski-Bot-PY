@@ -1,6 +1,7 @@
 import discord
 from LoggingModule import LoggingModule
 from ErrorPrintingModule import ErrorPrintingModule
+import sys
 
 class convert():
 

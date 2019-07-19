@@ -2,6 +2,7 @@ import discord
 from LoggingModule import LoggingModule
 from ErrorPrintingModule import ErrorPrintingModule
 import random
+import sys
 
 class fanfic():
 

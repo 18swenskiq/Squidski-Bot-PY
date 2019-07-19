@@ -1,5 +1,6 @@
 import discord
 import random
+import sys
 from ErrorPrintingModule import ErrorPrintingModule
 from LoggingModule import LoggingModule
 
