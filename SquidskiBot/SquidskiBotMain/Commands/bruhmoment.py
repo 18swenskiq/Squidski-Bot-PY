@@ -26,10 +26,10 @@ class bruhmoment():
         await log.logIt(f"Certified something as a bruh moment", message)
         myFile = open("./BruhMoments.txt","r")
         bruhMoments = myFile.read()
-        await message.channel.send("This server has had " + str(int(bruhMoments) + 1)  + " bruh moments.")
+        await message.channel.send(f"This server has had {int(bruhMoments) + 1} bruh moments.")
         myFile.close()
         myFile = open("./BruhMoments.txt","w")
         myFile.write(str(int(bruhMoments) + 1))
-        await log.logIt("This server has had " + str(int(bruhMoments) + 1) + " bruh moments.", message)
+        await log.logIt("This server has had {int(bruhMoments) + 1)} bruh moments.", message)
         myFile.close()
 
