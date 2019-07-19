@@ -1,26 +1,31 @@
 import discord
 from LoggingModule import LoggingModule
+from ErrorPrintingModule import ErrorPrintingModule
 
 class convert():
 
     async def convertUnits(self, message):
-        log = LoggingModule()
-        userInput = message.content.lower().split(" ")
-        if len(userInput) == 1:
-            await log.logIt("I wasn't given enough inputs for unit conversion", message)
-            await message.channel.send("I was not given an input for unit conversion.")
-            return
-        userInput = message.content.lower().split(" ")[1]
-        acceptedTypes = ["c", "f"]
-        if userInput[-1] not in acceptedTypes:
-            await log.logIt(f"Attempted to call convert with the input of {userInput} which I don't recognize", message)
-            await message.channel.send(f"I am not familiar with that input. My accepted input types are {acceptedTypes}.")
-            return
-        if userInput[-1] == "c" or userInput[-1] == "f":
-            await self.sendConversion(userInput, await self.convertTemp(userInput, message), message)
+        try:
+            log = LoggingModule()
+            userInput = message.content.lower().split(" ")
+            if len(userInput) == 1:
+                await log.logIt("I wasn't given enough inputs for unit conversion", message)
+                await message.channel.send("I was not given an input for unit conversion.")
+                return
+            userInput = message.content.lower().split(" ")[1]
+            acceptedTypes = ["c", "f"]
+            if userInput[-1] not in acceptedTypes:
+                await log.logIt(f"Attempted to call convert with the input of {userInput} which I don't recognize", message)
+                await message.channel.send(f"I am not familiar with that input. My accepted input types are {acceptedTypes}.")
+                return
+            if userInput[-1] == "c" or userInput[-1] == "f":
+                await self.sendConversion(userInput, await self.convertTemp(userInput, message), message)
 
-        else:
-            await message.channel.send("You shouldn't see this message")
+            else:
+                await message.channel.send("You shouldn't see this message")
+        except:
+            e = ErrorPrintingModule()
+            await e.reportError(message, sys.exc_info()[0])
 
     async def convertTemp(self, userInput, message):
         log = LoggingModule()
