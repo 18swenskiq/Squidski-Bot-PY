@@ -11,7 +11,7 @@
     <OutputPath>.</OutputPath>
     <Name>SquidskiBotMain</Name>
     <RootNamespace>SquidskiBotMain</RootNamespace>
-    <InterpreterId>MSBuild|env|$(MSBuildProjectFullPath)</InterpreterId>
+    <InterpreterId>MSBuild|env_server|$(MSBuildProjectFullPath)</InterpreterId>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -22,6 +22,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="CheckIfInVoice.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ChiefMuteInsurance.py">
       <SubType>Code</SubType>
     </Compile>
@@ -106,6 +109,15 @@
       <Id>env</Id>
       <Version>3.7</Version>
       <Description>env (Python 3.7 (64-bit))</Description>
+      <InterpreterPath>Scripts\python.exe</InterpreterPath>
+      <WindowsInterpreterPath>Scripts\pythonw.exe</WindowsInterpreterPath>
+      <PathEnvironmentVariable>PYTHONPATH</PathEnvironmentVariable>
+      <Architecture>X64</Architecture>
+    </Interpreter>
+    <Interpreter Include="env_server\">
+      <Id>env_server</Id>
+      <Version>3.7</Version>
+      <Description>env_server (Python 3.7 (64-bit))</Description>
       <InterpreterPath>Scripts\python.exe</InterpreterPath>
       <WindowsInterpreterPath>Scripts\pythonw.exe</WindowsInterpreterPath>
       <PathEnvironmentVariable>PYTHONPATH</PathEnvironmentVariable>
