@@ -7,7 +7,6 @@ import sys
 import logging
 
 # Various other files
-from CheckIfInVoice import CheckIfInVoice
 from ChiefMuteInsurance import ChiefMuteInsurance
 from CommandHandler import CommandHandler
 from LoggingModule import LoggingModule
@@ -42,12 +41,6 @@ class MyClient(discord.Client):
     async def on_ready(self):
         log = LoggingModule()
         await log.logIt(f"Logged on as {self.user}", self.get_channel(settingsFile["loggingChannel"]))
-        await self.checkVoice(self)
-
-    # Checks voice channel to add role
-    async def checkVoice(self, newClient):
-        checkVC = CheckIfInVoice()
-        await checkVC.periodic(newClient)
 
     # Respond to messages starts here
     async def on_message(self, message):
