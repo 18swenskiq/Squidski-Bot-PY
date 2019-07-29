@@ -26,6 +26,12 @@ class mute():
                 await message.channel.send("You didn't provide enough arguments to properly mute someone.")
                 return
 
+            # If the mute duration isn't an actual number, then don't mute
+            if not message.content.split(" ")[2].isdigit():
+                await log.logIt("A valid mute time was not provided.", message)
+                await message.channel.send("A valid mute time was not provided.")
+                return
+
             await message.mentions[0].add_roles(discord.utils.get(message.guild.roles, name='Muted'))
 
             # Decides whether to use minute or minutes in the message
