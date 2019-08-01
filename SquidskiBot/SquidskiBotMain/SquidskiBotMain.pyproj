@@ -22,9 +22,6 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="ChiefMuteInsurance.py">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="CommandHandler.py">
       <SubType>Code</SubType>
     </Compile>

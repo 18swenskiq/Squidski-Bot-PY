@@ -56,10 +56,6 @@ class MyClient(discord.Client):
         if (message.content.lower() in ["good night","gn","goodnight"]):
             await (message.channel.send("Good night " + str(message.author)[:-5]))
 
-        # Mute if ping chief
-        if ("<@208272642640314389>" in message.content):
-            chiefMute = ChiefMuteInsurance()
-            await chiefMute.the_muter(message)
 
 # Instantiate client
 client = MyClient()
