@@ -7,7 +7,6 @@ import sys
 import logging
 
 # Various other files
-from ChiefMuteInsurance import ChiefMuteInsurance
 from CommandHandler import CommandHandler
 from LoggingModule import LoggingModule
 

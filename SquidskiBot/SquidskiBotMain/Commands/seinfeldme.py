@@ -7,14 +7,10 @@ class seinfeldme():
     quoteList = []
 
     # Reads SeinfeldQuotes.txt and puts all lines into a list
-    async def __init__(self):
-        try:
-            myFile = open("SeinfeldQuotes.txt", "r")
-            self.quoteList = (myFile.read()).split("\n")
-            myFile.close();
-        except:
-            e = ErrorPrintingModule()
-            await e.reportError(message, sys.exc_info()[0])
+    def __init__(self):
+        myFile = open("SeinfeldQuotes.txt", "r")
+        self.quoteList = (myFile.read()).split("\n")
+        myFile.close();
 
     # Pulls and sends a random quote
     async def getQuote(self, message):
