@@ -11,7 +11,7 @@ class VDCsearch(object):
             await message.channel.send("I was not given enough arguments to search the VDC.")
             await log.logIt("I wasn't given enough arguments for a proper VDC search.", message)
             return
-        p1 = subprocess.Popen(["C:\\Users\\Quinton\\source\\repos\\Squidski-Bot-PY\\SquidskiBot\\SquidskiBotMain\\csPrograms\\VDCSearch\\VDCSearch.exe", searchTerm], stdout=subprocess.PIPE)
+        p1 = subprocess.Popen(["C:\\Users\\Administrator\\source\\repos\\18swenskiq\\Squidski-Bot-PY\\SquidskiBot\\SquidskiBotMain\\csPrograms\\VDCSearch\\VDCSearch.exe", searchTerm], stdout=subprocess.PIPE)
         output = p1.communicate()
         returnString = output[0].decode("utf-8")
         if "NRF" in returnString:
