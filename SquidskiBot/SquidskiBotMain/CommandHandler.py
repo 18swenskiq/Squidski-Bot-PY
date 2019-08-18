@@ -27,6 +27,7 @@ from VDCsearch import VDCsearch
 class CommandHandler():
     async def commandParser(self, message, globalCall):
 
+
         # Help message
         if (message.content.lower() == globalCall + "help"):
             myHelp = help()
@@ -91,12 +92,6 @@ class CommandHandler():
         if (message.content.lower().startswith((globalCall + 'bruhmoment'))):
             myBruh = bruhmoment()
             await myBruh.isBruhMoment(message)
-            return
-
-        # Unit Conversion
-        if (message.content.lower().startswith((globalCall + 'convert'))):
-            convertIt = convert()
-            await convertIt.convertUnits(message)
             return
 
        # Searches the Steam Workshop via the API

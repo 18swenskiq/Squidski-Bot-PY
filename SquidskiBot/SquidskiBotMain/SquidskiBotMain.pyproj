@@ -31,9 +31,6 @@
     <Compile Include="Commands\bruhmoment.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Commands\convert.py">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Commands\fanfic.py">
       <SubType>Code</SubType>
     </Compile>
