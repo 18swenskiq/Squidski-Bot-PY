@@ -22,6 +22,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="CasinoModule\CasinoModule.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="CommandHandler.py">
       <SubType>Code</SubType>
     </Compile>
@@ -83,6 +86,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="BruhMoments.txt" />
+    <Content Include="CasinoModule\CasinoUsers\CasinoUsersReadme.txt" />
     <Content Include="FanficTxt\Part1.txt" />
     <Content Include="FanficTxt\Part2.txt" />
     <Content Include="FanficTxt\Part3.txt" />
@@ -116,10 +120,12 @@
     </Interpreter>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="CasinoModule\CasinoUsers\" />
     <Folder Include="Commands\" />
     <Folder Include="FanficTxt\" />
     <Folder Include="csLayers\" />
     <Folder Include="csPrograms\" />
+    <Folder Include="CasinoModule\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

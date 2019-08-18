@@ -2,13 +2,14 @@ import discord
 import sys
 
 # Makes the Commands and CSharp layers sections work
+sys.path.append('./CasinoModule')
 sys.path.append('./Commands')
 sys.path.append('./csLayers')
 
 # Commands
 from apiworkshopsearch import apiworkshopsearch
+from CasinoModule import CasinoModule
 from bruhmoment import bruhmoment
-from convert import convert
 from fanfic import fanfic
 from help import help
 from helpadmin import helpadmin
@@ -27,6 +28,11 @@ from VDCsearch import VDCsearch
 class CommandHandler():
     async def commandParser(self, message, globalCall):
 
+        # Casino Module
+        if (message.content.lower().startswith(globalCall + "c")):
+            gambleTime = CasinoModule()
+            await gambleTime.commandReciever(message)
+            return
 
         # Help message
         if (message.content.lower() == globalCall + "help"):
