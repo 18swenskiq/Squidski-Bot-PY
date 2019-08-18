@@ -38,6 +38,7 @@ class CasinoModule():
             helpEmbed = discord.Embed(title=":moneybag: Squidski's Casino Help Menu :moneybag:", color=0xB22222)
             helpEmbed.add_field(name="Personal Statistics:", value=">c stats" , inline=False)
             helpEmbed.add_field(name="Roulette:", value=">c roulette <bet on number, color, or evens/odds> <coins bet amount>", inline=False)
+            helpEmbed.add_field(name="Reset Coins to 1000:", value=">c resetcoins", inline=False)
             await message.channel.send(embed = helpEmbed)
             return
 
@@ -153,7 +154,6 @@ class CasinoModule():
                         with open(f'./CasinoModule/CasinoUsers/{currentUser}.json', 'w') as outfile:
                             json.dump(data, outfile)
                     else:
-                        data['UserData'][0]['squidCoins'] = str(int(data['UserData'][0]['squidCoins']) - userBetAmount * 2)
                         await message.channel.send(f'So close! Your incorrect bet has lost you {userBetAmount} Squid Coins for a total of {int(data["UserData"][0]["squidCoins"]) - userBetAmount} coins!')
                         data['UserData'][0]['squidCoins'] = str(int(data['UserData'][0]['squidCoins']) - userBetAmount)
                         data['UserData'][0]['timesGambled'] = str(int(data['UserData'][0]['timesGambled']) + 1)
@@ -191,5 +191,17 @@ class CasinoModule():
                         with open(f'./CasinoModule/CasinoUsers/{currentUser}.json', 'w') as outfile:
                             json.dump(data, outfile)
     
+        elif(message.content.split(" ")[1].lower() == "resetcoins"):
+            os.remove(f'./CasinoModule/CasinoUsers/{currentUser}.json')
+            data = {}
+            data['UserData'] = []
+            data['UserData'].append({
+                'squidCoins': '1000',
+                'timesGambled': '0'
+            })
+            with open(f'./CasinoModule/CasinoUsers/{currentUser}.json', 'w') as outfile:
+                json.dump(data, outfile)
+            await message.channel.send("Number of coins reset to 1000!")
+
         else:
             await message.channel.send("Your casino command wasn't recognized. Do `>c help` and try again.")
