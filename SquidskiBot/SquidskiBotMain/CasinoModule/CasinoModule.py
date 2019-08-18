@@ -112,6 +112,7 @@ class CasinoModule():
             if(userBetNumber is 0):
                 # If the bet number is 0, that means they bet with a phrase
                 if(userBetPhrase == "odds" or userBetPhrase == "evens"):
+                    data['UserData'][0]['squidCoins'] = str(int(data['UserData'][0]['squidCoins']) - userBetAmount * 2)
                     if (userBetPhrase == evenOrOdd):
                         await message.channel.send(f'Congrats! Your correct bet has netted you {userBetAmount * 2} Squid Coins for a total of {int(data["UserData"][0]["squidCoins"]) + (userBetAmount *2)} coins!')
                         data['UserData'][0]['squidCoins'] = str(int(data['UserData'][0]['squidCoins']) + (userBetAmount * 2))
@@ -127,6 +128,7 @@ class CasinoModule():
                         with open(f'./CasinoModule/CasinoUsers/{currentUser}.json', 'w') as outfile:
                             json.dump(data, outfile)
                 elif(userBetPhrase == "black"):
+                    data['UserData'][0]['squidCoins'] = str(int(data['UserData'][0]['squidCoins']) - userBetAmount * 2)
                     if (chosenColor.lower() == userBetPhrase):
                         await message.channel.send(f'Congrats! Your correct bet has netted you {userBetAmount * 2} Squid Coins for a total of {int(data["UserData"][0]["squidCoins"]) + (userBetAmount *2)} coins!')
                         data['UserData'][0]['squidCoins'] = str(int(data['UserData'][0]['squidCoins']) + (userBetAmount * 2))
@@ -142,6 +144,7 @@ class CasinoModule():
                         with open(f'./CasinoModule/CasinoUsers/{currentUser}.json', 'w') as outfile:
                             json.dump(data, outfile)
                 elif(userBetPhrase == "red"):
+                    data['UserData'][0]['squidCoins'] = str(int(data['UserData'][0]['squidCoins']) - userBetAmount * 2)
                     if (chosenColor.lower() == userBetPhrase):
                         await message.channel.send(f'Congrats! Your correct bet has netted you {userBetAmount * 2} Squid Coins for a total of {int(data["UserData"][0]["squidCoins"]) + (userBetAmount *2)} coins!')
                         data['UserData'][0]['squidCoins'] = str(int(data['UserData'][0]['squidCoins']) + (userBetAmount * 2))
@@ -150,6 +153,7 @@ class CasinoModule():
                         with open(f'./CasinoModule/CasinoUsers/{currentUser}.json', 'w') as outfile:
                             json.dump(data, outfile)
                     else:
+                        data['UserData'][0]['squidCoins'] = str(int(data['UserData'][0]['squidCoins']) - userBetAmount * 2)
                         await message.channel.send(f'So close! Your incorrect bet has lost you {userBetAmount} Squid Coins for a total of {int(data["UserData"][0]["squidCoins"]) - userBetAmount} coins!')
                         data['UserData'][0]['squidCoins'] = str(int(data['UserData'][0]['squidCoins']) - userBetAmount)
                         data['UserData'][0]['timesGambled'] = str(int(data['UserData'][0]['timesGambled']) + 1)
@@ -157,6 +161,7 @@ class CasinoModule():
                         with open(f'./CasinoModule/CasinoUsers/{currentUser}.json', 'w') as outfile:
                             json.dump(data, outfile)
                 else:
+                    data['UserData'][0]['squidCoins'] = str(int(data['UserData'][0]['squidCoins']) - userBetAmount * 2)
                     if (chosenColor.lower() == userBetPhrase):
                         await message.channel.send(f'Wow! Your correct bet (somehow) has netted you {userBetAmount * 35} Squid Coins for a total of {int(data["UserData"][0]["squidCoins"]) + (userBetAmount * 35)} coins!')
                         data['UserData'][0]['squidCoins'] = str(int(data['UserData'][0]['squidCoins']) + (userBetAmount * 35))
@@ -172,6 +177,7 @@ class CasinoModule():
                         with open(f'./CasinoModule/CasinoUsers/{currentUser}.json', 'w') as outfile:
                             json.dump(data, outfile)
             else:
+                data['UserData'][0]['squidCoins'] = str(int(data['UserData'][0]['squidCoins']) - userBetAmount * 2)
                 if (userBetNumber == rouletteChoice):
                         await message.channel.send(f'Wow! Your correct bet has netted you {userBetAmount * 35} Squid Coins for a total of {int(data["UserData"][0]["squidCoins"]) + (userBetAmount * 35)} coins!')
                         data['UserData'][0]['squidCoins'] = str(int(data['UserData'][0]['squidCoins']) + (userBetAmount * 35))
