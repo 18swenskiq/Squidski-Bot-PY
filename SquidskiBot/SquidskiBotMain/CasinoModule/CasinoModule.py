@@ -57,9 +57,6 @@ class CasinoModule():
                 return
             try:
                 int(message.content.split(" ")[2])
-                if(int(message.content.split(" ")[2]) < 0):
-                    await message.channel.send("You cannot place a negative bet!")
-                    return
                 if(int(message.content.split(" ")[2]) > 37):
                     await message.channel.send("Number is too high for roulette wheel! Wheel number must be between 1-37 inclusive")
                     return
@@ -84,6 +81,9 @@ class CasinoModule():
                     return
             try:
                 int(message.content.split(" ")[3])
+                if(int(message.content.split(" ")[3]) < 0):
+                    await message.channel.send("You cannot place a negative bet!")
+                    return
                 if(int(message.content.split(" ")[3]) == 0):
                     await message.channel.send("Bet cannot be 0! Please bet an actual amount and stop wasting the casino's time.")
                     return
@@ -115,10 +115,9 @@ class CasinoModule():
             if(userBetNumber is 0):
                 # If the bet number is 0, that means they bet with a phrase
                 if(userBetPhrase == "odds" or userBetPhrase == "evens"):
-                    data['UserData'][0]['squidCoins'] = str(int(data['UserData'][0]['squidCoins']) - userBetAmount * 2)
                     if (userBetPhrase == evenOrOdd):
-                        await message.channel.send(f'Congrats! Your correct bet has netted you {userBetAmount * 2} Squid Coins for a total of {int(data["UserData"][0]["squidCoins"]) + (userBetAmount *2)} coins!')
-                        data['UserData'][0]['squidCoins'] = str(int(data['UserData'][0]['squidCoins']) + (userBetAmount * 2))
+                        await message.channel.send(f'Congrats! Your correct bet has netted you {userBetAmount * 2} Squid Coins for a total of {(int(data["UserData"][0]["squidCoins"]) - userBetAmount) + (userBetAmount * 2)} coins!')
+                        data['UserData'][0]['squidCoins'] = str((int(data['UserData'][0]['squidCoins']) - userBetAmount) + (userBetAmount * 2))
                         data['UserData'][0]['timesGambled'] = str(int(data['UserData'][0]['timesGambled']) + 1)
                         os.remove(f'./CasinoModule/CasinoUsers/{currentUser}.json')
                         with open(f'./CasinoModule/CasinoUsers/{currentUser}.json', 'w') as outfile:
@@ -131,10 +130,9 @@ class CasinoModule():
                         with open(f'./CasinoModule/CasinoUsers/{currentUser}.json', 'w') as outfile:
                             json.dump(data, outfile)
                 elif(userBetPhrase == "black"):
-                    data['UserData'][0]['squidCoins'] = str(int(data['UserData'][0]['squidCoins']) - userBetAmount * 2)
                     if (chosenColor.lower() == userBetPhrase):
-                        await message.channel.send(f'Congrats! Your correct bet has netted you {userBetAmount * 2} Squid Coins for a total of {int(data["UserData"][0]["squidCoins"]) + (userBetAmount *2)} coins!')
-                        data['UserData'][0]['squidCoins'] = str(int(data['UserData'][0]['squidCoins']) + (userBetAmount * 2))
+                        await message.channel.send(f'Congrats! Your correct bet has netted you {userBetAmount * 2} Squid Coins for a total of {(int(data["UserData"][0]["squidCoins"]) - userBetAmount) + (userBetAmount * 2)} coins!')
+                        data['UserData'][0]['squidCoins'] = str((int(data['UserData'][0]['squidCoins']) - userBetAmount) + (userBetAmount * 2))
                         data['UserData'][0]['timesGambled'] = str(int(data['UserData'][0]['timesGambled']) + 1)
                         os.remove(f'./CasinoModule/CasinoUsers/{currentUser}.json')
                         with open(f'./CasinoModule/CasinoUsers/{currentUser}.json', 'w') as outfile:
@@ -147,10 +145,9 @@ class CasinoModule():
                         with open(f'./CasinoModule/CasinoUsers/{currentUser}.json', 'w') as outfile:
                             json.dump(data, outfile)
                 elif(userBetPhrase == "red"):
-                    data['UserData'][0]['squidCoins'] = str(int(data['UserData'][0]['squidCoins']) - userBetAmount * 2)
                     if (chosenColor.lower() == userBetPhrase):
-                        await message.channel.send(f'Congrats! Your correct bet has netted you {userBetAmount * 2} Squid Coins for a total of {int(data["UserData"][0]["squidCoins"]) + (userBetAmount *2)} coins!')
-                        data['UserData'][0]['squidCoins'] = str(int(data['UserData'][0]['squidCoins']) + (userBetAmount * 2))
+                        await message.channel.send(f'Congrats! Your correct bet has netted you {userBetAmount * 2} Squid Coins for a total of {(int(data["UserData"][0]["squidCoins"]) - userBetAmount) + (userBetAmount * 2)} coins!')
+                        data['UserData'][0]['squidCoins'] = str((int(data['UserData'][0]['squidCoins']) - userBetAmount) + (userBetAmount * 2))
                         data['UserData'][0]['timesGambled'] = str(int(data['UserData'][0]['timesGambled']) + 1)
                         os.remove(f'./CasinoModule/CasinoUsers/{currentUser}.json')
                         with open(f'./CasinoModule/CasinoUsers/{currentUser}.json', 'w') as outfile:
@@ -164,10 +161,9 @@ class CasinoModule():
                         with open(f'./CasinoModule/CasinoUsers/{currentUser}.json', 'w') as outfile:
                             json.dump(data, outfile)
                 else:
-                    data['UserData'][0]['squidCoins'] = str(int(data['UserData'][0]['squidCoins']) - userBetAmount * 2)
                     if (chosenColor.lower() == userBetPhrase):
-                        await message.channel.send(f'Wow! Your correct bet (somehow) has netted you {userBetAmount * 35} Squid Coins for a total of {int(data["UserData"][0]["squidCoins"]) + (userBetAmount * 35)} coins!')
-                        data['UserData'][0]['squidCoins'] = str(int(data['UserData'][0]['squidCoins']) + (userBetAmount * 35))
+                        await message.channel.send(f'Congrats! Your correct bet has netted you {userBetAmount * 35} Squid Coins for a total of {(int(data["UserData"][0]["squidCoins"]) - userBetAmount) + (userBetAmount * 35)} coins!')
+                        data['UserData'][0]['squidCoins'] = str((int(data['UserData'][0]['squidCoins']) - userBetAmount) + (userBetAmount * 35))
                         data['UserData'][0]['timesGambled'] = str(int(data['UserData'][0]['timesGambled']) + 1)
                         os.remove(f'./CasinoModule/CasinoUsers/{currentUser}.json')
                         with open(f'./CasinoModule/CasinoUsers/{currentUser}.json', 'w') as outfile:
@@ -180,10 +176,9 @@ class CasinoModule():
                         with open(f'./CasinoModule/CasinoUsers/{currentUser}.json', 'w') as outfile:
                             json.dump(data, outfile)
             else:
-                data['UserData'][0]['squidCoins'] = str(int(data['UserData'][0]['squidCoins']) - userBetAmount * 2)
                 if (userBetNumber == rouletteChoice):
-                        await message.channel.send(f'Wow! Your correct bet has netted you {userBetAmount * 35} Squid Coins for a total of {int(data["UserData"][0]["squidCoins"]) + (userBetAmount * 35)} coins!')
-                        data['UserData'][0]['squidCoins'] = str(int(data['UserData'][0]['squidCoins']) + (userBetAmount * 35))
+                        await message.channel.send(f'Congrats! Your correct bet has netted you {userBetAmount * 35} Squid Coins for a total of {(int(data["UserData"][0]["squidCoins"]) - userBetAmount) + (userBetAmount * 35)} coins!')
+                        data['UserData'][0]['squidCoins'] = str((int(data['UserData'][0]['squidCoins']) - userBetAmount) + (userBetAmount * 35))
                         data['UserData'][0]['timesGambled'] = str(int(data['UserData'][0]['timesGambled']) + 1)
                         os.remove(f'./CasinoModule/CasinoUsers/{currentUser}.json')
                         with open(f'./CasinoModule/CasinoUsers/{currentUser}.json', 'w') as outfile:
