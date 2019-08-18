@@ -55,6 +55,9 @@ class CasinoModule():
             if(not len(message.content.split(" ")) == 4):
                 await message.channel.send("Incorrect number of parameters for roulette! Type >c help to view proper syntax.")
                 return
+            if(message.content.split(" ")[2] < 0):
+                await message.channel.send("You cannot place a negative bet!")
+                return
             try:
                 int(message.content.split(" ")[2])
                 if(int(message.content.split(" ")[2]) > 37):
