@@ -1,3 +1,4 @@
+import datetime
 import discord
 import json
 from os import listdir
@@ -149,23 +150,46 @@ class CasinoModule():
         elif(message.content.split(" ")[1].lower() == "slots" or message.content.split(" ")[1].lower() == "slot"):
             if(not len(message.content.split(" ")) == 3):
                await message.channel.send("Incorrect number of parameters! Type `>c help` to view the correct usage.")
+               return
             if(message.content.split(" ")[2] not in ["2", "5", "10"]):
                 await message.channel.send(f"{message.content.split(' ').lower()} is not a valid slot machine! Please pick either 2, 5, or 10")
-            slotOne = random.randint(0, 6)
-            slotTwo = random.randint(0, 6)
-            slotThree = random.randint(0, 6)
+                return
+            with open(f'./CasinoModule/SlotsRollingJackpot.json') as jackpot:
+                rollingJackpot = json.load(jackpot)
+            slotOne = random.randint(4, 6)
+            slotTwo = random.randint(4, 6)
+            slotThree = random.randint(4, 6)
             userPayoutMultiplier = 1
             emoteList = [":apple:", ":lemon:", ":tangerine:", ":cherries:", ":grapes:", "<:squidski:581911303791050762>", ":seven:"]
             slotOneEmote = emoteList[slotOne]
             slotTwoEmote = emoteList[slotTwo]
             slotThreeEmote = emoteList[slotThree]
-            slotEmbed = discord.Embed(title=":moneybag: Squidski's Casino Slot Menu :moneybag:", color=0xB22222)
-            slotEmbed.add_field(name="Spin:", value=f"{slotOneEmote} - {slotTwoEmote} - {slotThreeEmote}" , inline=False)
-            await message.channel.send(embed = slotEmbed)
             if(slotOne == slotTwo == slotThree): 
                 userPayoutMultiplier = [10, 25, 50, 100, 250, 500, 1000][slotOne]
-                await self.modifyCoins(message, data, int(message.content.split(" ")[2]), True, userPayoutMultiplier, currentUser, f"Congrats! You've won {int(message.content.split(' ')[2]) * userPayoutMultiplier} Squidcoins!")
+                if(slotOne in [4, 5, 6]):
+                    os.remove(f'./CasinoModule/SlotsRollingJackpot.json')
+                    newJackpot = {}
+                    newJackpot["rollingJackpot"] = "0"
+                    with open(f'./CasinoModule/SlotsRollingJackpot.json', 'w') as outfile:
+                        json.dump(newJackpot, outfile)
+                    slotEmbed = discord.Embed(title=":moneybag: Squidski's Casino Slot Menu :moneybag:", color=0xB22222)
+                    slotEmbed.add_field(name="Spin:", value=f"{slotOneEmote} - {slotTwoEmote} - {slotThreeEmote}" , inline=False)
+                    slotEmbed.add_field(name="Current Jackpot:", value=int(rollingJackpot["rollingJackpot"]) + int(message.content.split(" ")[2]), inline=False)
+                    await message.channel.send(embed = slotEmbed)
+                    await self.modifyCoins(message, data, 1, True, int(rollingJackpot["rollingJackpot"]) + 1, currentUser, f'You have won the jackpot and won {int(rollingJackpot["rollingJackpot"]) + int(message.content.split(" ")[2])} additional Squidcoins! The jackpot has been reset to 0')
+                    await self.modifyCoins(message, data, int(message.content.split(" ")[2]), True, userPayoutMultiplier, currentUser, f"Congrats! You've won {int(message.content.split(' ')[2]) * userPayoutMultiplier} Squidcoins!")
+                else:
+                    await self.modifyCoins(message, data, int(message.content.split(" ")[2]), True, userPayoutMultiplier, currentUser, f"Congrats! You've won {int(message.content.split(' ')[2]) * userPayoutMultiplier} Squidcoins!")
             else:
+                slotEmbed = discord.Embed(title=":moneybag: Squidski's Casino Slot Menu :moneybag:", color=0xB22222)
+                slotEmbed.add_field(name="Spin:", value=f"{slotOneEmote} - {slotTwoEmote} - {slotThreeEmote}" , inline=False)
+                slotEmbed.add_field(name="Current Jackpot:", value=int(rollingJackpot["rollingJackpot"]) + int(message.content.split(" ")[2]), inline=False)
+                await message.channel.send(embed = slotEmbed)
+                os.remove(f'./CasinoModule/SlotsRollingJackpot.json')
+                newJackpot = {}
+                newJackpot["rollingJackpot"] = int(rollingJackpot["rollingJackpot"]) + int(message.content.split(" ")[2])
+                with open(f'./CasinoModule/SlotsRollingJackpot.json', 'w') as outfile:
+                    json.dump(newJackpot, outfile)
                 await self.modifyCoins(message, data, int(message.content.split(" ")[2]), False, 0, currentUser, f"Try again, and better luck next time! You lost {message.content.split(' ')[2]} Squidcoins!")
 
         # Reset coins to 1000

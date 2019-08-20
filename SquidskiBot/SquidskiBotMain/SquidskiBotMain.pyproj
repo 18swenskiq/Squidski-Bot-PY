@@ -87,6 +87,7 @@
   <ItemGroup>
     <Content Include="BruhMoments.txt" />
     <Content Include="CasinoModule\CasinoUsers\CasinoUsersReadme.txt" />
+    <Content Include="CasinoModule\SlotsRollingJackpot.json" />
     <Content Include="FanficTxt\Part1.txt" />
     <Content Include="FanficTxt\Part2.txt" />
     <Content Include="FanficTxt\Part3.txt" />
