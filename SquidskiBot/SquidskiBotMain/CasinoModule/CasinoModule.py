@@ -179,6 +179,10 @@ class CasinoModule():
                     await self.modifyCoins(message, data, 1, True, int(rollingJackpot["rollingJackpot"]) + 1, currentUser, f'You have won the jackpot and won {int(rollingJackpot["rollingJackpot"]) + int(message.content.split(" ")[2])} additional Squidcoins! The jackpot has been reset to 0')
                     await self.modifyCoins(message, data, int(message.content.split(" ")[2]), True, userPayoutMultiplier, currentUser, f"Congrats! You've won {int(message.content.split(' ')[2]) * userPayoutMultiplier} Squidcoins!")
                 else:
+                    slotEmbed = discord.Embed(title=":moneybag: Squidski's Casino Slot Menu :moneybag:", color=0xB22222)
+                    slotEmbed.add_field(name="Spin:", value=f"{slotOneEmote} - {slotTwoEmote} - {slotThreeEmote}" , inline=False)
+                    slotEmbed.add_field(name="Current Jackpot:", value=int(rollingJackpot["rollingJackpot"]) + int(message.content.split(" ")[2]), inline=False)
+                    await message.channel.send(embed = slotEmbed)
                     await self.modifyCoins(message, data, int(message.content.split(" ")[2]), True, userPayoutMultiplier, currentUser, f"Congrats! You've won {int(message.content.split(' ')[2]) * userPayoutMultiplier} Squidcoins!")
             else:
                 slotEmbed = discord.Embed(title=":moneybag: Squidski's Casino Slot Menu :moneybag:", color=0xB22222)
