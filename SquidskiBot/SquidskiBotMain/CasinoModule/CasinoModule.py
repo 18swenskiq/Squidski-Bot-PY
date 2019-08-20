@@ -38,8 +38,9 @@ class CasinoModule():
         if (message.content.split(" ")[1].lower() == "help"):
             helpEmbed = discord.Embed(title=":moneybag: Squidski's Casino Help Menu :moneybag:", color=0xB22222)
             helpEmbed.add_field(name="Personal Statistics:", value=">c stats" , inline=False)
-            helpEmbed.add_field(name="Roulette:", value=">c roulette <bet on number, color, or evens/odds> <coins bet amount>", inline=False)
-            helpEmbed.add_field(name="Reset Coins to 1000:", value=">c resetcoins", inline=False)
+            helpEmbed.add_field(name="Roulette:", value=">c roulette <bet on number, color, or evens/odds> <coins bet amount>", inline=True)
+            helpembed.add_field(name="Slots:", value=">c slots <2, 5, or 10>", inline=True)
+            helpEmbed.add_field(name="Reset Coins to 100:", value=">c resetcoins", inline=False)
             await message.channel.send(embed = helpEmbed)
             return
 
@@ -146,7 +147,7 @@ class CasinoModule():
 
         # Slots
         elif(message.content.split(" ")[1].lower() == "slots" or message.content.split(" ")[1].lower() == "slot"):
-            if(not len(message.content.split(" ") == 3)):
+            if(not len(message.content.split(" ")) == 3):
                await message.channel.send("Incorrect number of parameters! Type `>c help` to view the correct usage.")
             if(message.content.split(" ")[2] not in ["2", "5", "10"]):
                 await message.channel.send(f"{message.content.split(' ').lower()} is not a valid slot machine! Please pick either 2, 5, or 10")
@@ -154,18 +155,18 @@ class CasinoModule():
             slotTwo = random.randint(0, 6)
             slotThree = random.randint(0, 6)
             userPayoutMultiplier = 1
-            emoteList = [":apple:", ":lemon:", ":tangerine:", ":cherries:", ":grapes:", ":squidski:", ":seven:"]
-            slotOneEmote = [emoteList][slotOne]
-            slotTwoEmote = [emoteList][slotTwo]
-            slotThreeEmote = [emoteList][slotThree]
+            emoteList = [":apple:", ":lemon:", ":tangerine:", ":cherries:", ":grapes:", "<:squidski:581911303791050762>", ":seven:"]
+            slotOneEmote = emoteList[slotOne]
+            slotTwoEmote = emoteList[slotTwo]
+            slotThreeEmote = emoteList[slotThree]
             slotEmbed = discord.Embed(title=":moneybag: Squidski's Casino Slot Menu :moneybag:", color=0xB22222)
             slotEmbed.add_field(name="Spin:", value=f"{slotOneEmote} - {slotTwoEmote} - {slotThreeEmote}" , inline=False)
             await message.channel.send(embed = slotEmbed)
             if(slotOne == slotTwo == slotThree): 
                 userPayoutMultiplier = [10, 25, 50, 100, 250, 500, 1000][slotOne]
-                await self.modifyCoins(message, data, message.content.split(" ")[2], True, userPayoutMultiplier, currentUser, f"Congrats! You've won {int(message.content.split(\" \")[2]) * userPayoutMultiplier} Squidcoins!")
+                await self.modifyCoins(message, data, int(message.content.split(" ")[2]), True, userPayoutMultiplier, currentUser, f"Congrats! You've won {int(message.content.split(' ')[2]) * userPayoutMultiplier} Squidcoins!")
             else:
-                await self.modifyCoins(message, data, message.content.split(" ")[2], False, 0, currentUser, "Try again, and better luck next time! You lost {message.content.split(\" \")} Squidcoins!")
+                await self.modifyCoins(message, data, int(message.content.split(" ")[2]), False, 0, currentUser, f"Try again, and better luck next time! You lost {message.content.split(' ')[2]} Squidcoins!")
 
         # Reset coins to 1000
         elif(message.content.split(" ")[1].lower() == "resetcoins"):
@@ -174,7 +175,7 @@ class CasinoModule():
             newData['UserData'] = []
             newData['UserData'].append({
                 'squidCoins': '1000',
-                'timesGambled': f'{data["UserData"][0]["timesGambled]}'
+                'timesGambled': f'{data["UserData"][0]["timesGambled"]}'
             })
             with open(f'./CasinoModule/CasinoUsers/{currentUser}.json', 'w') as outfile:
                 json.dump(newData, outfile)
