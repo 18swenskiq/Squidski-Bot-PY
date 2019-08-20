@@ -156,9 +156,9 @@ class CasinoModule():
                 return
             with open(f'./CasinoModule/SlotsRollingJackpot.json') as jackpot:
                 rollingJackpot = json.load(jackpot)
-            slotOne = random.randint(4, 6)
-            slotTwo = random.randint(4, 6)
-            slotThree = random.randint(4, 6)
+            slotOne = random.randint(0, 6)
+            slotTwo = random.randint(0, 6)
+            slotThree = random.randint(0, 6)
             userPayoutMultiplier = 1
             emoteList = [":apple:", ":lemon:", ":tangerine:", ":cherries:", ":grapes:", "<:squidski:581911303791050762>", ":seven:"]
             slotOneEmote = emoteList[slotOne]
