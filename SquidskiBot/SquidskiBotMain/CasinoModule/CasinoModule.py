@@ -48,7 +48,8 @@ class CasinoModule():
             statsEmbed.add_field(name="Times Gambled:", value=data["UserData"][0]["timesGambled"], inline=False)
             await message.channel.send(embed = statsEmbed)
             return
-     
+        
+        # Roulette
         elif (message.content.split(" ")[1].lower() == "roulette"):
             userBetNumber = 0
             userBetPhrase = "none"
@@ -117,79 +118,29 @@ class CasinoModule():
                 # If the bet number is 0, that means they bet with a phrase
                 if(userBetPhrase == "odds" or userBetPhrase == "evens"):
                     if (userBetPhrase == evenOrOdd):
-                        await message.channel.send(f'Congrats! Your correct bet has netted you {userBetAmount * 2} Squid Coins for a total of {(int(data["UserData"][0]["squidCoins"]) - userBetAmount) + (userBetAmount * 2)} coins!')
-                        data['UserData'][0]['squidCoins'] = str((int(data['UserData'][0]['squidCoins']) - userBetAmount) + (userBetAmount * 2))
-                        data['UserData'][0]['timesGambled'] = str(int(data['UserData'][0]['timesGambled']) + 1)
-                        os.remove(f'./CasinoModule/CasinoUsers/{currentUser}.json')
-                        with open(f'./CasinoModule/CasinoUsers/{currentUser}.json', 'w') as outfile:
-                            json.dump(data, outfile)
+                        await self.modifyCoins(message, data, userBetAmount, True, 2, currentUser, f'Congrats! Your correct bet has netted you {userBetAmount * 2} Squid Coins for a total of {(int(data["UserData"][0]["squidCoins"]) - userBetAmount) + (userBetAmount * 2)} coins!')
                     else:
-                        await message.channel.send(f'So close! Your incorrect bet has lost you {userBetAmount} Squid Coins for a total of {int(data["UserData"][0]["squidCoins"]) - userBetAmount} coins!')
-                        data['UserData'][0]['squidCoins'] = str(int(data['UserData'][0]['squidCoins']) - userBetAmount)
-                        data['UserData'][0]['timesGambled'] = str(int(data['UserData'][0]['timesGambled']) + 1)
-                        os.remove(f'./CasinoModule/CasinoUsers/{currentUser}.json')
-                        with open(f'./CasinoModule/CasinoUsers/{currentUser}.json', 'w') as outfile:
-                            json.dump(data, outfile)
+                        await self.modifyCoins(message, data, userBetAmount, False, 0, currentUser, f'So close! Your incorrect bet has lost you {userBetAmount} Squid Coins for a total of {int(data["UserData"][0]["squidCoins"]) - userBetAmount} coins!')
                 elif(userBetPhrase == "black"):
                     if (chosenColor.lower() == userBetPhrase):
-                        await message.channel.send(f'Congrats! Your correct bet has netted you {userBetAmount * 2} Squid Coins for a total of {(int(data["UserData"][0]["squidCoins"]) - userBetAmount) + (userBetAmount * 2)} coins!')
-                        data['UserData'][0]['squidCoins'] = str((int(data['UserData'][0]['squidCoins']) - userBetAmount) + (userBetAmount * 2))
-                        data['UserData'][0]['timesGambled'] = str(int(data['UserData'][0]['timesGambled']) + 1)
-                        os.remove(f'./CasinoModule/CasinoUsers/{currentUser}.json')
-                        with open(f'./CasinoModule/CasinoUsers/{currentUser}.json', 'w') as outfile:
-                            json.dump(data, outfile)
+                        await self.modifyCoins(message, data, userBetAmount, True, 2, currentUser, f'Congrats! Your correct bet has netted you {userBetAmount * 2} Squid Coins for a total of {(int(data["UserData"][0]["squidCoins"]) - userBetAmount) + (userBetAmount * 2)} coins!')
                     else:
-                        await message.channel.send(f'So close! Your incorrect bet has lost you {userBetAmount} Squid Coins for a total of {int(data["UserData"][0]["squidCoins"]) - userBetAmount} coins!')
-                        data['UserData'][0]['squidCoins'] = str(int(data['UserData'][0]['squidCoins']) - userBetAmount)
-                        data['UserData'][0]['timesGambled'] = str(int(data['UserData'][0]['timesGambled']) + 1)
-                        os.remove(f'./CasinoModule/CasinoUsers/{currentUser}.json')
-                        with open(f'./CasinoModule/CasinoUsers/{currentUser}.json', 'w') as outfile:
-                            json.dump(data, outfile)
+                        await self.modifyCoins(message, data, userBetAmount, False, 0, currentUser, f'So close! Your incorrect bet has lost you {userBetAmount} Squid Coins for a total of {int(data["UserData"][0]["squidCoins"]) - userBetAmount} coins!')
                 elif(userBetPhrase == "red"):
                     if (chosenColor.lower() == userBetPhrase):
-                        await message.channel.send(f'Congrats! Your correct bet has netted you {userBetAmount * 2} Squid Coins for a total of {(int(data["UserData"][0]["squidCoins"]) - userBetAmount) + (userBetAmount * 2)} coins!')
-                        data['UserData'][0]['squidCoins'] = str((int(data['UserData'][0]['squidCoins']) - userBetAmount) + (userBetAmount * 2))
-                        data['UserData'][0]['timesGambled'] = str(int(data['UserData'][0]['timesGambled']) + 1)
-                        os.remove(f'./CasinoModule/CasinoUsers/{currentUser}.json')
-                        with open(f'./CasinoModule/CasinoUsers/{currentUser}.json', 'w') as outfile:
-                            json.dump(data, outfile)
+                        await self.modifyCoins(message, data, userBetAmount, True, 2, currentUser, f'Congrats! Your correct bet has netted you {userBetAmount * 2} Squid Coins for a total of {(int(data["UserData"][0]["squidCoins"]) - userBetAmount) + (userBetAmount * 2)} coins!')
                     else:
-                        await message.channel.send(f'So close! Your incorrect bet has lost you {userBetAmount} Squid Coins for a total of {int(data["UserData"][0]["squidCoins"]) - userBetAmount} coins!')
-                        data['UserData'][0]['squidCoins'] = str(int(data['UserData'][0]['squidCoins']) - userBetAmount)
-                        data['UserData'][0]['timesGambled'] = str(int(data['UserData'][0]['timesGambled']) + 1)
-                        os.remove(f'./CasinoModule/CasinoUsers/{currentUser}.json')
-                        with open(f'./CasinoModule/CasinoUsers/{currentUser}.json', 'w') as outfile:
-                            json.dump(data, outfile)
+                        await self.modifyCoins(message, data, userBetAmount, False, 0, currentUser, f'So close! Your incorrect bet has lost you {userBetAmount} Squid Coins for a total of {int(data["UserData"][0]["squidCoins"]) - userBetAmount} coins!')
                 else:
                     if (chosenColor.lower() == userBetPhrase):
-                        await message.channel.send(f'Congrats! Your correct bet has netted you {userBetAmount * 35} Squid Coins for a total of {(int(data["UserData"][0]["squidCoins"]) - userBetAmount) + (userBetAmount * 35)} coins!')
-                        data['UserData'][0]['squidCoins'] = str((int(data['UserData'][0]['squidCoins']) - userBetAmount) + (userBetAmount * 35))
-                        data['UserData'][0]['timesGambled'] = str(int(data['UserData'][0]['timesGambled']) + 1)
-                        os.remove(f'./CasinoModule/CasinoUsers/{currentUser}.json')
-                        with open(f'./CasinoModule/CasinoUsers/{currentUser}.json', 'w') as outfile:
-                            json.dump(data, outfile)
+                        await self.modifyCoins(message, data, userBetAmount, True, 35, currentUser, f'Congrats! Your correct bet has netted you {userBetAmount * 35} Squid Coins for a total of {(int(data["UserData"][0]["squidCoins"]) - userBetAmount) + (userBetAmount * 35)} coins!')
                     else:
-                        await message.channel.send(f'Why would you bet on green? Your incorrect bet has lost you {userBetAmount} Squid Coins for a total of {int(data["UserData"][0]["squidCoins"]) - userBetAmount} coins!')
-                        data['UserData'][0]['squidCoins'] = str(int(data['UserData'][0]['squidCoins']) - userBetAmount)
-                        data['UserData'][0]['timesGambled'] = str(int(data['UserData'][0]['timesGambled']) + 1)
-                        os.remove(f'./CasinoModule/CasinoUsers/{currentUser}.json')
-                        with open(f'./CasinoModule/CasinoUsers/{currentUser}.json', 'w') as outfile:
-                            json.dump(data, outfile)
+                        await self.modifyCoins(message, data, userBetAmount, False, 0, currentUser, f'Why would you bet on green? Your incorrect bet has lost you {userBetAmount} Squid Coins for a total of {int(data["UserData"][0]["squidCoins"]) - userBetAmount} coins!')
             else:
                 if (userBetNumber == rouletteChoice):
-                        await message.channel.send(f'Congrats! Your correct bet has netted you {userBetAmount * 35} Squid Coins for a total of {(int(data["UserData"][0]["squidCoins"]) - userBetAmount) + (userBetAmount * 35)} coins!')
-                        data['UserData'][0]['squidCoins'] = str((int(data['UserData'][0]['squidCoins']) - userBetAmount) + (userBetAmount * 35))
-                        data['UserData'][0]['timesGambled'] = str(int(data['UserData'][0]['timesGambled']) + 1)
-                        os.remove(f'./CasinoModule/CasinoUsers/{currentUser}.json')
-                        with open(f'./CasinoModule/CasinoUsers/{currentUser}.json', 'w') as outfile:
-                            json.dump(data, outfile)
+                        await self.modifyCoins(message, data, userBetAmount, True, 35, currentUser, f'Congrats! Your correct bet has netted you {userBetAmount * 35} Squid Coins for a total of {(int(data["UserData"][0]["squidCoins"]) - userBetAmount) + (userBetAmount * 35)} coins!')
                 else:
-                        await message.channel.send(f'Betting a singular number is probably not a good idea. Your incorrect bet has lost you {userBetAmount} Squid Coins for a total of {int(data["UserData"][0]["squidCoins"]) - userBetAmount} coins!')
-                        data['UserData'][0]['squidCoins'] = str(int(data['UserData'][0]['squidCoins']) - userBetAmount)
-                        data['UserData'][0]['timesGambled'] = str(int(data['UserData'][0]['timesGambled']) + 1)
-                        os.remove(f'./CasinoModule/CasinoUsers/{currentUser}.json')
-                        with open(f'./CasinoModule/CasinoUsers/{currentUser}.json', 'w') as outfile:
-                            json.dump(data, outfile)
+                        await self.modifyCoins(message, data, userBetAmount, False, 0, currentUser, f'Betting a singular number is probably not a good idea. Your incorrect bet has lost you {userBetAmount} Squid Coins for a total of {int(data["UserData"][0]["squidCoins"]) - userBetAmount} coins!')
     
         elif(message.content.split(" ")[1].lower() == "resetcoins"):
             os.remove(f'./CasinoModule/CasinoUsers/{currentUser}.json')
@@ -205,3 +156,21 @@ class CasinoModule():
 
         else:
             await message.channel.send("Your casino command wasn't recognized. Do `>c help` and try again.")
+
+    async def modifyCoins(self, dMessage, dataObj, userBetAmount, isWin, multiplier, currentUser, mMessage):
+        if(isWin):
+            await dMessage.channel.send(mMessage)
+            dataObj['UserData'][0]['squidCoins'] = str((int(dataObj['UserData'][0]['squidCoins']) - userBetAmount) + (userBetAmount * multiplier))
+            dataObj['UserData'][0]['timesGambled'] = str(int(dataObj['UserData'][0]['timesGambled']) + 1)
+            os.remove(f'./CasinoModule/CasinoUsers/{currentUser}.json')
+            with open(f'./CasinoModule/CasinoUsers/{currentUser}.json', 'w') as outfile:
+                json.dump(dataObj, outfile)
+            return
+        else:
+            await dMessage.channel.send(mMessage)
+            dataObj['UserData'][0]['squidCoins'] = str(int(dataObj['UserData'][0]['squidCoins']) - userBetAmount)
+            dataObj['UserData'][0]['timesGambled'] = str(int(dataObj['UserData'][0]['timesGambled']) + 1)
+            os.remove(f'./CasinoModule/CasinoUsers/{currentUser}.json')
+            with open(f'./CasinoModule/CasinoUsers/{currentUser}.json', 'w') as outfile:
+                json.dump(dataObj, outfile)
+            return
