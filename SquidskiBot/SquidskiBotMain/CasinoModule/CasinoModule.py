@@ -162,36 +162,23 @@ class CasinoModule():
             slotEmbed.add_field(name="Spin:", value=f"{slotOneEmote} - {slotTwoEmote} - {slotThreeEmote}" , inline=False)
             await message.channel.send(embed = slotEmbed)
             if(slotOne == slotTwo == slotThree): 
-                if(slotOne == 0):
-                    userPayoutMultiplier = 10
-                elif(slotOne == 1):
-                    userPayoutMultiplier = 25
-                elif(slotOne == 2):
-                    userPayoutMultiplier = 50
-                elif(slotOne == 3):
-                    userPayoutMultiplier = 100
-                elif(slotOne == 4):
-                    userPayoutMultiplier = 250
-                elif(slotOne == 5):
-                    userPayoutMultiplier = 500
-                else:
-                    useruserPayoutMultiplier = 1000
+                userPayoutMultiplier = [10, 25, 50, 100, 250, 500, 1000][slotOne]
                 await self.modifyCoins(message, data, message.content.split(" ")[2], True, userPayoutMultiplier, currentUser, f"Congrats! You've won {int(message.content.split(\" \")[2]) * userPayoutMultiplier} Squidcoins!")
             else:
                 await self.modifyCoins(message, data, message.content.split(" ")[2], False, 0, currentUser, "Try again, and better luck next time! You lost {message.content.split(\" \")} Squidcoins!")
 
-    
+        # Reset coins to 1000
         elif(message.content.split(" ")[1].lower() == "resetcoins"):
             os.remove(f'./CasinoModule/CasinoUsers/{currentUser}.json')
-            data = {}
-            data['UserData'] = []
-            data['UserData'].append({
+            newData = {}
+            newData['UserData'] = []
+            newData['UserData'].append({
                 'squidCoins': '1000',
-                'timesGambled': '0'
+                'timesGambled': f'{data["UserData"][0]["timesGambled]}'
             })
             with open(f'./CasinoModule/CasinoUsers/{currentUser}.json', 'w') as outfile:
-                json.dump(data, outfile)
-            await message.channel.send("Number of coins reset to 1000!")
+                json.dump(newData, outfile)
+            await message.channel.send("Number of coins reset to 100!")
 
         else:
             await message.channel.send("Your casino command wasn't recognized. Do `>c help` and try again.")
