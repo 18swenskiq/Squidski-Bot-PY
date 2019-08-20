@@ -34,6 +34,7 @@ class CasinoModule():
            await message.channel.send("No parameters were provided. Use `>c help` for a list of possible commands")
            return
 
+        # Help Embed
         if (message.content.split(" ")[1].lower() == "help"):
             helpEmbed = discord.Embed(title=":moneybag: Squidski's Casino Help Menu :moneybag:", color=0xB22222)
             helpEmbed.add_field(name="Personal Statistics:", value=">c stats" , inline=False)
@@ -42,6 +43,7 @@ class CasinoModule():
             await message.channel.send(embed = helpEmbed)
             return
 
+        # Stats Embed
         elif (message.content.split(" ")[1].lower() == "stats"):
             statsEmbed = discord.Embed(title=f":moneybag: {message.author}'s Stats :moneybag:", color=0xB22222)
             statsEmbed.add_field(name="Squid Coins:", value=data["UserData"][0]["squidCoins"], inline=False)
@@ -141,6 +143,43 @@ class CasinoModule():
                         await self.modifyCoins(message, data, userBetAmount, True, 35, currentUser, f'Congrats! Your correct bet has netted you {userBetAmount * 35} Squid Coins for a total of {(int(data["UserData"][0]["squidCoins"]) - userBetAmount) + (userBetAmount * 35)} coins!')
                 else:
                         await self.modifyCoins(message, data, userBetAmount, False, 0, currentUser, f'Betting a singular number is probably not a good idea. Your incorrect bet has lost you {userBetAmount} Squid Coins for a total of {int(data["UserData"][0]["squidCoins"]) - userBetAmount} coins!')
+
+        # Slots
+        elif(message.content.split(" ")[1].lower() == "slots" or message.content.split(" ")[1].lower() == "slot"):
+            if(not len(message.content.split(" ") == 3)):
+               await message.channel.send("Incorrect number of parameters! Type `>c help` to view the correct usage.")
+            if(message.content.split(" ")[2] not in ["2", "5", "10"]):
+                await message.channel.send(f"{message.content.split(' ').lower()} is not a valid slot machine! Please pick either 2, 5, or 10")
+            slotOne = random.randint(0, 6)
+            slotTwo = random.randint(0, 6)
+            slotThree = random.randint(0, 6)
+            userPayoutMultiplier = 1
+            emoteList = [":apple:", ":lemon:", ":tangerine:", ":cherries:", ":grapes:", ":squidski:", ":seven:"]
+            slotOneEmote = [emoteList][slotOne]
+            slotTwoEmote = [emoteList][slotTwo]
+            slotThreeEmote = [emoteList][slotThree]
+            slotEmbed = discord.Embed(title=":moneybag: Squidski's Casino Slot Menu :moneybag:", color=0xB22222)
+            slotEmbed.add_field(name="Spin:", value=f"{slotOneEmote} - {slotTwoEmote} - {slotThreeEmote}" , inline=False)
+            await message.channel.send(embed = slotEmbed)
+            if(slotOne == slotTwo == slotThree): 
+                if(slotOne == 0):
+                    userPayoutMultiplier = 10
+                elif(slotOne == 1):
+                    userPayoutMultiplier = 25
+                elif(slotOne == 2):
+                    userPayoutMultiplier = 50
+                elif(slotOne == 3):
+                    userPayoutMultiplier = 100
+                elif(slotOne == 4):
+                    userPayoutMultiplier = 250
+                elif(slotOne == 5):
+                    userPayoutMultiplier = 500
+                else:
+                    useruserPayoutMultiplier = 1000
+                await self.modifyCoins(message, data, message.content.split(" ")[2], True, userPayoutMultiplier, currentUser, f"Congrats! You've won {int(message.content.split(\" \")[2]) * userPayoutMultiplier} Squidcoins!")
+            else:
+                await self.modifyCoins(message, data, message.content.split(" ")[2], False, 0, currentUser, "Try again, and better luck next time! You lost {message.content.split(\" \")} Squidcoins!")
+
     
         elif(message.content.split(" ")[1].lower() == "resetcoins"):
             os.remove(f'./CasinoModule/CasinoUsers/{currentUser}.json')
