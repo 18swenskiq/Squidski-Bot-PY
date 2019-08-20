@@ -40,7 +40,7 @@ class CasinoModule():
             helpEmbed = discord.Embed(title=":moneybag: Squidski's Casino Help Menu :moneybag:", color=0xB22222)
             helpEmbed.add_field(name="Personal Statistics:", value=">c stats" , inline=False)
             helpEmbed.add_field(name="Roulette:", value=">c roulette <bet on number, color, or evens/odds> <coins bet amount>", inline=True)
-            helpembed.add_field(name="Slots:", value=">c slots <2, 5, or 10>", inline=True)
+            helpEmbed.add_field(name="Slots:", value=">c slots <2, 5, or 10>", inline=True)
             helpEmbed.add_field(name="Reset Coins to 100:", value=">c resetcoins", inline=False)
             await message.channel.send(embed = helpEmbed)
             return
