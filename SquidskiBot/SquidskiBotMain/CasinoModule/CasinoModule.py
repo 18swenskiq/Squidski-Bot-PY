@@ -33,8 +33,7 @@ class CasinoModule():
             data = json.load(userStats)
 
         # If still on version 1 of the JSON data, upgrade it
-        if ('versionNumber' not in data):
-            os.remove(f'./CasinoModule/CasinoUsers/{currentUser}.json')
+        if ('versionNumber' not in data["UserData"][0]):
             await message.channel.send("Outdated user stats JSON detected. Upgrading...")
             updatedJson = {}
             updatedJson['UserData'] = []
@@ -44,8 +43,9 @@ class CasinoModule():
                 'coinsLost': "0",
                 'versionNumber': "v2"
             })
+            os.remove(f'./CasinoModule/CasinoUsers/{currentUser}.json')
             with open(f'./CasinoModule/CasinoUsers/{currentUser}.json', 'w') as updatedData:
-                newerData = json.dump(updatedData)
+                json.dump(updatedJson, updatedData)
             with open(f'./CasinoModule/CasinoUsers/{currentUser}.json') as userStats:
                 data = json.load(userStats)
 
@@ -247,7 +247,7 @@ class CasinoModule():
             await dMessage.channel.send(mMessage)
             dataObj['UserData'][0]['squidCoins'] = str(int(dataObj['UserData'][0]['squidCoins']) - userBetAmount)
             dataObj['UserData'][0]['timesGambled'] = str(int(dataObj['UserData'][0]['timesGambled']) + 1)
-            dataObj['UserData'][0]['coinsLost'] = str(int(dataObj['UserData'][0]['coinsLost']) - userBetAmount)
+            dataObj['UserData'][0]['coinsLost'] = str(int(dataObj['UserData'][0]['coinsLost']) + userBetAmount)
             dataObj['UserData'][0]['versionNumber'] = dataObj['UserData'][0]['versionNumber']
             os.remove(f'./CasinoModule/CasinoUsers/{currentUser}.json')
             with open(f'./CasinoModule/CasinoUsers/{currentUser}.json', 'w') as outfile:
