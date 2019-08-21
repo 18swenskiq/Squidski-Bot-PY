@@ -1,4 +1,6 @@
+import asyncio
 import datetime
+from datetime import datetime
 import discord
 import json
 from os import listdir
@@ -22,7 +24,8 @@ class CasinoModule():
                 'squidCoins': '100',
                 'timesGambled': '0',
                 'coinsLost': "0",
-                'versionNumber': "v2"
+                'lastUsed': f'{datetime.now()}',
+                'versionNumber': "v3"
             })
             with open(f'./CasinoModule/CasinoUsers/{currentUser}.json', 'w') as outfile:
                 json.dump(jsonData, outfile)
@@ -32,7 +35,7 @@ class CasinoModule():
         with open(f'./CasinoModule/CasinoUsers/{currentUser}.json') as userStats:
             data = json.load(userStats)
 
-        # If still on version 1 of the JSON data, upgrade it
+        # If still on version 1 (or 2) of the JSON data, upgrade it
         if ('versionNumber' not in data["UserData"][0]):
             await message.channel.send("Outdated user stats JSON detected. Upgrading...")
             updatedJson = {}
@@ -41,13 +44,40 @@ class CasinoModule():
                 'squidCoins': f'{data["UserData"][0]["squidCoins"]}',
                 'timesGambled': f'{data["UserData"][0]["timesGambled"]}',
                 'coinsLost': "0",
-                'versionNumber': "v2"
+                'lastUsed': f'{datetime.now()}',
+                'versionNumber': "v3"
             })
             os.remove(f'./CasinoModule/CasinoUsers/{currentUser}.json')
             with open(f'./CasinoModule/CasinoUsers/{currentUser}.json', 'w') as updatedData:
                 json.dump(updatedJson, updatedData)
             with open(f'./CasinoModule/CasinoUsers/{currentUser}.json') as userStats:
                 data = json.load(userStats)
+        else:
+            if data["UserData"][0]["versionNumber"] == "v2":
+                await message.channel.send("Outdated user stats JSON detected. Upgrading...")
+                updatedJson = {}
+                updatedJson['UserData'] = []
+                updatedJson['UserData'].append({
+                    'squidCoins': f'{data["UserData"][0]["squidCoins"]}',
+                    'timesGambled': f'{data["UserData"][0]["timesGambled"]}',
+                    'coinsLost': "0",
+                    'lastUsed': f'{datetime.now()}',
+                    'versionNumber': "v3"
+                })
+                os.remove(f'./CasinoModule/CasinoUsers/{currentUser}.json')
+                with open(f'./CasinoModule/CasinoUsers/{currentUser}.json', 'w') as updatedData:
+                    json.dump(updatedJson, updatedData)
+                with open(f'./CasinoModule/CasinoUsers/{currentUser}.json') as userStats:
+                    data = json.load(userStats)
+
+        # Rate Limiting (Fuck you Peaches and Slimek for making this necessary)
+        print(datetime.now())
+        elapsedTime = datetime.now() - datetime.strptime(data["UserData"][0]["lastUsed"], "%Y-%m-%d %H:%M:%S.%f")
+        elapsedTime = divmod(elapsedTime.days * 86400 + elapsedTime.seconds, 60)
+        if (elapsedTime[1] < 2):
+            await asyncio.sleep(.25)
+            await message.channel.send("You have been rate limited! Please try again, but don't spam the command please k thx")
+            return
 
         # Command Parser time
         if(len(message.content.split(" ")) == 1):
@@ -172,7 +202,7 @@ class CasinoModule():
                await message.channel.send("Incorrect number of parameters! Type `>c help` to view the correct usage.")
                return
             if(message.content.split(" ")[2] not in ["2", "5", "10"]):
-                await message.channel.send(f"{message.content.split(' ').lower()} is not a valid slot machine! Please pick either 2, 5, or 10")
+                await message.channel.send(f"{message.content.split(' ')[2].lower()} is not a valid slot machine! Please pick either 2, 5, or 10")
                 return
             with open(f'./CasinoModule/SlotsRollingJackpot.json') as jackpot:
                 rollingJackpot = json.load(jackpot)
@@ -225,7 +255,8 @@ class CasinoModule():
                 'squidCoins': '100',
                 'timesGambled': f'{data["UserData"][0]["timesGambled"]}',
                 'coinsLost': f'{data["UserData"][0]["coinsLost"]}',
-                'versionNumber': "v2"
+                'lastUsed': f'{datetime.now()}',
+                'versionNumber': "v3"
             })
             with open(f'./CasinoModule/CasinoUsers/{currentUser}.json', 'w') as outfile:
                 json.dump(newData, outfile)
@@ -240,6 +271,7 @@ class CasinoModule():
             dataObj['UserData'][0]['squidCoins'] = str((int(dataObj['UserData'][0]['squidCoins']) - userBetAmount) + (userBetAmount * multiplier))
             dataObj['UserData'][0]['timesGambled'] = str(int(dataObj['UserData'][0]['timesGambled']) + 1)
             dataObj['UserData'][0]['coinsLost'] = dataObj['UserData'][0]['coinsLost']
+            dataObj['UserData'][0]['lastUsed'] = str(datetime.now())
             dataObj['UserData'][0]['versionNumber'] = dataObj['UserData'][0]['versionNumber']
             os.remove(f'./CasinoModule/CasinoUsers/{currentUser}.json')
             with open(f'./CasinoModule/CasinoUsers/{currentUser}.json', 'w') as outfile:
@@ -250,6 +282,7 @@ class CasinoModule():
             dataObj['UserData'][0]['squidCoins'] = str(int(dataObj['UserData'][0]['squidCoins']) - userBetAmount)
             dataObj['UserData'][0]['timesGambled'] = str(int(dataObj['UserData'][0]['timesGambled']) + 1)
             dataObj['UserData'][0]['coinsLost'] = str(int(dataObj['UserData'][0]['coinsLost']) + userBetAmount)
+            dataObj['UserData'][0]['lastUsed'] = str(datetime.now())
             dataObj['UserData'][0]['versionNumber'] = dataObj['UserData'][0]['versionNumber']
             os.remove(f'./CasinoModule/CasinoUsers/{currentUser}.json')
             with open(f'./CasinoModule/CasinoUsers/{currentUser}.json', 'w') as outfile:
