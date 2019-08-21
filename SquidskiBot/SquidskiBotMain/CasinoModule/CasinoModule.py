@@ -216,14 +216,16 @@ class CasinoModule():
                     json.dump(newJackpot, outfile)
                 await self.modifyCoins(message, data, int(message.content.split(" ")[2]), False, 0, currentUser, f"Try again, and better luck next time! You lost {message.content.split(' ')[2]} Squidcoins!")
 
-        # Reset coins to 1000
+        # Reset coins to 100
         elif(message.content.split(" ")[1].lower() == "resetcoins"):
             os.remove(f'./CasinoModule/CasinoUsers/{currentUser}.json')
             newData = {}
             newData['UserData'] = []
             newData['UserData'].append({
-                'squidCoins': '1000',
-                'timesGambled': f'{data["UserData"][0]["timesGambled"]}'
+                'squidCoins': '100',
+                'timesGambled': f'{data["UserData"][0]["timesGambled"]}',
+                'coinsLost': f'{data["UserData"][0]["coinsLost"]}',
+                'versionNumber': "v2"
             })
             with open(f'./CasinoModule/CasinoUsers/{currentUser}.json', 'w') as outfile:
                 json.dump(newData, outfile)
