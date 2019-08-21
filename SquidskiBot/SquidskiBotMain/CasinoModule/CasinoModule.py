@@ -13,22 +13,41 @@ class CasinoModule():
         onlyFiles = [os.path.splitext(x)[0] for x in onlyFiles]
         currentUser = str(message.author.id)
 
-        # If the user has never used the casino, it will automatically make an account for them
+         # If the user has never used the casino, it will automatically make an account for them
         if(currentUser not in onlyFiles):
             await message.channel.send("You do not appear to have an account. Please wait a second while I open one for you.")
             jsonData = {}
             jsonData['UserData'] = []
             jsonData['UserData'].append({
-                'squidCoins': '1000',
-                'timesGambled': '0'
+                'squidCoins': '100',
+                'timesGambled': '0',
+                'coinsLost': "0",
+                'versionNumber': "v2"
             })
             with open(f'./CasinoModule/CasinoUsers/{currentUser}.json', 'w') as outfile:
                 json.dump(jsonData, outfile)
             await message.channel.send("Account Successfully Created! You have been given 1000 Squid Coins to start with. Now onto the gambling.")
-
+        
         # Now that their stats definitely exist, let's load them up
         with open(f'./CasinoModule/CasinoUsers/{currentUser}.json') as userStats:
             data = json.load(userStats)
+
+        # If still on version 1 of the JSON data, upgrade it
+        if ('versionNumber' not in data):
+            os.remove(f'./CasinoModule/CasinoUsers/{currentUser}.json')
+            await message.channel.send("Outdated user stats JSON detected. Upgrading...")
+            updatedJson = {}
+            updatedJson['UserData'] = []
+            updatedJson['UserData'].append({
+                'squidCoins': f'{data["UserData"][0]["squidCoins"]}',
+                'timesGambled': f'{data["UserData"][0]["timesGambled"]}',
+                'coinsLost': "0",
+                'versionNumber': "v2"
+            })
+            with open(f'./CasinoModule/CasinoUsers/{currentUser}.json', 'w') as updatedData:
+                newerData = json.dump(updatedData)
+            with open(f'./CasinoModule/CasinoUsers/{currentUser}.json') as userStats:
+                data = json.load(userStats)
 
         # Command Parser time
         if(len(message.content.split(" ")) == 1):
@@ -49,7 +68,8 @@ class CasinoModule():
         elif (message.content.split(" ")[1].lower() == "stats"):
             statsEmbed = discord.Embed(title=f":moneybag: {message.author}'s Stats :moneybag:", color=0xB22222)
             statsEmbed.add_field(name="Squid Coins:", value=data["UserData"][0]["squidCoins"], inline=False)
-            statsEmbed.add_field(name="Times Gambled:", value=data["UserData"][0]["timesGambled"], inline=False)
+            statsEmbed.add_field(name="Times Gambled:", value=data["UserData"][0]["timesGambled"], inline=True)
+            statsEmbed.add_field(name="Coins Lost:", value=data["UserData"][0]["coinsLost"], inline=True)
             await message.channel.send(embed = statsEmbed)
             return
         
@@ -217,6 +237,8 @@ class CasinoModule():
             await dMessage.channel.send(mMessage)
             dataObj['UserData'][0]['squidCoins'] = str((int(dataObj['UserData'][0]['squidCoins']) - userBetAmount) + (userBetAmount * multiplier))
             dataObj['UserData'][0]['timesGambled'] = str(int(dataObj['UserData'][0]['timesGambled']) + 1)
+            dataObj['UserData'][0]['coinsLost'] = dataObj['UserData'][0]['coinsLost']
+            dataObj['UserData'][0]['versionNumber'] = dataObj['UserData'][0]['versionNumber']
             os.remove(f'./CasinoModule/CasinoUsers/{currentUser}.json')
             with open(f'./CasinoModule/CasinoUsers/{currentUser}.json', 'w') as outfile:
                 json.dump(dataObj, outfile)
@@ -225,6 +247,8 @@ class CasinoModule():
             await dMessage.channel.send(mMessage)
             dataObj['UserData'][0]['squidCoins'] = str(int(dataObj['UserData'][0]['squidCoins']) - userBetAmount)
             dataObj['UserData'][0]['timesGambled'] = str(int(dataObj['UserData'][0]['timesGambled']) + 1)
+            dataObj['UserData'][0]['coinsLost'] = str(int(dataObj['UserData'][0]['coinsLost']) - userBetAmount)
+            dataObj['UserData'][0]['versionNumber'] = dataObj['UserData'][0]['versionNumber']
             os.remove(f'./CasinoModule/CasinoUsers/{currentUser}.json')
             with open(f'./CasinoModule/CasinoUsers/{currentUser}.json', 'w') as outfile:
                 json.dump(dataObj, outfile)
