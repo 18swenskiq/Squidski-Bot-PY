@@ -10,6 +10,7 @@ sys.path.append('./csLayers')
 from apiworkshopsearch import apiworkshopsearch
 from CasinoModule import CasinoModule
 from bruhmoment import bruhmoment
+from currency import currency
 from fanfic import fanfic
 from help import help
 from helpadmin import helpadmin
@@ -29,7 +30,7 @@ class CommandHandler():
     async def commandParser(self, message, globalCall):
 
         # Casino Module
-        if (message.content.lower().startswith(globalCall + "c")):
+        if (message.content.lower().startswith(globalCall + "c ")):
             gambleTime = CasinoModule()
             await gambleTime.commandReciever(message)
             return
@@ -38,6 +39,12 @@ class CommandHandler():
         if (message.content.lower() == globalCall + "help"):
             myHelp = help()
             await message.channel.send(embed = await myHelp.myEmbed(message))
+            return
+
+        # Convert Currency
+        if (message.content.lower().startswith(globalCall + "currency")):
+            newCurrency = currency()
+            await newCurrency.currencyConverter(message)
             return
 
         # Search workshop
