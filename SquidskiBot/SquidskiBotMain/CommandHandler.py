@@ -12,6 +12,7 @@ from CasinoModule import CasinoModule
 from bruhmoment import bruhmoment
 from currency import currency
 from fanfic import fanfic
+from ketalquote import ketalquote
 from help import help
 from helpadmin import helpadmin
 from mute import mute
@@ -63,6 +64,12 @@ class CommandHandler():
         if (message.content.startswith((globalCall + 'seinfeldme'))):
             getSeinfeldQuote = seinfeldme()
             await getSeinfeldQuote.getQuote(message)
+            return
+
+        # Get random ketal quote
+        if (message.content.startswith((globalCall + 'ketalquote'))):
+            getKetalQuote = ketalquote()
+            await getKetalQuote.getQuote(message)
             return
 
         # Get random Squidski fact
