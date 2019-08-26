@@ -27,13 +27,11 @@ class CasinoModule():
                 'lastUsed': f'{datetime.now()}',
                 'versionNumber': "v3"
             })
-            with open(f'./CasinoModule/CasinoUsers/{currentUser}.json', 'w') as outfile:
-                json.dump(jsonData, outfile)
+            self.writeToFileGeneric(f'./CasinoModule/CasinoUsers/{currentUser}.json', jsonData)
             await message.channel.send("Account Successfully Created! You have been given 1000 Squid Coins to start with. Now onto the gambling.")
         
         # Now that their stats definitely exist, let's load them up
-        with open(f'./CasinoModule/CasinoUsers/{currentUser}.json') as userStats:
-            data = json.load(userStats)
+        data = self.readFromFileGeneric(f'./CasinoModule/CasinoUsers/{currentUser}.json')
 
         # If still on version 1 (or 2) of the JSON data, upgrade it
         if ('versionNumber' not in data["UserData"][0]):
@@ -47,11 +45,8 @@ class CasinoModule():
                 'lastUsed': f'{datetime.now()}',
                 'versionNumber': "v3"
             })
-            os.remove(f'./CasinoModule/CasinoUsers/{currentUser}.json')
-            with open(f'./CasinoModule/CasinoUsers/{currentUser}.json', 'w') as updatedData:
-                json.dump(updatedJson, updatedData)
-            with open(f'./CasinoModule/CasinoUsers/{currentUser}.json') as userStats:
-                data = json.load(userStats)
+            self.writeToFileGeneric(f'./CasinoModule/CasinoUsers/{currentUser}.json', updatedJson)
+            data = self.readFromFileGeneric(f'./CasinoModule/CasinoUsers/{currentUser}.json')
         else:
             if data["UserData"][0]["versionNumber"] == "v2":
                 await message.channel.send("Outdated user stats JSON detected. Upgrading...")
@@ -64,11 +59,8 @@ class CasinoModule():
                     'lastUsed': f'{datetime.now()}',
                     'versionNumber': "v3"
                 })
-                os.remove(f'./CasinoModule/CasinoUsers/{currentUser}.json')
-                with open(f'./CasinoModule/CasinoUsers/{currentUser}.json', 'w') as updatedData:
-                    json.dump(updatedJson, updatedData)
-                with open(f'./CasinoModule/CasinoUsers/{currentUser}.json') as userStats:
-                    data = json.load(userStats)
+                self.writeToFileGeneric(f'./CasinoModule/CasinoUsers/{currentUser}.json', updatedJson)
+                data = self.readFromFileGeneric(f'./CasinoModule/CasinoUsers/{currentUser}.json')
 
         # Rate Limiting (Fuck you Peaches and Slimek for making this necessary)
         print(datetime.now())
@@ -217,11 +209,9 @@ class CasinoModule():
             if(slotOne == slotTwo == slotThree): 
                 userPayoutMultiplier = [10, 25, 50, 100, 250, 500, 1000][slotOne]
                 if(slotOne in [4, 5, 6]):
-                    os.remove(f'./CasinoModule/SlotsRollingJackpot.json')
                     newJackpot = {}
                     newJackpot["rollingJackpot"] = "0"
-                    with open(f'./CasinoModule/SlotsRollingJackpot.json', 'w') as outfile:
-                        json.dump(newJackpot, outfile)
+                    self.writeToFileGeneric(f'./CasinoModule/SlotsRollingJackpot.json', newJackpot)
                     slotEmbed = discord.Embed(title=":moneybag: Squidski's Casino Slot Menu :moneybag:", color=0xB22222)
                     slotEmbed.add_field(name="Spin:", value=f"{slotOneEmote} - {slotTwoEmote} - {slotThreeEmote}" , inline=False)
                     slotEmbed.add_field(name="Current Jackpot:", value=int(rollingJackpot["rollingJackpot"]) + int(message.content.split(" ")[2]), inline=False)
@@ -239,16 +229,13 @@ class CasinoModule():
                 slotEmbed.add_field(name="Spin:", value=f"{slotOneEmote} - {slotTwoEmote} - {slotThreeEmote}" , inline=False)
                 slotEmbed.add_field(name="Current Jackpot:", value=int(rollingJackpot["rollingJackpot"]) + int(message.content.split(" ")[2]), inline=False)
                 await message.channel.send(embed = slotEmbed)
-                os.remove(f'./CasinoModule/SlotsRollingJackpot.json')
                 newJackpot = {}
                 newJackpot["rollingJackpot"] = int(rollingJackpot["rollingJackpot"]) + int(message.content.split(" ")[2])
-                with open(f'./CasinoModule/SlotsRollingJackpot.json', 'w') as outfile:
-                    json.dump(newJackpot, outfile)
+                self.writeToFileGeneric(f'./CasinoModule/SlotsRollingJackpot.json', newJackpot)
                 await self.modifyCoins(message, data, int(message.content.split(" ")[2]), False, 0, currentUser, f"Try again, and better luck next time! You lost {message.content.split(' ')[2]} Squidcoins!")
 
         # Reset coins to 100
         elif(message.content.split(" ")[1].lower() == "resetcoins"):
-            os.remove(f'./CasinoModule/CasinoUsers/{currentUser}.json')
             newData = {}
             newData['UserData'] = []
             newData['UserData'].append({
@@ -258,10 +245,8 @@ class CasinoModule():
                 'lastUsed': f'{datetime.now()}',
                 'versionNumber': "v3"
             })
-            with open(f'./CasinoModule/CasinoUsers/{currentUser}.json', 'w') as outfile:
-                json.dump(newData, outfile)
+            self.writeToFileGeneric(f'./CasinoModule/CasinoUsers/{currentUser}.json', newData)
             await message.channel.send("Number of coins reset to 100!")
-
         else:
             await message.channel.send("Your casino command wasn't recognized. Do `>c help` and try again.")
 
@@ -273,9 +258,7 @@ class CasinoModule():
             dataObj['UserData'][0]['coinsLost'] = dataObj['UserData'][0]['coinsLost']
             dataObj['UserData'][0]['lastUsed'] = str(datetime.now())
             dataObj['UserData'][0]['versionNumber'] = dataObj['UserData'][0]['versionNumber']
-            os.remove(f'./CasinoModule/CasinoUsers/{currentUser}.json')
-            with open(f'./CasinoModule/CasinoUsers/{currentUser}.json', 'w') as outfile:
-                json.dump(dataObj, outfile)
+            self.writeToFileGeneric(f'./CasinoModule/CasinoUsers/{currentUser}.json', dataObj)
             return
         else:
             await dMessage.channel.send(mMessage)
@@ -284,7 +267,15 @@ class CasinoModule():
             dataObj['UserData'][0]['coinsLost'] = str(int(dataObj['UserData'][0]['coinsLost']) + userBetAmount)
             dataObj['UserData'][0]['lastUsed'] = str(datetime.now())
             dataObj['UserData'][0]['versionNumber'] = dataObj['UserData'][0]['versionNumber']
-            os.remove(f'./CasinoModule/CasinoUsers/{currentUser}.json')
-            with open(f'./CasinoModule/CasinoUsers/{currentUser}.json', 'w') as outfile:
-                json.dump(dataObj, outfile)
+            self.writeToFileGeneric(f'./CasinoModule/CasinoUsers/{currentUser}.json', dataObj)
             return
+
+    def writeToFileGeneric(self, filePath, dataToWrite):
+        os.remove(filePath)
+        with open(filePath, 'w') as outfile:
+               json.dump(dataToWrite, outfile)
+
+    def readFromFileGeneric(self, filePath):
+        with open(filePath) as importedData:
+            genericData = json.load(importedData)
+        return genericData
