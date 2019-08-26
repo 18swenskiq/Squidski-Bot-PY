@@ -90,16 +90,12 @@ class CasinoModule():
                 else:
                     userBetNumber = int(message.content.split(" ")[2])
             except:
-                if(message.content.split(" ")[2].lower() == "black"):
-                    userBetPhrase = "black"
-                elif(message.content.split(" ")[2].lower() == "red"):
-                    userBetPhrase = "red"
-                elif(message.content.split(" ")[2].lower() == "green"):
-                    userBetPhrase = "green"
-                elif(message.content.split(" ")[2].lower() == "evens" or message.content.split(" ")[2].lower() == "even"):
-                    userBetPhrase = "evens"
-                elif(message.content.split(" ")[2].lower() == "odds" or message.content.split(" ")[2].lower() == "odd"):
-                    userBetPhrase = "odds"
+                allowedWordBets = ["black", "red", "green", "evens", "odds"]
+                if(message.content.split(" ")[2].lower() in allowedWordBets):
+                    for eachItem in allowedWordBets:
+                        if(message.content.split(" ")[2].lower() == eachItem):
+                            userBetPhrase = eachItem
+                            break
                 else:
                     await message.channel.send(f'{message.content.split(" ")[2]} is not a valid color or understood phrase on the wheel! Valid colors are black, red, or green (or bet on numbers). Other options are odds or evens.')
                     return
@@ -118,6 +114,7 @@ class CasinoModule():
             except:
                 await message.channel.send(f'{message.content.split(" ")[3]} is not a valid number! Please place a real bet next time.')
                 return
+
             # Now its time to actually spin the roulette wheel
             rouletteChoice = random.randint(1, 37)
             chosenColor = ""
