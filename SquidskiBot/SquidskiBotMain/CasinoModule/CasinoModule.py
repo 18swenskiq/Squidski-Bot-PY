@@ -39,13 +39,7 @@ class CasinoModule():
                 data = self.readFromFileGeneric(f'./CasinoModule/CasinoUsers/{currentUser}.json')
 
         # Rate Limiting (Fuck you Peaches and Slimek for making this necessary)
-        print(datetime.now())
-        elapsedTime = datetime.now() - datetime.strptime(data["UserData"][0]["lastUsed"], "%Y-%m-%d %H:%M:%S.%f")
-        elapsedTime = divmod(elapsedTime.days * 86400 + elapsedTime.seconds, 60)
-        if (elapsedTime[1] < 2):
-            await asyncio.sleep(.25)
-            await message.channel.send("You have been rate limited! Please try again, but don't spam the command please k thx")
-            return
+        await self.setRateLimitOnCasinoModule(.5)
 
         # Command Parser time
         if(len(message.content.split(" ")) == 1):
@@ -73,31 +67,29 @@ class CasinoModule():
         
         # Roulette
         elif (message.content.split(" ")[1].lower() == "roulette"):
-            userBetNumber = 0
+            userBetNumber = "null"
             userBetPhrase = "none"
             userBetAmount = 0
+            userPrelimBet = message.content.split(" ")[2]
             if(not len(message.content.split(" ")) == 4):
                 await message.channel.send("Incorrect number of parameters for roulette! Type >c help to view proper syntax.")
                 return
             try:
-                int(message.content.split(" ")[2])
-                if(int(message.content.split(" ")[2]) > 37):
-                    await message.channel.send("Number is too high for roulette wheel! Wheel number must be between 1-37 inclusive")
-                    return
-                elif(int(message.content.split(" ")[2]) == 0):
-                    await message.channel.send("0 does not exist on this wheel! Wheel number must be between 1-37 inclusive")
+                int(userPrelimBet)
+                if(int(userPrelimBet) > 36):
+                    await message.channel.send("Number is too high for roulette wheel! Wheel number must be between 0-36 inclusive")
                     return
                 else:
-                    userBetNumber = int(message.content.split(" ")[2])
+                    userBetNumber = int(userPrelimBet)
             except:
                 allowedWordBets = ["black", "red", "green", "evens", "odds"]
-                if(message.content.split(" ")[2].lower() in allowedWordBets):
+                if(userPrelimBet in allowedWordBets):
                     for eachItem in allowedWordBets:
-                        if(message.content.split(" ")[2].lower() == eachItem):
+                        if(userPrelimBet == eachItem):
                             userBetPhrase = eachItem
                             break
                 else:
-                    await message.channel.send(f'{message.content.split(" ")[2]} is not a valid color or understood phrase on the wheel! Valid colors are black, red, or green (or bet on numbers). Other options are odds or evens.')
+                    await message.channel.send(f'{userPrelimBet} is not a valid color or understood phrase on the wheel! Valid colors are black, red, or green (or bet on numbers). Other options are odds or evens.')
                     return
             try:
                 int(message.content.split(" ")[3])
@@ -116,10 +108,10 @@ class CasinoModule():
                 return
 
             # Now its time to actually spin the roulette wheel
-            rouletteChoice = random.randint(1, 37)
+            rouletteChoice = random.randint(0, 36)
             chosenColor = ""
             evenOrOdd = "evens" if rouletteChoice % 2 == 0 else "odds"
-            if(rouletteChoice in [2, 4, 6, 8, 10, 13, 15, 17, 19, 20, 22, 24, 26, 28, 31, 33, 35, 37]):
+            if(rouletteChoice in [1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36]):
                 chosenColor = "Red"
             elif(rouletteChoice == 1):
                 chosenColor = "Green"
@@ -133,7 +125,7 @@ class CasinoModule():
             await message.channel.send(embed = rouletteEmbed)
 
             # Check users bet
-            if(userBetNumber is 0):
+            if(userBetNumber is "null"):
                 # If the bet number is 0, that means they bet with a phrase
                 if(userBetPhrase == "odds" or userBetPhrase == "evens"):
                     if (userBetPhrase == evenOrOdd):
@@ -157,17 +149,18 @@ class CasinoModule():
                         await self.modifyCoins(message, data, userBetAmount, False, 0, currentUser, f'Why would you bet on green? Your incorrect bet has lost you {userBetAmount} Squid Coins for a total of {int(data["UserData"][0]["squidCoins"]) - userBetAmount} coins!')
             else:
                 if (userBetNumber == rouletteChoice):
-                        await self.modifyCoins(message, data, userBetAmount, True, 35, currentUser, f'Congrats! Your correct bet has netted you {userBetAmount * 35} Squid Coins for a total of {(int(data["UserData"][0]["squidCoins"]) - userBetAmount) + (userBetAmount * 35)} coins!')
+                    await self.modifyCoins(message, data, userBetAmount, True, 35, currentUser, f'Congrats! Your correct bet has netted you {userBetAmount * 35} Squid Coins for a total of {(int(data["UserData"][0]["squidCoins"]) - userBetAmount) + (userBetAmount * 35)} coins!')
                 else:
-                        await self.modifyCoins(message, data, userBetAmount, False, 0, currentUser, f'Betting a singular number is probably not a good idea. Your incorrect bet has lost you {userBetAmount} Squid Coins for a total of {int(data["UserData"][0]["squidCoins"]) - userBetAmount} coins!')
+                    await self.modifyCoins(message, data, userBetAmount, False, 0, currentUser, f'Betting a singular number is probably not a good idea. Your incorrect bet has lost you {userBetAmount} Squid Coins for a total of {int(data["UserData"][0]["squidCoins"]) - userBetAmount} coins!')
 
         # Slots
-        elif(message.content.split(" ")[1].lower() == "slots" or message.content.split(" ")[1].lower() == "slot"):
+        elif(message.content.split(" ")[1].lower() == "slots"):
+            slotMachinePicked = message.content.split(" ")[2]
             if(not len(message.content.split(" ")) == 3):
                await message.channel.send("Incorrect number of parameters! Type `>c help` to view the correct usage.")
                return
-            if(message.content.split(" ")[2] not in ["2", "5", "10"]):
-                await message.channel.send(f"{message.content.split(' ')[2].lower()} is not a valid slot machine! Please pick either 2, 5, or 10")
+            if(slotMachinePicked not in ["2", "5", "10"]):
+                await message.channel.send(f"{slotMachinePicked} is not a valid slot machine! Please pick either 2, 5, or 10")
                 return
             rollingJackpot = self.readFromFileGeneric(f'./CasinoModule/SlotsRollingJackpot.json')
             slotRoll = [random.randint(0, 6), random.randint(0, 6), random.randint(0, 6)]
@@ -180,17 +173,17 @@ class CasinoModule():
                     newJackpot["rollingJackpot"] = "0"
                     self.writeToFileGeneric(f'./CasinoModule/SlotsRollingJackpot.json', newJackpot)
                     await self.buildAndSendSlotEmbed(message, selectedEmotes, rollingJackpot["rollingJackpot"])
-                    await self.modifyCoins(message, data, 1, True, int(rollingJackpot["rollingJackpot"]) + 1, currentUser, f'You have won the jackpot and won {int(rollingJackpot["rollingJackpot"]) + int(message.content.split(" ")[2])} additional Squidcoins! The jackpot has been reset to 0')
-                    await self.modifyCoins(message, data, int(message.content.split(" ")[2]), True, userPayoutMultiplier, currentUser, f"Congrats! You've won {int(message.content.split(' ')[2]) * userPayoutMultiplier} Squidcoins!")
+                    await self.modifyCoins(message, data, 1, True, int(rollingJackpot["rollingJackpot"]) + 1, currentUser, f'You have won the jackpot and won {int(rollingJackpot["rollingJackpot"]) + int(slotMachinePicked)} additional Squidcoins! The jackpot has been reset to 0')
+                    await self.modifyCoins(message, data, int(slotMachinePicked), True, userPayoutMultiplier, currentUser, f"Congrats! You've won {int(slotMachinePicked) * userPayoutMultiplier} Squidcoins!")
                 else:
                     await self.buildAndSendSlotEmbed(message, selectedEmotes, rollingJackpot["rollingJackpot"])
-                    await self.modifyCoins(message, data, int(message.content.split(" ")[2]), True, userPayoutMultiplier, currentUser, f"Congrats! You've won {int(message.content.split(' ')[2]) * userPayoutMultiplier} Squidcoins!")
+                    await self.modifyCoins(message, data, int(slotMachinePicked), True, userPayoutMultiplier, currentUser, f"Congrats! You've won {int(slotMachinePicked) * userPayoutMultiplier} Squidcoins!")
             else:
                 await self.buildAndSendSlotEmbed(message, selectedEmotes, rollingJackpot["rollingJackpot"])
                 newJackpot = {}
-                newJackpot["rollingJackpot"] = int(rollingJackpot["rollingJackpot"]) + int(message.content.split(" ")[2])
+                newJackpot["rollingJackpot"] = int(rollingJackpot["rollingJackpot"]) + int(slotMachinePicked)
                 self.writeToFileGeneric(f'./CasinoModule/SlotsRollingJackpot.json', newJackpot)
-                await self.modifyCoins(message, data, int(message.content.split(" ")[2]), False, 0, currentUser, f"Try again, and better luck next time! You lost {message.content.split(' ')[2]} Squidcoins!")
+                await self.modifyCoins(message, data, int(message.content.split(" ")[2]), False, 0, currentUser, f"Try again, and better luck next time! You lost {slotMachinePicked} Squidcoins!")
 
         # Reset coins to 100
         elif(message.content.split(" ")[1].lower() == "resetcoins"):
@@ -249,3 +242,12 @@ class CasinoModule():
         slotEmbed.add_field(name="Spin:", value=f"{selectedEmotes[0]} - {selectedEmotes[1]} - {selectedEmotes[2]}" , inline=False)
         slotEmbed.add_field(name="Current Jackpot:", value=int(currentJackpot) + int(message.content.split(" ")[2]), inline=False)
         await message.channel.send(embed = slotEmbed)
+
+    async def setRateLimitOnCasinoModule(self, time):
+        print(datetime.now())
+        elapsedTime = datetime.now() - datetime.strptime(data["UserData"][0]["lastUsed"], "%Y-%m-%d %H:%M:%S.%f")
+        elapsedTime = divmod(elapsedTime.days * 86400 + elapsedTime.seconds, 60)
+        if (elapsedTime[1] < 2):
+            await asyncio.sleep(int(time))
+            await message.channel.send("You have been rate limited! Please try again, but don't spam the command please k thx")
+            return
