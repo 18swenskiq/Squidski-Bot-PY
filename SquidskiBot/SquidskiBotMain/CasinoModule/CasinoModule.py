@@ -39,7 +39,13 @@ class CasinoModule():
                 data = self.readFromFileGeneric(f'./CasinoModule/CasinoUsers/{currentUser}.json')
 
         # Rate Limiting (Fuck you Peaches and Slimek for making this necessary)
-        await self.setRateLimitOnCasinoModule(.5)
+        print(datetime.now())
+        elapsedTime = datetime.now() - datetime.strptime(data["UserData"][0]["lastUsed"], "%Y-%m-%d %H:%M:%S.%f")
+        elapsedTime = divmod(elapsedTime.days * 86400 + elapsedTime.seconds, 60)
+        if (elapsedTime[1] < 2):
+            await asyncio.sleep(.25)
+            await message.channel.send("You have been rate limited! Please try again, but don't spam the command please k thx")
+            return
 
         # Command Parser time
         if(len(message.content.split(" ")) == 1):
@@ -250,12 +256,3 @@ class CasinoModule():
         slotEmbed.add_field(name="Spin:", value=f"{selectedEmotes[0]} - {selectedEmotes[1]} - {selectedEmotes[2]}" , inline=False)
         slotEmbed.add_field(name="Current Jackpot:", value=int(currentJackpot) + int(message.content.split(" ")[2]), inline=False)
         await message.channel.send(embed = slotEmbed)
-
-    async def setRateLimitOnCasinoModule(self, timeToSendMessage):
-        print(datetime.now())
-        elapsedTime = datetime.now() - datetime.strptime(data["UserData"][0]["lastUsed"], "%Y-%m-%d %H:%M:%S.%f")
-        elapsedTime = divmod(elapsedTime.days * 86400 + elapsedTime.seconds, 60)
-        if (elapsedTime[1] < 2):
-            await asyncio.sleep(int(timeToSendMessage))
-            await message.channel.send("You have been rate limited! Please try again, but don't spam the command please k thx")
-            return

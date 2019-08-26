@@ -86,7 +86,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="BruhMoments.txt" />
-    <Content Include="CasinoModule\CasinoUsers\CasinoUsersReadme.txt" />
     <Content Include="CasinoModule\SlotsRollingJackpot.json" />
     <Content Include="FanficTxt\Part1.txt" />
     <Content Include="FanficTxt\Part2.txt" />
@@ -124,7 +123,6 @@
     </Interpreter>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="CasinoModule\CasinoUsers\" />
     <Folder Include="Commands\" />
     <Folder Include="FanficTxt\" />
     <Folder Include="csLayers\" />
