@@ -13,6 +13,6 @@ class help():
         embed.add_field(name="Get a random line from an SE Discord fanfic", value=">fanfic", inline = False)
         embed.add_field(name="Convert between metric and imperial for various measurements", value=">convert (amount)(unit)", inline= False)
         embed.add_field(name="Admin only commands", value=">helpadmin",inline=False)
-        return embed
+        await message.channel.send(embed = embed)
 
 

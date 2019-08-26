@@ -12,10 +12,10 @@ class squidskifact():
         myFile.close();
 
     # Pulls and sends a random quote
-    def getQuote(self, message):  
+    async def getQuote(self, message):  
         quoteOfChoice = random.choice(self.quoteList)
-        return self.buildEmbed(quoteOfChoice)
+        await self.buildEmbed(quoteOfChoice)
 
-    def buildEmbed(self, quoteOfChoice):
+    async def buildEmbed(self, quoteOfChoice):
         embed = discord.Embed(title=f"Squidski Fact #{random.randint(1,100000):}", description=f"{quoteOfChoice}",  color=0x00BFFF)
-        return embed
+        await message.channel.send(embed = embed)

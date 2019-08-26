@@ -65,7 +65,7 @@ class apiworkshopsearch():
     def urlBuilder(self, cursor, appId, term):
             myURL = "https://api.steampowered.com/IPublishedFileService/QueryFiles/v1/"
             myURL += "?key=F7DC6D9844D5D731A7DFCA54B6EB8578"
-            myURL += "&query_type=3"
+            myURL += "&query_type=10"
             # myURL += "&page=1"
             myURL += f"&cursor={cursor}"
             myURL += "&numberpage=10"

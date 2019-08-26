@@ -9,14 +9,14 @@ class fanfic():
         fanficTxt = open(f"FanficTxt/Part{whichPart}.txt", "r").read().split("\n")
         whichLine = random.randint(1, len(fanficTxt))
         await message.channel.send("Getting line...")
-        return self.buildEmbed(whichPart, whichLine, fanficTxt[whichLine])
+        await self.buildEmbed(whichPart, whichLine, fanficTxt[whichLine])
 
-    def buildEmbed(self, part, lineNum, lineTxt):
+    async def buildEmbed(self, part, lineNum, lineTxt):
         partTitle = self.getPartName(part)
         embed = discord.Embed(title="SE Discord Fanfiction", color=0x00ff00)
         embed.add_field(name="Your Random Line:", value=lineTxt)
         embed.set_footer(text=f"You are reading line {lineNum} from {partTitle}")
-        return embed
+        await message.channel.send(embed = embed)
 
     def getPartName(self, part):
         if(part == "1"):

@@ -39,7 +39,7 @@ class CommandHandler():
         # Help message
         if (message.content == globalCall + "help"):
             myHelp = help()
-            await message.channel.send(embed = await myHelp.myEmbed(message))
+            await myHelp.myEmbed(message)
             return
 
         # Convert Currency
@@ -75,7 +75,7 @@ class CommandHandler():
         # Get random Squidski fact
         if (message.content.startswith((globalCall + 'squidskifact'))):
             squidFact = squidskifact()
-            await message.channel.send(embed = await squidFact.getQuote(message))
+            await squidFact.getQuote(message)
             return
 
         # Give/Remove Pings role
@@ -124,7 +124,7 @@ class CommandHandler():
         # Pulls a random line from the Source Engine fanfictions
         if (message.content.startswith((globalCall + 'fanfic'))):
             getFanfic = fanfic()
-            await message.channel.send(embed = await getFanfic.getLine(message))
+            await getFanfic.getLine(message)
             return
 
         # Search VDC
