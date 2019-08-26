@@ -30,26 +30,28 @@ from VDCsearch import VDCsearch
 class CommandHandler():
     async def commandParser(self, message, globalCall):
 
+        messageContent = message.content.lower()
+
         # Casino Module
-        if (message.content.startswith(globalCall + "c ")):
+        if (messageContent.startswith(globalCall + "c ")):
             gambleTime = CasinoModule()
             await gambleTime.commandReciever(message)
             return
 
         # Help message
-        if (message.content == globalCall + "help"):
+        if (messageContent == globalCall + "help"):
             myHelp = help()
             await myHelp.myEmbed(message)
             return
 
         # Convert Currency
-        if (message.content.startswith(globalCall + "currency")):
+        if (messageContent.startswith(globalCall + "currency")):
             newCurrency = currency()
             await newCurrency.currencyConverter(message)
             return
 
         # Search workshop
-        if (message.content.startswith((globalCall + 'sws'))):
+        if (messageContent.startswith((globalCall + 'sws'))):
             searchWorkshop = sws()
             await message.channel.send("Searching the workshop. Please wait...")
             searchIt = searchWorkshop.theMain(message.content)
@@ -61,74 +63,74 @@ class CommandHandler():
                 return
 
         # Get random Seinfeld quote
-        if (message.content.startswith((globalCall + 'seinfeldme'))):
+        if (messageContent.startswith((globalCall + 'seinfeldme'))):
             getSeinfeldQuote = seinfeldme()
             await getSeinfeldQuote.getQuote(message)
             return
 
         # Get random ketal quote
-        if (message.content.startswith((globalCall + 'ketalquote'))):
+        if (messageContent.startswith((globalCall + 'ketalquote'))):
             getKetalQuote = ketalquote()
             await getKetalQuote.getQuote(message)
             return
 
         # Get random Squidski fact
-        if (message.content.startswith((globalCall + 'squidskifact'))):
+        if (messageContent.startswith((globalCall + 'squidskifact'))):
             squidFact = squidskifact()
             await squidFact.getQuote(message)
             return
 
         # Give/Remove Pings role
-        if (message.content.startswith((globalCall + 'pings'))):
+        if (messageContent.startswith((globalCall + 'pings'))):
             myPings = pings()
             await myPings.changePingRoleState(message)
             return
 
         # Admin only commands (Administrator only)
-        if (((message.content).split(" "))[0].startswith(globalCall + "helpadmin")):
+        if (((messageContent).split(" "))[0].startswith(globalCall + "helpadmin")):
             myAdminCommands = helpadmin()
             await myAdminCommands.checkPerms(message)
             return
 
         # Purge messages (Administrator Only)
-        if (((message.content).split(" "))[0].startswith(globalCall + "purge")):
+        if (((messageContent).split(" "))[0].startswith(globalCall + "purge")):
             myPurge = purge()
             await myPurge.purger(message)
             return
 
         # Ping the Pings role (Administrator Only)
-        if (message.content.startswith((globalCall + 'rolepinger'))):
+        if (messageContent.startswith((globalCall + 'rolepinger'))):
             myPinger = rolepinger()
             await myPinger.pinger(message)
             return
 
         # Mute a bad user (Administrator Only)
-        if (message.content.startswith((globalCall + 'mute'))):
+        if (messageContent.startswith((globalCall + 'mute'))):
             myMuter = mute()
             await myMuter.mute_users(message)
             return
 
         # Checks if is bruh moment
-        if (message.content.startswith((globalCall + 'bruhmoment'))):
+        if (messageContent.startswith((globalCall + 'bruhmoment'))):
             myBruh = bruhmoment()
             await myBruh.isBruhMoment(message)
             return
 
        # Searches the Steam Workshop via the API
-        if (message.content.startswith((globalCall + 'wtest'))):
+        if (messageContent.startswith((globalCall + 'wtest'))):
             mySAPI = apiworkshopsearch()
             args = message.content.split(" ")
             await mySAPI.requestInfo(message, args[1], " ".join(args[2:]))
             return
 
         # Pulls a random line from the Source Engine fanfictions
-        if (message.content.startswith((globalCall + 'fanfic'))):
+        if (messageContent.startswith((globalCall + 'fanfic'))):
             getFanfic = fanfic()
             await getFanfic.getLine(message)
             return
 
         # Search VDC
-        if (message.content.startswith((globalCall + 'v'))):
+        if (messageContent.startswith((globalCall + 'v'))):
             searchVDC = VDCsearch()
             await searchVDC.searchTheVDC(message)
             return

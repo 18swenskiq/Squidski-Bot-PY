@@ -47,7 +47,7 @@ class MyClient(discord.Client):
         # Handle the Commands with globalCall
         if (message.content.startswith(globalCall)):
             myCommand = CommandHandler()
-            await myCommand.commandParser(message.lower(), globalCall)
+            await myCommand.commandParser(message, globalCall)
 
         # Good night response
         if (message.content.lower() in ["good night","gn","goodnight"]):

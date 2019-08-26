@@ -70,7 +70,7 @@ class CasinoModule():
             userBetNumber = "null"
             userBetPhrase = "none"
             userBetAmount = 0
-            userPrelimBet = message.content.split(" ")[2]
+            userPrelimBet = message.content.split(" ")[2].lower()
             # Yeet out of here if not enough number of parameters
             if(not len(message.content.split(" ")) == 4):
                 await message.channel.send("Incorrect number of parameters for roulette! Type >c help to view proper syntax.")
