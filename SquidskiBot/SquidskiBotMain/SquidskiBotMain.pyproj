@@ -73,16 +73,10 @@
     <Compile Include="csLayers\VDCsearch.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ErrorPrintingModule.py">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="ErrorStrings.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="GenerateWorkshopURL.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LoggingModule.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="SquidskiBotMain.py" />

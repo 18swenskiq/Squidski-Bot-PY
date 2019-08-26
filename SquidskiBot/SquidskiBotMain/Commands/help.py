@@ -1,11 +1,9 @@
 import discord
-from LoggingModule import LoggingModule
 
 class help():
 
     # Builds a discord embed object to display as the help message
     async def myEmbed(self, message):
-        log = LoggingModule()
         embed = discord.Embed(title="Squidski-Bot PY", description="I am a bot made by Squidski#9545. I can do multiple things and I am still in development", color=0x00ff00)
         embed.add_field(name="Search Workshop", value=">sws <game> <type> <search term>", inline=False)
         embed.add_field(name="Get Random Seinfeld Quote", value=">seinfeldme", inline=False)
@@ -15,7 +13,6 @@ class help():
         embed.add_field(name="Get a random line from an SE Discord fanfic", value=">fanfic", inline = False)
         embed.add_field(name="Convert between metric and imperial for various measurements", value=">convert (amount)(unit)", inline= False)
         embed.add_field(name="Admin only commands", value=">helpadmin",inline=False)
-        await log.logIt(f"Sent help message", message)
         return embed
 
 

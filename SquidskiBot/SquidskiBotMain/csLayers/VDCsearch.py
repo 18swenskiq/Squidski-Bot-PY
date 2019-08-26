@@ -1,11 +1,9 @@
-from LoggingModule import LoggingModule
 import discord
 import subprocess
 
 class VDCsearch(object):
     
     async def searchTheVDC(self, message):
-        log = LoggingModule()
         searchTerm = message.content[3:]
         if len(searchTerm.split(" ")) < 1:
             await message.channel.send("I was not given enough arguments to search the VDC.")
@@ -16,7 +14,6 @@ class VDCsearch(object):
         returnString = output[0].decode("utf-8")
         if "NRF" in returnString:
             await message.channel.send("No results were found for your VDC search")
-            await log.logIt(f"No results were found for the search of {searchTerm}.", message)
             return
         else:
             # Strip the whitespace from our list of results and turn it into an array
@@ -30,8 +27,7 @@ class VDCsearch(object):
                 vEmbed.add_field(name="Result 4:", value=f"[{returnString[3][41:]}]({returnString[3]})" , inline=False)
                 vEmbed.add_field(name="Result 5:", value=f"[{returnString[4][41:]}]({returnString[4]})" , inline=False)
             except:
-                await log.logIt(f"There were less than 5 results, so going right to sending the embed...", message)
+                await message.channel.send(f"There were less than 5 results...", message)
 
             await message.channel.send(embed = vEmbed)
-            await log.logIt(f"Successfully sent VDC search embed.", message)
 

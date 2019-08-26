@@ -1,22 +1,15 @@
 import discord
-from LoggingModule import LoggingModule
-from ErrorPrintingModule import ErrorPrintingModule
 import random
 import sys
 
 class fanfic():
 
     async def getLine(self, message):
-        try:
-            log = LoggingModule()
-            whichPart = str(random.randint(1,6))
-            fanficTxt = open(f"FanficTxt/Part{whichPart}.txt", "r").read().split("\n")
-            whichLine = random.randint(1, len(fanficTxt))
-            await log.logIt(f"Fanfic - Got line {whichLine} of part {whichPart}", message)
-            return self.buildEmbed(whichPart, whichLine, fanficTxt[whichLine])
-        except:
-            e = ErrorPrintingModule()
-            await e.reportError(message, sys.exc_info()[0])
+        whichPart = str(random.randint(1,6))
+        fanficTxt = open(f"FanficTxt/Part{whichPart}.txt", "r").read().split("\n")
+        whichLine = random.randint(1, len(fanficTxt))
+        await message.channel.send("Getting line...")
+        return self.buildEmbed(whichPart, whichLine, fanficTxt[whichLine])
 
     def buildEmbed(self, part, lineNum, lineTxt):
         partTitle = self.getPartName(part)

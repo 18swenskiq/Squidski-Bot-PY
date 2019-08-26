@@ -8,7 +8,6 @@ import logging
 
 # Various other files
 from CommandHandler import CommandHandler
-from LoggingModule import LoggingModule
 
 # This settings file contains a bunch of variables
 with open('settings.json') as json_file:
@@ -37,9 +36,8 @@ class MyClient(discord.Client):
         print(str(member) + " was given the pings role!")
 
     # Initializes stuff
-    async def on_ready(self):
-        log = LoggingModule()
-        await log.logIt(f"Logged on as {self.user}", self.get_channel(settingsFile["loggingChannel"]))
+    def on_ready(self):
+        print(f"Logged on as {self.user}")
 
     # Respond to messages starts here
     async def on_message(self, message):
