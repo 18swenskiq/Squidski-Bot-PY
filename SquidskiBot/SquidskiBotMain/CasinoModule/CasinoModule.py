@@ -18,15 +18,7 @@ class CasinoModule():
          # If the user has never used the casino, it will automatically make an account for them
         if(currentUser not in onlyFiles):
             await message.channel.send("You do not appear to have an account. Please wait a second while I open one for you.")
-            jsonData = {}
-            jsonData['UserData'] = []
-            jsonData['UserData'].append({
-                'squidCoins': '100',
-                'timesGambled': '0',
-                'coinsLost': "0",
-                'lastUsed': f'{datetime.now()}',
-                'versionNumber': "v3"
-            })
+            jsonData = self.buildBaseJsonStats('100', '0', '0')
             self.writeToFileGeneric(f'./CasinoModule/CasinoUsers/{currentUser}.json', jsonData)
             await message.channel.send("Account Successfully Created! You have been given 1000 Squid Coins to start with. Now onto the gambling.")
         
@@ -36,29 +28,13 @@ class CasinoModule():
         # If still on version 1 (or 2) of the JSON data, upgrade it
         if ('versionNumber' not in data["UserData"][0]):
             await message.channel.send("Outdated user stats JSON detected. Upgrading...")
-            updatedJson = {}
-            updatedJson['UserData'] = []
-            updatedJson['UserData'].append({
-                'squidCoins': f'{data["UserData"][0]["squidCoins"]}',
-                'timesGambled': f'{data["UserData"][0]["timesGambled"]}',
-                'coinsLost': "0",
-                'lastUsed': f'{datetime.now()}',
-                'versionNumber': "v3"
-            })
+            updatedJson = self.buildBaseJsonStats(data["UserData"][0]["squidCoins"], data["UserData"][0]["timesGambled"], "0")
             self.writeToFileGeneric(f'./CasinoModule/CasinoUsers/{currentUser}.json', updatedJson)
             data = self.readFromFileGeneric(f'./CasinoModule/CasinoUsers/{currentUser}.json')
         else:
             if data["UserData"][0]["versionNumber"] == "v2":
                 await message.channel.send("Outdated user stats JSON detected. Upgrading...")
-                updatedJson = {}
-                updatedJson['UserData'] = []
-                updatedJson['UserData'].append({
-                    'squidCoins': f'{data["UserData"][0]["squidCoins"]}',
-                    'timesGambled': f'{data["UserData"][0]["timesGambled"]}',
-                    'coinsLost': "0",
-                    'lastUsed': f'{datetime.now()}',
-                    'versionNumber': "v3"
-                })
+                updatedJson = self.buildBaseJsonStats(data["UserData"][0]["squidCoins"], data["UserData"][0]["timesGambled"], "0")
                 self.writeToFileGeneric(f'./CasinoModule/CasinoUsers/{currentUser}.json', updatedJson)
                 data = self.readFromFileGeneric(f'./CasinoModule/CasinoUsers/{currentUser}.json')
 
@@ -236,15 +212,7 @@ class CasinoModule():
 
         # Reset coins to 100
         elif(message.content.split(" ")[1].lower() == "resetcoins"):
-            newData = {}
-            newData['UserData'] = []
-            newData['UserData'].append({
-                'squidCoins': '100',
-                'timesGambled': f'{data["UserData"][0]["timesGambled"]}',
-                'coinsLost': f'{data["UserData"][0]["coinsLost"]}',
-                'lastUsed': f'{datetime.now()}',
-                'versionNumber': "v3"
-            })
+            newData = self.buildBaseJsonStats("100", data["UserData"][0]["timesGambled"], data["UserData"][0]["coinsLost"])
             self.writeToFileGeneric(f'./CasinoModule/CasinoUsers/{currentUser}.json', newData)
             await message.channel.send("Number of coins reset to 100!")
         else:
@@ -279,3 +247,15 @@ class CasinoModule():
         with open(filePath) as importedData:
             genericData = json.load(importedData)
         return genericData
+
+    def buildBaseJsonStats(self, squidCoins, timesGambled, coinsLost):
+        genericData = {}
+        genericData['UserData'] = []
+        genericData['UserData'].append({
+            'squidCoins': f'{squidCoins}',
+            'timesGambled': f'{timesGambled}',
+            'coinsLost': f'{coinsLost}',
+            'lastUsed': f'{datetime.now()}',
+            'versionNumber': "v3"
+        })
+        return 
