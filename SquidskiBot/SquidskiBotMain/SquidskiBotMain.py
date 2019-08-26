@@ -36,7 +36,7 @@ class MyClient(discord.Client):
         print(str(member) + " was given the pings role!")
 
     # Initializes stuff
-    def on_ready(self):
+    async def on_ready(self):
         print(f"Logged on as {self.user}")
 
     # Respond to messages starts here
