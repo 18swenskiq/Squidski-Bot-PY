@@ -71,9 +71,12 @@ class CasinoModule():
             userBetPhrase = "none"
             userBetAmount = 0
             userPrelimBet = message.content.split(" ")[2]
+            # Yeet out of here if not enough number of parameters
             if(not len(message.content.split(" ")) == 4):
                 await message.channel.send("Incorrect number of parameters for roulette! Type >c help to view proper syntax.")
                 return
+
+            # Checking if the user put an integer for their guess
             try:
                 int(userPrelimBet)
                 if(int(userPrelimBet) > 36):
@@ -81,6 +84,8 @@ class CasinoModule():
                     return
                 else:
                     userBetNumber = int(userPrelimBet)
+
+            # If they didn't, let's check if they used a valid word for betting
             except:
                 allowedWordBets = ["black", "red", "green", "evens", "odds"]
                 if(userPrelimBet in allowedWordBets):
@@ -88,9 +93,12 @@ class CasinoModule():
                         if(userPrelimBet == eachItem):
                             userBetPhrase = eachItem
                             break
+                # They didn't use a valid word
                 else:
                     await message.channel.send(f'{userPrelimBet} is not a valid color or understood phrase on the wheel! Valid colors are black, red, or green (or bet on numbers). Other options are odds or evens.')
                     return
+
+            # Make sure the amount that the user wagered is atually a number
             try:
                 int(message.content.split(" ")[3])
                 if(int(message.content.split(" ")[3]) < 0):
@@ -126,7 +134,7 @@ class CasinoModule():
 
             # Check users bet
             if(userBetNumber is "null"):
-                # If the bet number is 0, that means they bet with a phrase
+                # If the bet number is null, that means they bet with a phrase
                 if(userBetPhrase == "odds" or userBetPhrase == "evens"):
                     if (userBetPhrase == evenOrOdd):
                         await self.modifyCoins(message, data, userBetAmount, True, 2, currentUser, f'Congrats! Your correct bet has netted you {userBetAmount * 2} Squid Coins for a total of {(int(data["UserData"][0]["squidCoins"]) - userBetAmount) + (userBetAmount * 2)} coins!')
@@ -243,11 +251,11 @@ class CasinoModule():
         slotEmbed.add_field(name="Current Jackpot:", value=int(currentJackpot) + int(message.content.split(" ")[2]), inline=False)
         await message.channel.send(embed = slotEmbed)
 
-    async def setRateLimitOnCasinoModule(self, time):
+    async def setRateLimitOnCasinoModule(self, timeToSendMessage):
         print(datetime.now())
         elapsedTime = datetime.now() - datetime.strptime(data["UserData"][0]["lastUsed"], "%Y-%m-%d %H:%M:%S.%f")
         elapsedTime = divmod(elapsedTime.days * 86400 + elapsedTime.seconds, 60)
         if (elapsedTime[1] < 2):
-            await asyncio.sleep(int(time))
+            await asyncio.sleep(int(timeToSendMessage))
             await message.channel.send("You have been rate limited! Please try again, but don't spam the command please k thx")
             return
